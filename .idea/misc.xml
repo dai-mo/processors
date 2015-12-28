@@ -43,6 +43,7 @@
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="Osmorc" url="file://$PROJECT_DIR$/org.dcs.servlet.basic" />
+    <file type="web" url="file://$PROJECT_DIR$/dcs.vaadin" />
     <file type="web" url="file://$PROJECT_DIR$/org.dcs.webapp" />
   </component>
   <component name="MavenProjectsManager">
