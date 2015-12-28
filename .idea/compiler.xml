@@ -17,17 +17,34 @@
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Annotation profile for dcs.vaadin" enabled="true">
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="dcs.vaadin" />
+
+        <module name="org.dcs.servlet-test" />
+        <module name="org.dcs.servlet.test" />
+      </profile>
+      <profile default="false" name="Annotation profile for org.dcs.servlet.basic" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="org.dcs.servlet.basic" />
+      </profile>
+      <profile default="false" name="Annotation profile for org.dcs.webapp" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="org.dcs.webapp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="dcs" target="1.5" />
-      <module name="dcs.vaadin" target="1.8" />
+      <module name="org.dcs.servlet.basic" target="1.8" />
+      <module name="org.dcs.webapp" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
