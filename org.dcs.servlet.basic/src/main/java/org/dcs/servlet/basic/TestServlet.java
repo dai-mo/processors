@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 public class TestServlet extends HttpServlet {
 
 
-    public static final String SERVLET_ALIAS = "/test";
+    public static final String SERVLET_ALIAS = "/basic";
 
     private static final long serialVersionUID = 1L;
 
@@ -45,6 +45,7 @@ public class TestServlet extends HttpServlet {
 
         out.println("Request = " + req);
         out.println("PathInfo = " + req.getPathInfo());
+        out.println("Big Hello From the Activator Servlet ");
     }
 }
 

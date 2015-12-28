@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>org.dcs.servlet.basic</artifactId>
+    <artifactId>org.dcs.servlet.ds</artifactId>
     <packaging>bundle</packaging>
 
     <build>
@@ -20,16 +20,13 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-Activator>
-                            org.dcs.servlet.basic.Activator
-                        </Bundle-Activator>
                         <Private-Package>
-                            org.dcs.servlet.basic.*
+                            org.dcs.servlet.ds.*
                         </Private-Package>
                         <Import-Package>
-                            *;resolution:=optional
+                            *;resolution:=optional,org.osgi.service.component
                         </Import-Package>
-
+                        <_dsannotations>*</_dsannotations>
                     </instructions>
                 </configuration>
             </plugin>
@@ -43,15 +40,16 @@
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
             <artifactId>osgi.cmpn</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.http.api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+        </dependency>
     </dependencies>
+
 </project>

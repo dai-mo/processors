@@ -24,7 +24,7 @@
                         </goals>
                         <configuration>
                             <includeArtifactIds>
-                                org.apache.felix.http.bridge,org.dcs.servlet.basic,org.apache.felix.webconsole
+                                org.apache.felix.http.bridge,org.dcs.servlet.basic,org.dcs.servlet.ds,org.apache.felix.webconsole,org.apache.felix.scr
                             </includeArtifactIds>
                             <stripVersion>true</stripVersion>
                             <outputDirectory>
@@ -92,6 +92,16 @@
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.webconsole</artifactId>
             <version>4.2.14</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi.cmpn</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
