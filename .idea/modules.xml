@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/dcs.iml" filepath="$PROJECT_DIR$/dcs.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dcs.servlet.basic/org.dcs.servlet.basic.iml" filepath="$PROJECT_DIR$/org.dcs.servlet.basic/org.dcs.servlet.basic.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dcs.servlet.ds/org.dcs.servlet.ds.iml" filepath="$PROJECT_DIR$/org.dcs.servlet.ds/org.dcs.servlet.ds.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.dcs.web.ui/org.dcs.web.ui.iml" filepath="$PROJECT_DIR$/org.dcs.web.ui/org.dcs.web.ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dcs.webapp/org.dcs.webapp.iml" filepath="$PROJECT_DIR$/org.dcs.webapp/org.dcs.webapp.iml" />
     </modules>
   </component>
