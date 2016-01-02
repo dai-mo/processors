@@ -58,10 +58,11 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>app</servlet-name>
-        <url-pattern>/vap/*</url-pattern>
+        <url-pattern>/vapp/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>app</servlet-name>
         <url-pattern>/VAADIN/*</url-pattern>
     </servlet-mapping>
+
 </web-app>

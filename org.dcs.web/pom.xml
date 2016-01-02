@@ -194,28 +194,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <!-- here the phase you need -->
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/app</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/ui/app</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
@@ -231,6 +209,12 @@
                                 ${project.build.directory}/bundles
                             </directory>
                             <targetPath>WEB-INF/bundles</targetPath>
+                        </resource>
+                        <resource>
+                            <directory>
+                                src/main/ui/app
+                            </directory>
+                            <targetPath>app</targetPath>
                         </resource>
                         <resource>
                             <directory>.</directory>
