@@ -11,8 +11,7 @@
     <modules>
         <module>org.dcs.servlet.basic</module>
         <module>org.dcs.servlet.ds</module>
-        <module>org.dcs.webapp</module>
-
+        <module>org.dcs.web</module>
     </modules>
 
     <dependencyManagement>
@@ -21,6 +20,11 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.websocket</groupId>
+                <artifactId>javax.websocket-api</artifactId>
+                <version>1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>

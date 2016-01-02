@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
  */
 public class HttpServiceTracker extends ServiceTracker {
 
+    private static final String SERVLET_ALIAS = "/api/basic";
     private BundleContext context;
 
     public HttpServiceTracker(BundleContext context) {
@@ -24,7 +25,7 @@ public class HttpServiceTracker extends ServiceTracker {
         HttpService httpService = (HttpService) context.getService(reference);
         System.out.println("Adding HTTP Service");
         try {
-            httpService.registerServlet(TestServlet.SERVLET_ALIAS, new TestServlet(), null, null);
+            httpService.registerServlet(SERVLET_ALIAS, new TestServlet(), null, null);
         } catch (ServletException | NamespaceException e) {
             System.err.println("Servlet couldn't be registered: " + e.getMessage());
         }

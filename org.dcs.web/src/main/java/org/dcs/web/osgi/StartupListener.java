@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dcs.webapp;
+package org.dcs.web.osgi;
 
-import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 public final class StartupListener
     implements ServletContextListener

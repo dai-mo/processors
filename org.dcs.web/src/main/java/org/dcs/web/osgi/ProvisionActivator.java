@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dcs.webapp;
+package org.dcs.web.osgi;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Bundle;
+
 import javax.servlet.ServletContext;
 import java.net.URL;
 import java.util.ArrayList;

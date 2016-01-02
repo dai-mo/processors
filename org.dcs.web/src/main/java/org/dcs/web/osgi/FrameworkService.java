@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dcs.webapp;
+package org.dcs.web.osgi;
 
 import org.apache.felix.framework.Felix;
 import org.apache.felix.framework.util.FelixConstants;
+
 import javax.servlet.ServletContext;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Properties;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 public final class FrameworkService
 {

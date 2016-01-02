@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 public class TestServletDS extends HttpServlet {
 
 
-    public static final String SERVLET_ALIAS = "/ds";
+    private static final String SERVLET_ALIAS = "/api/ds";
 
     private static final long serialVersionUID = 1L;
 
