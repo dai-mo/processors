@@ -5,6 +5,6 @@
 
 // Declare app level module which depends on views, and components
 var dcs = angular.module('dcs', [
-    'dcs.version',
-    'angularResizable'
+    'dcs.version'
 ])
+
