@@ -6,12 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>DCS Worspace</title>
-    <!-- Set up the favicon from the Vaadin theme -->
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon"
-          href="/VAADIN/themes/reindeer/favicon.ico" />
-    <link rel="icon" type="image/vnd.microsoft.icon"
-          href="/VAADIN/themes/reindeer/favicon.ico" />
+    <title>DCS Workspace</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
@@ -24,7 +19,12 @@
 <!-- Loads the Vaadin widget set, etc. -->
 <script type="text/javascript"
         src="../VAADIN/vaadinBootstrap.js"></script>
-
+<!--<script type="text/javascript">//<![CDATA[-->
+<!--if (!window.vaadin)-->
+    <!--alert("Failed to load the bootstrap JavaScript: "+-->
+            <!--"VAADIN/vaadinBootstrap.js");-->
+<!--;//]] >-->
+<!--</script>-->
 <!-- GWT requires an invisible history frame. It is   -->
 <!-- needed for page/fragment history in the browser. -->
 <iframe tabindex="-1" id="__gwt_historyFrame"
@@ -36,65 +36,22 @@
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="workspace.js"></script>
 <script src="dcs.js"></script>
+<script src="mobilise/mobilise.js"></script>
 <script src="components/version/version.js"></script>
 <script src="components/version/version-directive.js"></script>
 <script src="components/version/interpolate-filter.js"></script>
 <main>
-    <div class="content">
-        <div class="column">
-            <section id="one"  resizable r-directions="['bottom']" r-flex="true">
+    <div class="content" resizable r-flex="true">
+        <div class="column" resizable r-flex="true">
+            <section id="one"  resizable r-directions="['bottom']" >
                 <p>Visualise</p>
             </section>
-            <section id="two">
+            <section id="two" resizable >
                 <p>Mobilise</p>
-                <!-- So here comes the div element in which the Vaadin -->
-                <!-- application is embedded.                          -->
-                <div style="height: 100px;"
-                     id="mobilise" class="v-app">
-
-                    <!-- Optional placeholder for the loading indicator -->
-                    <div class=" v-app-loading"></div>
-
-                    <!-- Alternative fallback text -->
-                    <noscript>You have to enable javascript in your browser to
-                        use an application built with Vaadin.</noscript>
-                </div>
-                <script type="text/javascript">//<![CDATA[
-                if (!window.vaadin)
-                    alert("Failed to load the bootstrap JavaScript: "+
-                            "../VAADIN/vaadinBootstrap.js");
-
-                /* The UI Configuration */
-                vaadin.initApplication("mobilise", {
-                    "browserDetailsUrl": "../vapp/",
-                    "serviceUrl": "../vapp/",
-                    "widgetset": "org.dcs.MyAppWidgetset",
-                    "theme": "mytheme",
-                    "versionInfo": {"vaadinVersion": "7.5.10"},
-                    "vaadinDir": "../VAADIN/",
-                    "heartbeatInterval": 300,
-                    "debug": true,
-                    "standalone": false,
-                    "authErrMsg": {
-                        "message": "Take note of any unsaved data, "+
-                        "and <u>click here<\/u> to continue.",
-                        "caption": "Authentication problem"
-                    },
-                    "comErrMsg": {
-                        "message": "Take note of any unsaved data, "+
-                        "and <u>click here<\/u> to continue.",
-                        "caption": "Communication problem"
-                    },
-                    "sessExpMsg": {
-                        "message": "Take note of any unsaved data, "+
-                        "and <u>click here<\/u> to continue.",
-                        "caption": "Session Expired"
-                    }
-                });//]] >
-                </script>
+                <div ng-include="'mobilise/vaadin.view.htm'"></div>
             </section>
         </div>
-        <div class="column" resizable r-directions="['left']" r-flex="true" >
+        <div class="column" resizable r-directions="['left']" >
             <section id="three" >
                 <p>Analyse</p>
             </section>

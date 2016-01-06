@@ -4,7 +4,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('dcs', [
-    'myApp.version',
+var dcs = angular.module('dcs', [
+    'dcs.version',
     'angularResizable'
 ])
