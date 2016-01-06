@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="dcs" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="dcs" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="dcs" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html lang="en" ng-app="dcs" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DCS Workspace</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="dcs.css">
+    <link rel="stylesheet" href="workspace.css">
+    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body ng-app="dcs">
+<!-- Loads the Vaadin widget set, etc. -->
+<script type="text/javascript"
+        src="../VAADIN/vaadinBootstrap.js"></script>
+<!--<script type="text/javascript">//<![CDATA[-->
+<!--if (!window.vaadin)-->
+    <!--alert("Failed to load the bootstrap JavaScript: "+-->
+            <!--"VAADIN/vaadinBootstrap.js");-->
+<!--;//]] >-->
+<!--</script>-->
+<!-- GWT requires an invisible history frame. It is   -->
+<!-- needed for page/fragment history in the browser. -->
+<iframe tabindex="-1" id="__gwt_historyFrame"
+        style="position: absolute; width: 0; height: 0;
+                 border: 0; overflow: hidden"
+        src="javascript:false"></iframe>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="workspace.js"></script>
+<script src="dcs.js"></script>
+<script src="mobilise/mobilise.js"></script>
+<script src="components/version/version.js"></script>
+<script src="components/version/version-directive.js"></script>
+<script src="components/version/interpolate-filter.js"></script>
+<main>
+    <div class="content" resizable r-flex="true">
+        <div class="column" resizable r-flex="true">
+            <section id="one"  resizable r-directions="['bottom']" >
+                <p>Visualise</p>
+            </section>
+            <section id="two" resizable >
+                <p>Mobilise</p>
+                <div ng-include="'mobilise/vaadin.view.htm'"></div>
+            </section>
+        </div>
+        <div class="column" resizable r-directions="['left']" >
+            <section id="three" >
+                <p>Analyse</p>
+            </section>
+        </div>
+    </div>
+
+</main>
+</body>
