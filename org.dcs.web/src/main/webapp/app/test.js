@@ -64,10 +64,10 @@ dcs.directive('containerResize', function(){
 						break;
 
 				}
-					//if(prevFlexBasis > minimum && nextFlexBasis > minimum) {
-						prevElm.style['flexBasis'] = prevFlexBasis + 'px';
-						nextElm.style['flexBasis'] = nextFlexBasis + 'px';
-					//}
+
+				prevElm.style['flexBasis'] = prevFlexBasis + 'px';
+				nextElm.style['flexBasis'] = nextFlexBasis + 'px';
+
 
 			};
 
@@ -96,5 +96,26 @@ dcs.directive('containerResize', function(){
 				}
 			});
 		}
+	};
+});
+
+dcs.directive('wsView', function(){
+	// Runs during compile
+	return {
+		// name: '',
+		// priority: 1,
+		// terminal: true,
+		scope: {
+			viewName: '@'
+		}, // {} = isolate, true = child, false/undefined = no change
+		// controller: function($scope, $element, $attrs, $transclude) {},
+		// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+		// restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+		// template: '',
+		 templateUrl: 'ws-view.htm'
+		// replace: true,
+		// transclude: true,
+		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+
 	};
 });
