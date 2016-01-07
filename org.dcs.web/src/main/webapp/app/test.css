@@ -29,7 +29,7 @@ html, body {
 }
 
 .flex-item {  
-  background: grey;  
+  background: white;  
   margin: 0;
   padding: 0;
 /*  padding: 5px;
@@ -48,31 +48,35 @@ html, body {
   flex: 1;   
 }
 
-.grabber-column {
+.panel-default {
+  border:1px solid grey;
+}
+
+.grabber {
   border: 0;
+  background: white;
+/*  background-image: -webkit-radial-gradient(black, white);
+  background-image: -moz-radial-gradient(black, white);
+  background-image: -ms-radial-gradient(black, white);
+  background-image: -o-radial-gradient(black, white);*/
+  
+}
+
+.grabber.column {
   width:100%;
   height: 5px;
-  background: #333;
-  background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
-  background-image: -moz-linear-gradient(left, #ccc, #333, #ccc);
-  background-image: -ms-linear-gradient(left, #ccc, #333, #ccc);
-  background-image: -o-linear-gradient(left, #ccc, #333, #ccc);  
   cursor: row-resize;
   vertical-align: middle;
 }
 
-.grabber-row {
-  border: 0;
+.grabber.row {
   height:100%;
   width: 5px;
-  background: #333;
-  background-image: -webkit-linear-gradient(top, #ccc, #333, #ccc);
-  background-image: -moz-linear-gradient(top, #ccc, #333, #ccc);
-  background-image: -ms-linear-gradient(top, #ccc, #333, #ccc);
-  background-image: -o-linear-gradient(top, #ccc, #333, #ccc);  
   cursor: ew-resize;
   margin: 0px auto;
 }
+
+
 
 .visualise {
   background-image: -webkit-gradient(

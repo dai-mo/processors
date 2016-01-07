@@ -15,7 +15,7 @@ dcs.directive('containerResize', function(){
 		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
 		link: function($scope, iElm, iAttrs, controller) {
 			
-			var start, minimum = 60;
+			var start, minimum = 20;
 
 			var prevElm,prevElmStyle,prevElmWidth,prevElmHeight;
 			var nextElm,nextElmStyle,nextElmWidth,nextElmHeight;
