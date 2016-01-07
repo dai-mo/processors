@@ -39,17 +39,25 @@
     <script src="test.js"></script>
 
 
+    <div class="flex-box container-row">
+     
+        <div class="flex-item flex-box container-column">
+            <div class="flex-item visualise" >
+                <p>visualise</p>
+            </div>
 
-    <div class="flex-container" view-container>
-        <div class="flex-item" >
-            <p>visualise</p>
-        </div>
-        
+            <div container-resize>
+                <div class="grabber-column"></div>
+            </div>                 
+
+            <div class="flex-item mobilise">
+                <p>mobilise</p>
+            </div>
+        </div>       
         <div container-resize>
-            <div class="column-grabber"></div>
-        </div>                 
-        
-        <div class="flex-item">
+            <div class="grabber-row"></div>
+        </div>                         
+        <div class="flex-item analyse">
             <p>analyse</p>
         </div>
     </div>

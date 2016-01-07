@@ -56,16 +56,14 @@ dcs.directive('containerResize', function(){
 			};
 
 			var startDrag = function(event) {	
-
 				start = event.clientY;
 				updateProperties();
 				document.addEventListener('mouseup', endDrag, false);
 				document.addEventListener('mousemove', drag, false);
 			};
 
-			iElm.on('selectstart',false);
-			iElm.on('mousedown', function(e) {
-				
+			
+			iElm.on('mousedown', function(e) {				
 				if(e.which === 1) {
 					startDrag(e);
 				}
