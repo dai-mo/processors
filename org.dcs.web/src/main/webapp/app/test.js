@@ -4,16 +4,20 @@ dcs.directive('containerResize', function(){
 		// name: '',
 		// priority: 1,
 		// terminal: true,
-		// scope: {}, // {} = isolate, true = child, false/undefined = no change
+		scope: {
+			crType: '@'
+		}, 
 		// controller: function($scope, $element, $attrs, $transclude) {},
 		// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
-		restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+		restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
 		//template: 'Test'
 		// templateUrl: '',
 		//replace: true,
 		// transclude: true,
 		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
-		link: function($scope, iElm, iAttrs, controller) {
+		link: function(scope, iElm, iAttrs, controller) {
+			
+			var type = scope.crType;
 			
 			var start, minimum = 20;
 
@@ -46,17 +50,40 @@ dcs.directive('containerResize', function(){
 			};
 
 			var drag = function(event) {
-				var offset = start - event.clientY;
-				var prevElmNewHeight = prevElmHeight - offset;
-				var nextElmNewHeight = nextElmHeight + offset;
-				if(prevElmNewHeight > minimum && nextElmNewHeight > minimum) {
-					prevElm.style['flexBasis'] = prevElmNewHeight + 'px';
-					nextElm.style['flexBasis'] = nextElmNewHeight + 'px';
+				var offset = 0, prevFlexBasis = 1, nextFlexBasis = 1;
+				switch(type) {
+					case 'column':
+						offset = start - event.clientY;
+						var prevFlexBasis = prevElmHeight - offset;
+						var nextFlexBasis = nextElmHeight + offset;
+						break;
+					case 'row':
+						offset = start - event.clientX;
+						var prevFlexBasis = prevElmWidth - offset;
+						var nextFlexBasis = nextElmWidth + offset;
+						break;
+
 				}
+					//if(prevFlexBasis > minimum && nextFlexBasis > minimum) {
+						prevElm.style['flexBasis'] = prevFlexBasis + 'px';
+						nextElm.style['flexBasis'] = nextFlexBasis + 'px';
+					//}
+
 			};
 
-			var startDrag = function(event) {	
-				start = event.clientY;
+			var startDrag = function(event) {
+				
+				switch(type) {
+					case 'column':
+						start = event.clientY;
+						break;
+					case 'row':
+						start = event.clientX;
+						break;
+					default:
+						return;
+				}
+				
 				updateProperties();
 				document.addEventListener('mouseup', endDrag, false);
 				document.addEventListener('mousemove', drag, false);
