@@ -211,6 +211,12 @@
                             <targetPath>WEB-INF/bundles</targetPath>
                         </resource>
                         <resource>
+                            <directory>
+                                ui/app
+                            </directory>
+                            <targetPath>./app</targetPath>
+                        </resource>
+                        <resource>
                             <directory>.</directory>
                             <targetPath>META-INF</targetPath>
                             <includes>
@@ -268,28 +274,7 @@
                     </filesets>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <!-- here the phase you need -->
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/${project.artifactId}/app</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/webapp/app</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
             <!-- The Jetty plugin allows us to easily test the development build by
 				running jetty:run on the command line. -->
             <plugin>

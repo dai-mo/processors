@@ -26,7 +26,7 @@ public class MyUI extends UI {
         layout.setMargin(true);
         setContent(layout);
 
-        Button button = new Button("Click");
+        Button button = new Button("Click Me");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
