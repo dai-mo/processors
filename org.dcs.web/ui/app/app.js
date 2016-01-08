@@ -117,6 +117,7 @@ dcs.directive('wsView', function(){
 		// priority: 1,
 		// terminal: true,
 		scope: {
+			viewType: '@',
 			viewName: '@'
 		}, // {} = isolate, true = child, false/undefined = no change
 		// controller: function($scope, $element, $attrs, $transclude) {},
@@ -130,3 +131,47 @@ dcs.directive('wsView', function(){
 
 	};
 });
+
+dcs.directive('initVaadinUi', function(){
+	// Runs during compile
+	return {
+		// name: '',
+		// priority: 1,
+		// terminal: true,
+		// scope: {
+		// 	viewName: '@'
+		// }, // {} = isolate, true = child, false/undefined = no change
+		// controller: function($scope, $element, $attrs, $transclude) {},
+		// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+		// restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+		// template: '',
+		 templateUrl: 'init-vaadin-ui.js'
+		// replace: true,
+		// transclude: true,
+		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+
+	};
+});
+
+dcs.controller('WsViewController', ['$scope', function($scope){
+	
+	$scope.getTemplateUrl = function() {
+		if($scope.viewType === 'vaadin') {
+			return 'workspace-vaadin-view.htm';
+		} else {				
+			return $scope.viewName + '/' + $scope.viewType + '-view.htm';
+		}
+	}
+}])
+
+
+function getUrlValue(varSearch){
+    var searchString = window.location.search.substring(1);
+    var variableArray = searchString.split('&');
+    for(var i = 0; i < variableArray.length; i++){
+        var keyValuePair = variableArray[i].split('=');
+        if(keyValuePair[0] == varSearch){
+            return keyValuePair;
+        }
+    }    
+}

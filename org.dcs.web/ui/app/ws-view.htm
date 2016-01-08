@@ -10,6 +10,6 @@ onmousedown="return false">
         <button type="button" class="btn" ><span class="fa fa-expand"></span></button>
     </div>
 </div>
-<div class="panel-body" >
-	<div mobilise-view type="vaadin"></div>
+<div class="panel-body" style="max-height:10px">	
+	<div ng-controller="WsViewController" ng-include="getTemplateUrl()" ></div>
 </div>
