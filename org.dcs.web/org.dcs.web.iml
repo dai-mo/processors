@@ -8,7 +8,6 @@
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/target/bundles" relative="WEB-INF/bundles" />
-          <root url="file://$MODULE_DIR$/src/main/ui/app" relative="app" />
           <root url="file://$MODULE_DIR$" relative="META-INF" />
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>

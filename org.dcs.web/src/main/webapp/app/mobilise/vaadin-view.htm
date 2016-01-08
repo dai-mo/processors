@@ -1,43 +1,15 @@
-<div style="width: 300px; border: 2px solid green;"id="vapp-mobilise" class="v-app">
+<div style="width: 100%; border: 2px solid green;" id="vapp-mobilise" class="v-app">
 
   <!-- Optional placeholder for the loading indicator -->
   <div class=" v-app-loading"></div>
 
+  
   <!-- Alternative fallback text -->
-  <noscript>You have to enable javascript in your browser to
-    use an application built with Vaadin.</noscript>
-  </div>
+  <noscript>
+    You have to enable javascript in your browser to
+    use an application built with Vaadin.
+  </noscript>
 
-  <script type="text/javascript">//<![CDATA[
-    if (!window.vaadin)
-    alert("Failed to load the bootstrap JavaScript: "+
-    "VAADIN/vaadinBootstrap.js");
+</div>
 
-    /* The UI Configuration */
-    vaadin.initApplication("helloworld", {
-      "browserDetailsUrl": "helloworld/",
-      "serviceUrl": "helloworld/",
-      "widgetset": "com.example.MyWidgetSet",
-      "theme": "mytheme",
-      "versionInfo": {"vaadinVersion": "7.5.10"},
-      "vaadinDir": "VAADIN/",
-      "heartbeatInterval": 300,
-      "debug": true,
-      "standalone": false,
-      "authErrMsg": {
-        "message": "Take note of any unsaved data, "+
-        "and <u>click here<\/u> to continue.",
-        "caption": "Authentication problem"
-      },
-      "comErrMsg": {
-        "message": "Take note of any unsaved data, "+
-        "and <u>click here<\/u> to continue.",
-        "caption": "Communication problem"
-      },
-      "sessExpMsg": {
-        "message": "Take note of any unsaved data, "+
-        "and <u>click here<\/u> to continue.",
-        "caption": "Session Expired"
-      }
-    });//]]>
-    </script>
+

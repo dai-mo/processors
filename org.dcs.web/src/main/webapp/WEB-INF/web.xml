@@ -48,7 +48,7 @@
         <param-value>false</param-value>
     </context-param>
     <servlet>
-        <servlet-name>app</servlet-name>
+        <servlet-name>vapp</servlet-name>
         <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
         <init-param>
             <description>Vaadin UI</description>
@@ -57,11 +57,11 @@
         </init-param>
     </servlet>
     <servlet-mapping>
-        <servlet-name>app</servlet-name>
+        <servlet-name>vapp</servlet-name>
         <url-pattern>/vapp/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>app</servlet-name>
+        <servlet-name>vapp</servlet-name>
         <url-pattern>/VAADIN/*</url-pattern>
     </servlet-mapping>
 

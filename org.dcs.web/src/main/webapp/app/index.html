@@ -19,8 +19,7 @@
 <body ng-app="dcs">
 
     <!-- Vaadin related initialisation Start -->
-    <script type="text/javascript"
-    src="../VAADIN/vaadinBootstrap.js"></script>
+    <script type="text/javascript" src="../VAADIN/vaadinBootstrap.js"></script>
     <!-- GWT requires an invisible history frame. It is   -->
     <!-- needed for page/fragment history in the browser. -->
     <iframe tabindex="-1" id="__gwt_historyFrame"
@@ -37,6 +36,7 @@
     <script src="components/version/interpolate-filter.js"></script>
     
     <script src="app.js"></script>
+    <script src="mobilise/mobilise.js"></script>
 
     <div class="flex-box container-row">
         <div class="flex-item flex-box container-column">
@@ -51,5 +51,37 @@
         </div>                         
         <div class="flex-item panel panel-default" ws-view view-name="analyse"></div>
     </div>
+  <script type="text/javascript">//<![CDATA[
+    if (!window.vaadin)
+      alert("Failed to load the bootstrap JavaScript: "+
+        "../VAADIN/vaadinBootstrap.js");
 
+    /* The UI Configuration */
+    window.vaadin.initApplication("vapp-mobilise", {
+      "browserDetailsUrl": "../vapp/",
+      "serviceUrl": "../vapp/",
+      "widgetset": "org.dcs.MyAppWidgetset",
+      "theme": "mytheme",
+      "versionInfo": {"vaadinVersion": "7.5.10"},
+      "vaadinDir": "../VAADIN/",
+      "heartbeatInterval": 300,
+      "debug": true,
+      "standalone": false,
+      "authErrMsg": {
+        "message": "Take note of any unsaved data, "+
+        "and <u>click here<\/u> to continue.",
+        "caption": "Authentication problem"
+      },
+      "comErrMsg": {
+        "message": "Take note of any unsaved data, "+
+        "and <u>click here<\/u> to continue.",
+        "caption": "Communication problem"
+      },
+      "sessExpMsg": {
+        "message": "Take note of any unsaved data, "+
+        "and <u>click here<\/u> to continue.",
+        "caption": "Session Expired"
+      }
+    });//]]>
+  </script>
 </body>

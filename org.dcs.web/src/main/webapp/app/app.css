@@ -48,6 +48,10 @@ html, body {
   flex: 1;   
 }
 
+.panel-body {
+  height:100%;
+}
+
 .panel-default {
   border:1px solid grey;
 }
