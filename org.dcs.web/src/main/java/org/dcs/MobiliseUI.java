@@ -22,7 +22,7 @@ public class MobiliseUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {     
-        setContent(new BaseTabularView());
+        setContent(new TabularView());
 
     }
 
