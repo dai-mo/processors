@@ -8,8 +8,8 @@ var ignoreVaadin = getUrlValue('igv');
 
     /* The UI Configuration */
     window.vaadin.initApplication("vapp-mobilise", {
-      "browserDetailsUrl": "../vapp/",
-      "serviceUrl": "../vapp/",
+      "browserDetailsUrl": "../vapp/mobilise/",      
+      "serviceUrl": "../vapp/mobilise/",
       "widgetset": "org.dcs.MyAppWidgetset",
       "theme": "mytheme",
       "versionInfo": {"vaadinVersion": "7.5.10"},

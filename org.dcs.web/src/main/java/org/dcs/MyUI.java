@@ -7,11 +7,8 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  *
@@ -33,7 +30,8 @@ public class MyUI extends UI {
                 layout.addComponent(new Label("Thank you for clicking"));
             }
         });
-        layout.addComponent(button);
+        layout.addComponent(new Button());
+        layout.addComponent(new Button());
 
     }
 

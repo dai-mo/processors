@@ -65,4 +65,18 @@
         <url-pattern>/VAADIN/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>vapp-mobilise</servlet-name>
+        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+        <init-param>
+            <description>Mobilise UI</description>
+            <param-name>UI</param-name>
+            <param-value>org.dcs.MobiliseUI</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>vapp-mobilise</servlet-name>
+        <url-pattern>/vapp/mobilise/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>
