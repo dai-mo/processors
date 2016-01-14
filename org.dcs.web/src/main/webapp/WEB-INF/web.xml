@@ -17,66 +17,31 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app id="WebApp_ID" version="3.0" xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+            http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 
-    <listener>
-        <listener-class>org.dcs.web.osgi.StartupListener</listener-class>
-    </listener>
+    <!-- Servlet settings for OSGI Http Service-->
+    <!--<listener>-->
+        <!--<listener-class>org.dcs.web.osgi.StartupListener</listener-class>-->
+    <!--</listener>-->
 
-    <listener>
-        <listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>-->
+    <!--</listener>-->
 
-    <servlet>
-        <servlet-name>proxy</servlet-name>
-        <servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+    <!--<servlet>-->
+        <!--<servlet-name>proxy</servlet-name>-->
+        <!--<servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>proxy</servlet-name>
-        <url-pattern>/api/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>proxy</servlet-name>-->
+        <!--<url-pattern>/api/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
-
-    <context-param>
-        <description>Vaadin production mode</description>
-        <param-name>productionMode</param-name>
-        <param-value>false</param-value>
-    </context-param>
-    <servlet>
-        <servlet-name>vapp</servlet-name>
-        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
-        <init-param>
-            <description>Vaadin UI</description>
-            <param-name>UI</param-name>
-            <param-value>org.dcs.MyUI</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>vapp</servlet-name>
-        <url-pattern>/vapp/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>vapp</servlet-name>
-        <url-pattern>/VAADIN/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>vapp-mobilise</servlet-name>
-        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
-        <init-param>
-            <description>Mobilise UI</description>
-            <param-name>UI</param-name>
-            <param-value>org.dcs.MobiliseUI</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>vapp-mobilise</servlet-name>
-        <url-pattern>/vapp/mobilise/*</url-pattern>
-    </servlet-mapping>
 
 </web-app>

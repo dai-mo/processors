@@ -35,7 +35,7 @@ public class MyUI extends UI {
 
     }
 
-    @WebServlet(name = "MyUIServlet", asyncSupported = true)
+    @WebServlet(value = {"/vapp/*", "/VAADIN/*"}, name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }

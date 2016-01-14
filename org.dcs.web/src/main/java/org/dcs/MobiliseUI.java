@@ -26,7 +26,7 @@ public class MobiliseUI extends UI {
 
     }
 
-    @WebServlet(asyncSupported = true)
+    @WebServlet(value = "/vapp/mobilise/*", name = "MobiliseUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MobiliseUI.class, productionMode = false)
     public static class MobiliseUIServlet extends VaadinServlet {
     }

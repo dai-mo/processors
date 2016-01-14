@@ -225,7 +225,7 @@
                             </includes>
                         </resource>
                     </webResources>
-                    <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
+                    <webappDirectory>${project.build.directory}/ui</webappDirectory>
                 </configuration>
             </plugin>
             <plugin>
