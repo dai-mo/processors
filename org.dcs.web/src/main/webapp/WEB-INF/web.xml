@@ -24,9 +24,9 @@
 
 
     <!-- Servlet settings for OSGI Http Service-->
-    <!--<listener>-->
-        <!--<listener-class>org.dcs.web.osgi.StartupListener</listener-class>-->
-    <!--</listener>-->
+    <listener>
+        <listener-class>org.dcs.web.osgi.StartupListener</listener-class>
+    </listener>
 
     <!--<listener>-->
         <!--<listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>-->
