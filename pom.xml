@@ -12,11 +12,15 @@
         <module>org.dcs.servlet.basic</module>
         <module>org.dcs.servlet.ds</module>
         <module>org.dcs.web</module>
-        <!--<module>org.dcs.api</module>-->
+        <module>org.dcs.api</module>
+        <module>org.dcs.core</module>
+
     </modules>
 
     <properties>
         <servlet-api-version>3.1.0</servlet-api-version>
+        <jersey-version>1.18.1</jersey-version>
+        <swagger-core-version>1.5.4</swagger-core-version>
     </properties>
 
     <dependencyManagement>
@@ -59,6 +63,11 @@
             <dependency>
                 <artifactId>org.dcs.servlet.basic</artifactId>
                 <groupId>org.dcs</groupId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dcs</groupId>
+                <artifactId>org.dcs.api</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
