@@ -28,7 +28,7 @@ import javax.ws.rs.*;
 
 @Produces({ "application/json" })
 @io.swagger.annotations.Api(description = "the modules API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-15T15:59:06.058+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-15T18:35:39.348+01:00")
 public class ModulesApi  {
    private final ModulesApiService delegate = ModulesApiServiceFactory.getModulesApi();
 

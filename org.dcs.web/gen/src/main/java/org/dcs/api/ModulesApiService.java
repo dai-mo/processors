@@ -19,7 +19,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-15T15:59:06.058+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-15T18:35:39.348+01:00")
 public abstract class ModulesApiService {
   
       public abstract Response modulesGet(List<String> type,SecurityContext securityContext)

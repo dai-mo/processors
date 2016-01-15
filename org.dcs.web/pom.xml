@@ -57,12 +57,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
@@ -193,10 +188,6 @@
             <artifactId>jersey-server</artifactId>
             <version>${jersey-version}</version>
         </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -232,6 +223,7 @@
         </dependency>
 
         <!-- Swagger JAX-RS Jersey Dependencies End -->
+
     </dependencies>
 
     <build>
@@ -369,6 +361,22 @@
                     <scanIntervalSeconds>2</scanIntervalSeconds>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.10</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals><goal>add-source</goal></goals>
+                        <configuration>
+                            <sources>
+                                <source>gen</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -406,23 +414,23 @@
                     </configuration>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
-                    <configuration>
-                        <generatedSourcesDirectory>${basedir}/gen</generatedSourcesDirectory>
-                    </configuration>
-                </plugin>
+                <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                    <!--<version>3.3</version>-->
+                    <!--<configuration>-->
+                        <!--<generatedSourcesDirectory>${basedir}/gen</generatedSourcesDirectory>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
 
             </plugins>
         </pluginManagement>
 
-    </build>
 
+    </build>
     <profiles>
         <profile>
-            <id>gen</id>
+            <id>swagger-gen</id>
             <build>
                 <plugins>
                     <plugin>
@@ -452,6 +460,7 @@
                         <version>2.1.5</version>
                         <executions>
                             <execution>
+                                <phase>generate-sources</phase>
                                 <goals>
                                     <goal>generate</goal>
                                 </goals>
@@ -459,7 +468,6 @@
                                     <output>${basedir}/gen</output>
                                     <inputSpec>${basedir}/config/swagger/dcs-swagger.yaml</inputSpec>
                                     <language>jaxrs</language>
-
                                     <configOptions>
                                         <sourceFolder>src/main/java</sourceFolder>
                                         <apiPackage>org.dcs.api</apiPackage>
