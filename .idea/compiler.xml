@@ -59,7 +59,7 @@
         <module name="org.dcs.web" />
       </profile>
       <profile default="false" name="Annotation profile for org.dcs.api" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceOutputDir name="gen" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
