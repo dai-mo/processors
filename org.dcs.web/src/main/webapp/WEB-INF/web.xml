@@ -28,20 +28,21 @@
         <listener-class>org.dcs.web.osgi.StartupListener</listener-class>
     </listener>
 
-    <!--<listener>-->
-        <!--<listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>-->
-    <!--</listener>-->
+    <listener>
+        <listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>
+    </listener>
 
-    <!--<servlet>-->
-        <!--<servlet-name>proxy</servlet-name>-->
-        <!--<servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>-->
-        <!--<load-on-startup>1</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>proxy</servlet-name>
+        <servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>proxy</servlet-name>-->
-        <!--<url-pattern>/api/*</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>proxy</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>jersey</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>

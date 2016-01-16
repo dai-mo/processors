@@ -2,7 +2,7 @@
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Osmorc" name="OSGi">
-      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="$MODULE_DIR$/../org.dcs.web/target/bundles/org.dcs.servlet.ds-1.0.0-SNAPSHOT.jar" outputPathType="SpecificOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="org.dcs.org.dcs.servlet.ds" bundleVersion="1.0.0.SNAPSHOT" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="false">
+      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="org.dcs.servlet.ds-1.0.0-SNAPSHOT.jar" outputPathType="CompilerOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="org.dcs.org.dcs.servlet.ds" bundleVersion="1.0.0.SNAPSHOT" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="false">
         <additionalProperties>
           <property key="Private-Package" value="org.dcs.servlet.ds.*" />
           <property key="Import-Package" value="*;resolution:=optional,org.osgi.service.component" />

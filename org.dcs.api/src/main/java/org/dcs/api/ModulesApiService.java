@@ -8,9 +8,9 @@ import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-15T18:35:39.348+01:00")
-public abstract class ModulesApiService {
+public interface ModulesApiService {
   
-      public abstract Response modulesGet(List<String> type, SecurityContext securityContext)
+      public Response modulesGet(List<String> type, SecurityContext securityContext)
       throws NotFoundException;
   
 }

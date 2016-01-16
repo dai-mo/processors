@@ -18,6 +18,9 @@ package org.dcs.web.osgi;
 
 import org.apache.felix.framework.Felix;
 import org.apache.felix.framework.util.FelixConstants;
+import org.dcs.api.ModulesApiService;
+import org.osgi.framework.BundleActivator;
+import org.osgi.util.tracker.ServiceTracker;
 
 import javax.servlet.ServletContext;
 import java.util.Arrays;
@@ -29,6 +32,7 @@ public final class FrameworkService
 {
     private final ServletContext context;
     private Felix felix;
+    private static HostActivator hostActivator;
 
     public FrameworkService(ServletContext context) {
         this.context = context;
@@ -81,13 +85,22 @@ public final class FrameworkService
         for (Object key : props.keySet()) {
             map.put(key.toString(), props.get(key));
         }
-        
-        map.put(FelixConstants.SYSTEMBUNDLE_ACTIVATORS_PROP, Arrays.asList(new ProvisionActivator(this.context)));
+        hostActivator = new HostActivator();
+        map.put(FelixConstants.SYSTEMBUNDLE_ACTIVATORS_PROP,
+                Arrays.asList(new ProvisionActivator(this.context), hostActivator));
         return map;
     }
 
     private void log(String message, Throwable cause)
     {
         this.context.log(message, cause);
+    }
+
+    public static Object getService() {
+        if(hostActivator != null) {
+            Object service = hostActivator.getService();
+            return service;
+        }
+        return null;
     }
 }

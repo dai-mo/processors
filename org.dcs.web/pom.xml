@@ -228,6 +228,11 @@
             <groupId>org.dcs</groupId>
             <artifactId>org.dcs.api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.dcs</groupId>
+            <artifactId>org.dcs.core</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -261,7 +266,7 @@
                         </goals>
                         <configuration>
                             <includeArtifactIds>
-                                org.apache.felix.webconsole,org.apache.felix.http.bridge,org.apache.felix.scr
+                                org.apache.felix.webconsole,org.apache.felix.http.bridge,org.apache.felix.scr,org.dcs.core
                             </includeArtifactIds>
                             <!--<stripVersion>true</stripVersion>-->
                             <outputDirectory>
