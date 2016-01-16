@@ -30,6 +30,6 @@
     <orderEntry type="library" name="Maven: org.apache.felix:org.apache.felix.scr.ds-annotations:1.2.8" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-core:1.18.1" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.18.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.dcs:org.dcs.api:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="org.dcs.api" scope="PROVIDED" />
   </component>
 </module>

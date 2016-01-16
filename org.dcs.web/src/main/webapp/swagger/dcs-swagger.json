@@ -5,12 +5,12 @@
         "description": "DCS API",
         "version": "0.0.1"
     },
-    "host": "dcs.org",
+    "host": "localhost:8080/dcs/",
     "schemes": [
-        "https",
-        "http"
+        "http",
+        "https"
     ],
-    "basePath": "/v0",
+    "basePath": "api/v0",
     "produces": [
         "application/json"
     ],

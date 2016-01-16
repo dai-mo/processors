@@ -56,11 +56,11 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/org.dcs.api/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/org.dcs.api/pom.xml" />
         <option value="$PROJECT_DIR$/org.dcs.vaadin/pom.xml" />
         <option value="$PROJECT_DIR$/org.dcs.webapp/pom.xml" />
       </set>

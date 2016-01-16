@@ -28,20 +28,20 @@
         <listener-class>org.dcs.web.osgi.StartupListener</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>-->
+    <!--</listener>-->
 
-    <servlet>
-        <servlet-name>proxy</servlet-name>
-        <servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+    <!--<servlet>-->
+        <!--<servlet-name>proxy</servlet-name>-->
+        <!--<servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>proxy</servlet-name>
-        <url-pattern>/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>proxy</servlet-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <servlet>
         <servlet-name>jersey</servlet-name>
@@ -74,14 +74,14 @@
         </init-param>
         <init-param>
             <param-name>swagger.api.basepath</param-name>
-            <param-value>https://dcs.org/v0</param-value>
+            <param-value>http://localhost:8080/dcs/api/v0</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>jersey</servlet-name>
-        <url-pattern>/api/v0/*</url-pattern>
+        <url-pattern>/dcs/api/v0/*</url-pattern>
     </servlet-mapping>
     <filter>
         <filter-name>ApiOriginFilter</filter-name>
@@ -89,7 +89,7 @@
     </filter>
     <filter-mapping>
         <filter-name>ApiOriginFilter</filter-name>
-        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/dcs/api/*</url-pattern>
     </filter-mapping>
 
 </web-app>
