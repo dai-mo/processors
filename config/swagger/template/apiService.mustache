@@ -1,0 +1,16 @@
+package {{package}}.service;
+
+import java.util.List;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+
+{{>generatedAnnotation}}
+{{#operations}}
+public interface {{classname}}Service {
+  {{#operation}}
+      public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}},{{/allParams}}SecurityContext securityContext)
+      throws NotFoundException;
+  {{/operation}}
+}
+{{/operations}}

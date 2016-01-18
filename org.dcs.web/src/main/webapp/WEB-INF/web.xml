@@ -81,7 +81,7 @@
 
     <servlet-mapping>
         <servlet-name>jersey</servlet-name>
-        <url-pattern>/dcs/api/v0/*</url-pattern>
+        <url-pattern>/api/v0/*</url-pattern>
     </servlet-mapping>
     <filter>
         <filter-name>ApiOriginFilter</filter-name>
@@ -89,7 +89,7 @@
     </filter>
     <filter-mapping>
         <filter-name>ApiOriginFilter</filter-name>
-        <url-pattern>/dcs/api/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
 </web-app>

@@ -1,0 +1,13 @@
+package {{package}}.factories;
+
+import {{package}}.service.{{classname}}Service;
+import org.dcs.web.osgi.FrameworkService;
+
+{{>generatedAnnotation}}
+public class {{classname}}ServiceFactory {
+   
+   public static {{classname}}Service get{{classname}}()
+   {
+      return ({{classname}}Service) FrameworkService.getService();
+   }
+}

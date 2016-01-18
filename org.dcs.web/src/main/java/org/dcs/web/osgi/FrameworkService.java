@@ -18,9 +18,6 @@ package org.dcs.web.osgi;
 
 import org.apache.felix.framework.Felix;
 import org.apache.felix.framework.util.FelixConstants;
-import org.dcs.api.ModulesApiService;
-import org.osgi.framework.BundleActivator;
-import org.osgi.util.tracker.ServiceTracker;
 
 import javax.servlet.ServletContext;
 import java.util.Arrays;

@@ -1,8 +1,9 @@
 package org.dcs.web.osgi;
 
-import org.dcs.api.ModulesApiService;
+import org.dcs.api.service.ModulesApiService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -17,7 +18,7 @@ public class HostActivator implements BundleActivator
   public void start(BundleContext context) throws Exception
   {
     m_context = context;
-
+    final ServiceReference<?>[] allServiceReferences = context.getAllServiceReferences(null, null);
     m_tracker = new ServiceTracker(
             m_context,
             ModulesApiService.class.getName(),

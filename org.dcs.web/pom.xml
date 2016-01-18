@@ -18,11 +18,8 @@
         <jetty.plugin.version>9.2.3.v20140905</jetty.plugin.version>
         <project.source.version>1.7</project.source.version>
         <project.target.version>1.7</project.target.version>
-        <project.encoding>UTF-8</project.encoding>
-
-
+        <!--<project.encoding>UTF-8</project.encoding>-->
         <jetty-version>9.2.9.v20150224</jetty-version>
-
         <slf4j-version>1.6.3</slf4j-version>
         <junit-version>4.8.1</junit-version>
     </properties>
@@ -370,22 +367,6 @@
                     <scanIntervalSeconds>2</scanIntervalSeconds>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.10</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals><goal>add-source</goal></goals>
-                        <configuration>
-                            <sources>
-                                <source>gen/src/main/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -422,76 +403,9 @@
                         </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
-
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                    <!--<version>3.3</version>-->
-                    <!--<configuration>-->
-                        <!--<generatedSourcesDirectory>${basedir}/gen</generatedSourcesDirectory>-->
-                    <!--</configuration>-->
-                <!--</plugin>-->
-
             </plugins>
         </pluginManagement>
-
-
     </build>
-    <profiles>
-        <profile>
-            <id>swagger-gen</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <executions>
-                            <execution>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>clean</goal>
-                                </goals>
-                                <configuration>
-                                    <excludeDefaultDirectories>true</excludeDefaultDirectories>
-                                    <filesets>
-                                        <fileset>
-                                            <directory>${basedir}/gen</directory>
-                                        </fileset>
-                                    </filesets>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>io.swagger</groupId>
-                        <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>2.1.5</version>
-                        <executions>
-                            <execution>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                                <configuration>
-                                    <output>${basedir}/gen</output>
-                                    <inputSpec>${basedir}/config/swagger/dcs-swagger.yaml</inputSpec>
-                                    <language>jaxrs</language>
-                                    <configOptions>
-                                        <sourceFolder>src/main/java</sourceFolder>
-                                        <apiPackage>org.dcs.api</apiPackage>
-                                        <modelPackage>org.dcs.api.model</modelPackage>
-                                        <groupId>${project.groupId}</groupId>
-                                        <artifactId>${project.artifactId}</artifactId>
-                                        <artifactVersion>${project.version}</artifactVersion>
-                                    </configOptions>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+
 
 </project>

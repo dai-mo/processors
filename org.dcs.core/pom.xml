@@ -21,7 +21,7 @@
                 <configuration>
                     <instructions>
                         <Private-Package>
-                            org.dcs.core.service.*
+                            org.dcs.api.service.impl.*
                         </Private-Package>
                         <Import-Package>
                             *;resolution:=optional,org.osgi.service.component
