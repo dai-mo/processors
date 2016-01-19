@@ -103,7 +103,9 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:6.8.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.beust:jcommander:1.27" level="project" />
     <orderEntry type="module" module-name="org.dcs.api" />
-    <orderEntry type="module" module-name="org.dcs.core" scope="PROVIDED" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.felix:org.apache.felix.scr.ds-annotations:1.2.8" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.13" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.13" level="project" />
+    <orderEntry type="library" name="Maven: org.dcs:org.dcs.osgi:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.osgi:org.osgi.core:6.0.0" level="project" />
   </component>
 </module>

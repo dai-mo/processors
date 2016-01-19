@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dcs.web.osgi;
+package org.dcs.osgi;
 
 import org.apache.felix.framework.Felix;
 import org.apache.felix.framework.util.FelixConstants;
@@ -60,6 +60,7 @@ public final class FrameworkService
         tmp.start();
         this.felix = tmp;
         log("OSGi framework started", null);
+        tmp.start();
     }
 
     private void doStop()

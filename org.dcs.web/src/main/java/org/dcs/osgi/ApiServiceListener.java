@@ -1,4 +1,4 @@
-package org.dcs.web.osgi;
+package org.dcs.osgi;
 
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;

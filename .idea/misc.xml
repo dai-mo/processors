@@ -61,6 +61,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/org.dcs.osgi/pom.xml" />
         <option value="$PROJECT_DIR$/org.dcs.vaadin/pom.xml" />
         <option value="$PROJECT_DIR$/org.dcs.webapp/pom.xml" />
       </set>

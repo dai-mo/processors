@@ -227,8 +227,7 @@
         </dependency>
         <dependency>
             <groupId>org.dcs</groupId>
-            <artifactId>org.dcs.core</artifactId>
-            <scope>provided</scope>
+            <artifactId>org.dcs.osgi</artifactId>
         </dependency>
     </dependencies>
 
@@ -239,7 +238,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.0</version>
                 <configuration>
-                    <encoding>${project.encoding}</encoding>
+                    <!--<encoding>${project.encoding}</encoding>-->
                     <source>${project.source.version}</source>
                     <target>${project.target.version}</target>
                 </configuration>
@@ -248,9 +247,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.6</version>
-                <configuration>
-                    <encoding>${project.encoding}</encoding>
-                </configuration>
+                <!--<configuration>-->
+                    <!--<encoding>${project.encoding}</encoding>-->
+                <!--</configuration>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

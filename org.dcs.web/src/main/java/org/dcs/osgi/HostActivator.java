@@ -1,4 +1,4 @@
-package org.dcs.web.osgi;
+package org.dcs.osgi;
 
 import org.dcs.api.service.ModulesApiService;
 import org.osgi.framework.BundleActivator;

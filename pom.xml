@@ -14,6 +14,8 @@
         <module>org.dcs.web</module>
         <module>org.dcs.api</module>
         <module>org.dcs.core</module>
+        <module>org.dcs.osgi</module>
+        <module>org.dcs.test</module>
 
     </modules>
 
@@ -87,7 +89,16 @@
                 <artifactId>org.dcs.core</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.dcs</groupId>
+                <artifactId>org.dcs.osgi</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.0.13</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

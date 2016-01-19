@@ -123,22 +123,6 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>copy-swagger-impl</id>
-                                <!-- here the phase you need -->
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${dcs.api.impl.path}</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>${project.build.directory}/generated-sources/swagger/src/main/java/org/dcs/api/impl</directory>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>copy-swagger-rest</id>
                                 <!-- here the phase you need -->
                                 <phase>generate-sources</phase>
