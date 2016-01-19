@@ -22,7 +22,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerMethod.class)
 
-public class OSGiBundleTest extends OSGiTestBase {
+public class OSGiBundleTest {
 
   static final Logger logger = LoggerFactory.getLogger(OSGiBundleTest.class);
 

@@ -1,13 +1,21 @@
 package org.dcs.test.paxe;
 
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.util.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
+import static org.mockito.Mockito.*;
 import static org.ops4j.pax.exam.Constants.START_LEVEL_SYSTEM_BUNDLES;
 import static org.ops4j.pax.exam.CoreOptions.*;
 
@@ -18,6 +26,7 @@ public class PaxExamConfigOptionsFactory {
   private static final Logger logger = LoggerFactory.getLogger(PaxExamConfigOptionsFactory.class);
 
   private static String TARGET_TEST_CLASSES_MARKER = "target/test-classes";
+
 
   public static Option[] generateConfigOptions(Class testClass) {
 
@@ -48,5 +57,8 @@ public class PaxExamConfigOptionsFactory {
             junitBundles()
     );
   }
+
+
+
 
 }

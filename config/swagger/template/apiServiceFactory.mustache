@@ -8,6 +8,6 @@ public class {{classname}}ServiceFactory {
    
    public static {{classname}}Service get{{classname}}()
    {
-      return ({{classname}}Service) FrameworkService.getService();
+      return ({{classname}}Service) FrameworkService.getService({{classname}}Service.class.getName());
    }
 }

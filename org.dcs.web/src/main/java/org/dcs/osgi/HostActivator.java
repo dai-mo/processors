@@ -1,44 +1,51 @@
 package org.dcs.osgi;
 
-import org.dcs.api.service.ModulesApiService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by cmathew on 16/01/16.
  */
 public class HostActivator implements BundleActivator
 {
-  private BundleContext m_context = null;
+  private BundleContext bundleContext = null;
   // The service tacker object.
-  private ServiceTracker m_tracker = null;
+  private ApiServiceListener apiServiceListener;
+
+  private Map<String, ServiceTracker> classNameTrackerMap;
 
   public void start(BundleContext context) throws Exception
   {
-    m_context = context;
-    final ServiceReference<?>[] allServiceReferences = context.getAllServiceReferences(null, null);
-    m_tracker = new ServiceTracker(
-            m_context,
-            ModulesApiService.class.getName(),
-            null);
-    m_tracker.open();
-
+    bundleContext = context;
+    classNameTrackerMap = new HashMap<>();
   }
 
   public void stop(BundleContext context)
   {
-    m_context = null;
-    m_tracker.close();
+    bundleContext = null;
+    for(ServiceTracker tracker : classNameTrackerMap.values()) {
+      tracker.close();
+    }
   }
 
-  public BundleContext getContext()
-  {
-    return m_context;
+  public BundleContext getContext() {
+    return bundleContext;
   }
 
-  public Object getService() {
-    return m_tracker.getService();
+  public Object getService(String className) {
+    ServiceTracker tracker = new ServiceTracker(
+            bundleContext,
+            className,
+            null);
+    tracker.open();
+    Object service = tracker.getService();
+    if(service != null) {
+      classNameTrackerMap.put(className, tracker);
+    }
+    return service;
   }
 }

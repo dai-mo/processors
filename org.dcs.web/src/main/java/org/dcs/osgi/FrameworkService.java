@@ -94,9 +94,9 @@ public final class FrameworkService
         this.context.log(message, cause);
     }
 
-    public static Object getService() {
+    public static Object getService(String className) {
         if(hostActivator != null) {
-            Object service = hostActivator.getService();
+            Object service = hostActivator.getService(className);
             return service;
         }
         return null;

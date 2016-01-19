@@ -14,7 +14,6 @@
         <module>org.dcs.web</module>
         <module>org.dcs.api</module>
         <module>org.dcs.core</module>
-        <module>org.dcs.osgi</module>
         <module>org.dcs.test</module>
 
     </modules>
@@ -96,8 +95,19 @@
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>1.1.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.0.13</version>
+                <version>1.1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>2.0.39-beta</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
