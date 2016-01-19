@@ -9,6 +9,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -20,6 +24,8 @@ public class FrameworkServiceTest {
   private static final Logger logger = LoggerFactory.getLogger(FrameworkServiceTest.class);
 
   private static FrameworkService frameworkService;
+
+  List<String> serviceClassNames = Arrays.asList(ModulesApiService.class.getName());
 
   @BeforeClass
   public static void setup() throws Exception {
@@ -35,8 +41,11 @@ public class FrameworkServiceTest {
 
   @Test
   public void testApiServicesLoad() {
-    ModulesApiService service = (ModulesApiService) FrameworkService.getService(ModulesApiService.class.getName());
-    assertNotNull(service);
+    for(String serviceClassName : serviceClassNames) {
+      ModulesApiService service =
+              (ModulesApiService) FrameworkService.getService(serviceClassName);
+      assertNotNull(service);
+    }
   }
 
 }
