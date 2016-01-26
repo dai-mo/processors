@@ -24,6 +24,7 @@ import javax.servlet.ServletContext;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public final class ProvisionActivator
     implements BundleActivator
@@ -61,8 +62,8 @@ public final class ProvisionActivator
         throws Exception
     {
         ArrayList<URL> list = new ArrayList<URL>();
-        for (Object o : this.servletContext.getResourcePaths("/WEB-INF/bundles/")) {
-            String name = (String)o;
+        Set<String> resourcePaths = this.servletContext.getResourcePaths("/WEB-INF/bundles/");
+        for (String name : resourcePaths) {
             if (name.endsWith(".jar")) {
                 URL url = this.servletContext.getResource(name);
                 if (url != null) {

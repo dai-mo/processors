@@ -95,7 +95,7 @@
       <module name="org.dcs.servlet.ds" target="1.8" />
       <module name="org.dcs.test" target="1.8" />
       <module name="org.dcs.vaadin" target="1.7" />
-      <module name="org.dcs.web" target="1.7" />
+      <module name="org.dcs.web" target="1.8" />
       <module name="org.dcs.webapp" target="1.8" />
     </bytecodeTargetLevel>
   </component>

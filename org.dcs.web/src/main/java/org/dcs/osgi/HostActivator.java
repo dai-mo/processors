@@ -13,8 +13,6 @@ import java.util.Map;
 public class HostActivator implements BundleActivator
 {
   private BundleContext bundleContext = null;
-  // The service tacker object.
-  private ApiServiceListener apiServiceListener;
 
   private Map<String, ServiceTracker> classNameTrackerMap;
 

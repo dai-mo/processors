@@ -20,7 +20,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -82,33 +82,38 @@
     <orderEntry type="library" name="Maven: io.swagger:swagger-annotations:1.5.4" level="project" />
     <orderEntry type="library" name="Maven: javax.ws.rs:jsr311-api:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.reflections:reflections:0.9.10" level="project" />
-    <orderEntry type="library" name="Maven: org.javassist:javassist:3.19.0-GA" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:annotations:2.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.4.5" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-core:1.18.1" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-json:1.18.1" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jettison:jettison:1.1" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.2.3-1" level="project" />
-    <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.2.2" level="project" />
-    <orderEntry type="library" name="Maven: javax.xml.stream:stax-api:1.0-2" level="project" />
-    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.2" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.2" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-jaxrs:1.9.2" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-xc:1.9.2" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-servlet:1.18.1" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.jersey.contribs:jersey-multipart:1.18.1" level="project" />
-    <orderEntry type="library" name="Maven: org.jvnet.mimepull:mimepull:1.9.3" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.18.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey.contribs:jersey-multipart:1.13" level="project" />
+    <orderEntry type="library" name="Maven: org.jvnet:mimepull:1.6" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-servlet:1.13" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-client:1.13" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-core:1.13" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.13" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet:2.22.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet-core:2.22.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-common:2.22.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.annotation:javax.annotation-api:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.22.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2:osgi-resource-locator:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-server:2.22.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.media:jersey-media-jaxb:2.22.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.jersey.core:jersey-client:2.22.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-api:2.4.0-b31" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-utils:2.4.0-b31" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2.external:aopalliance-repackaged:2.4.0-b31" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2.external:javax.inject:2.4.0-b31" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-locator:2.4.0-b31" level="project" />
+    <orderEntry type="library" name="Maven: org.javassist:javassist:3.18.1-GA" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey:jersey-client:1.18.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:6.8.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.beust:jcommander:1.27" level="project" />
     <orderEntry type="module" module-name="org.dcs.api" />
-    <orderEntry type="library" name="Maven: org.dcs:org.dcs.osgi:1.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.osgi:org.osgi.core:6.0.0" level="project" />
+    <orderEntry type="module" module-name="org.dcs.core" scope="PROVIDED" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.felix:org.apache.felix.scr.ds-annotations:1.2.8" level="project" />
     <orderEntry type="module" module-name="org.dcs.test" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Maven: org.ops4j.pax.exam:pax-exam-container-native:4.8.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.ops4j.pax.exam:pax-exam:4.8.0" level="project" />

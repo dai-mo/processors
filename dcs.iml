@@ -24,6 +24,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/swagger/src/main/java/org/dcs/api" isTestSource="false" generated="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target/swagger" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
