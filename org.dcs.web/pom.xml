@@ -149,17 +149,20 @@
         </dependency>
         <!-- OSGi Dependencies Start -->
 
+        <!-- Override older asm dependency in swagger-jersey-jaxrs for
+                vaadin widgetset compilation -->
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>5.0.3</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- Swagger JAX-RS Jersey Dependencies Start -->
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jersey-jaxrs</artifactId>
             <version>${swagger-core-version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>asm</artifactId>
-                    <groupId>asm</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
