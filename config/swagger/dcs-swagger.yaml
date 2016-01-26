@@ -3,10 +3,10 @@ info:
   title: DCS API
   description: DCS API
   version: 0.0.1
-host: dcs.org
+host: localhost:8080
 schemes:
   - http
-basePath: /v0
+basePath: /dcs/api/v0
 produces:
   - application/json
 paths:
@@ -48,7 +48,7 @@ paths:
       description: |
         The data endpoint uploads files into the dcs workspace
       parameters:
-      - name: data_file
+      - name: file
         in: formData
         description: Format of data file
         required: false
