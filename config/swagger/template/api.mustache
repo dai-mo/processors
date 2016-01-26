@@ -30,7 +30,6 @@ import org.dcs.osgi.FrameworkService;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}  {
-   private final {{classname}}Service delegate = ({{classname}}Service) FrameworkService.getService({{classname}}Service.class.getName());
 
 {{#operation}}
     @{{httpMethod}}
@@ -50,6 +49,7 @@ public class {{classname}}  {
 
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},{{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
+        {{classname}}Service delegate = ({{classname}}Service) FrameworkService.getService({{classname}}Service.class.getName());
         return delegate.{{nickname}}({{#allParams}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}},{{/allParams}}securityContext);
     }
 {{/operation}}

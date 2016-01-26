@@ -25,7 +25,6 @@ import org.dcs.osgi.FrameworkService;
 @io.swagger.annotations.Api(description = "the data API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-26T14:30:34.903+01:00")
 public class DataApi  {
-   private final DataApiService delegate = (DataApiService) FrameworkService.getService(DataApiService.class.getName());
 
     @POST
     
@@ -40,6 +39,7 @@ public class DataApi  {
     public Response dataPost(  @FormDataParam("file") InputStream inputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail,@Context SecurityContext securityContext)
     throws NotFoundException {
+        DataApiService delegate = (DataApiService) FrameworkService.getService(DataApiService.class.getName());
         return delegate.dataPost(inputStream, fileDetail,securityContext);
     }
 }
