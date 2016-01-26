@@ -1,28 +1,16 @@
 package org.dcs.api;
 
-import org.dcs.api.model.*;
-import org.dcs.api.service.ModulesApiService;
-import org.dcs.api.factories.ModulesApiServiceFactory;
-
 import io.swagger.annotations.ApiParam;
-
-import com.sun.jersey.multipart.FormDataParam;
-
-import org.dcs.api.model.Error;
 import org.dcs.api.model.Module;
-
-import java.util.List;
+import org.dcs.api.service.ModulesApiService;
 import org.dcs.api.service.NotFoundException;
+import org.dcs.osgi.FrameworkService;
 
-import java.io.InputStream;
-
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
-
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+import java.util.List;
 
 @Path("/modules")
 
@@ -30,7 +18,7 @@ import javax.ws.rs.*;
 @io.swagger.annotations.Api(description = "the modules API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-19T21:49:38.067+01:00")
 public class ModulesApi  {
-   private final ModulesApiService delegate = ModulesApiServiceFactory.getModulesApi();
+   private final ModulesApiService delegate = (ModulesApiService) FrameworkService.getService(ModulesApiService.class.getName());
 
     @GET
     
