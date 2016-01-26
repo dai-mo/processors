@@ -49,6 +49,7 @@
                             <inputSpec>${basedir}/config/swagger/dcs-swagger.yaml</inputSpec>
                             <language>jaxrs</language>
                             <templateDirectory>${basedir}/config/swagger/template</templateDirectory>
+                            <library>jersey2</library>
                             <configOptions>
                                 <sourceFolder>src/main/java</sourceFolder>
                                 <apiPackage>org.dcs.api</apiPackage>

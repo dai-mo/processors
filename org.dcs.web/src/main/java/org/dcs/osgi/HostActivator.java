@@ -35,11 +35,14 @@ public class HostActivator implements BundleActivator
   }
 
   public Object getService(String className) {
-    ServiceTracker tracker = new ServiceTracker(
-            bundleContext,
-            className,
-            null);
-    tracker.open();
+    ServiceTracker tracker = classNameTrackerMap.get(className);
+    if(tracker == null) {
+      tracker = new ServiceTracker(
+              bundleContext,
+              className,
+              null);
+      tracker.open();
+    }
     Object service = tracker.getService();
     if(service != null) {
       classNameTrackerMap.put(className, tracker);
