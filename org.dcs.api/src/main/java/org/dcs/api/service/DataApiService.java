@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.dcs.api.data.DataManagerException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 
@@ -14,6 +15,6 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 public interface DataApiService {
   
       public Response dataPost(InputStream inputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext)
-      throws NotFoundException;
+      throws NotFoundException, DataManagerException;
   
 }

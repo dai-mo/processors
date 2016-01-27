@@ -16,8 +16,6 @@
         <vaadin.version>7.5.10</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
         <jetty.plugin.version>9.2.3.v20140905</jetty.plugin.version>
-        <project.source.version>1.8</project.source.version>
-        <project.target.version>1.8</project.target.version>
         <!--<project.encoding>UTF-8</project.encoding>-->
         <jetty-version>9.2.9.v20150224</jetty-version>
         <slf4j-version>1.6.3</slf4j-version>
@@ -167,7 +165,6 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jersey2-jaxrs</artifactId>
-            <version>${swagger-core-version}</version>
         </dependency>
 
         <!-- Required only when you are using JAX-RS Client -->

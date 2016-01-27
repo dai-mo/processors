@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by cmathew on 18/01/16.
