@@ -1,10 +1,10 @@
 package org.dcs.api.data;
 
+import org.dcs.api.model.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.file.Files;
 
 /**
  * Created by cmathew on 27/01/16.
@@ -114,7 +114,7 @@ public class DataManager {
     String dataSourceDirPath = dataHomePath + File.separator + dataSourceName;
     File dataSourceDir = new File(dataSourceDirPath);
     if(dataSourceDir.exists()) {
-      throw new DataManagerException("Datasource with same name already exists");
+      throw new DataManagerException(Error.DCS101());
     }
     dataSourceDir.mkdir();
 
@@ -130,19 +130,20 @@ public class DataManager {
       while ((read = inputStream.read(bytes)) != -1) {
         outputStream.write(bytes, 0, read);
       }
+
     } catch (FileNotFoundException e) {
-      throw new DataManagerException(e);
+      throw new DataManagerException(Error.DCS102(),e);
     } catch (IOException e) {
-      throw new DataManagerException(e);
+      throw new DataManagerException(Error.DCS102(),e);
     } finally {
-      if (outputStream != null) {
-        try {
+      try {
+        inputStream.close();
+        if (outputStream != null) {
           outputStream.close();
-        } catch (IOException e) {
-          throw new DataManagerException(e);
         }
+      } catch (IOException e) {
+        throw new DataManagerException(Error.DCS102(),e);
       }
     }
-
   }
 }

@@ -1,11 +1,13 @@
-package org.dcs.web.osgi;
+package org.dcs.web.intg.osgi;
 
 import org.dcs.api.service.ModulesApiService;
 import org.dcs.osgi.FrameworkService;
 import org.dcs.web.MockFactory;
+import org.dcs.web.intg.IntegrationTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +19,7 @@ import static org.junit.Assert.*;
 /**
  * Created by cmathew on 19/01/16.
  */
-
+@Category(IntegrationTest.class)
 public class FrameworkServiceTest {
 
   private static final Logger logger = LoggerFactory.getLogger(FrameworkServiceTest.class);

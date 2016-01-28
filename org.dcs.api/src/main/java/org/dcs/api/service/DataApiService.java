@@ -15,6 +15,6 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 public interface DataApiService {
   
       public Response dataPost(InputStream inputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext)
-      throws NotFoundException, DataManagerException;
+      throws DataManagerException;
   
 }

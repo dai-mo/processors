@@ -1,5 +1,6 @@
 package org.dcs.test.unit;
 
+import org.dcs.api.model.Error;
 import org.dcs.api.data.DataManager;
 import org.dcs.api.data.DataManagerException;
 import org.dcs.api.model.DataLoader;
@@ -13,9 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
 
 import static org.junit.Assert.*;
 
@@ -37,15 +36,31 @@ public class DataApiServiceImplTest extends BaseDataTest {
   }
 
   @Test
-  public void testloadFile() throws NotFoundException, DataManagerException {
+  public void testloadFile() throws NotFoundException {
     InputStream inputStream = DataUtils.getInputResourceAsStream(this.getClass(), "/test.csv");
 
     FormDataContentDisposition fdcd =
             FormDataContentDisposition.name("file").fileName("test.csv").build();
 
+    // check upload of file
     DataApiServiceImpl dasi = new DataApiServiceImpl();
-    Response response = dasi.dataPost(inputStream, fdcd, null);
-    DataLoader loader = (DataLoader) response.getEntity();
-    assertNotNull(loader.getDataSourceId());
+    Response response;
+    try {
+      response = dasi.dataPost(inputStream, fdcd, null);
+      DataLoader loader = (DataLoader) response.getEntity();
+      assertNotNull(loader.getDataSourceId());
+    } catch(DataManagerException dme) {
+      fail("Exception should be thrown here");
+    }
+
+    try {
+      // uploading the same file a second time should produce an error
+      response = dasi.dataPost(inputStream, fdcd, null);
+      fail("Exception should be thrown here");
+    } catch(DataManagerException dme) {
+      Error errorCode = dme.getErrorCode();
+      assertEquals(Error.DCS101(), errorCode);
+    }
+
   }
 }

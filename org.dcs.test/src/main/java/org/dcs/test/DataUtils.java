@@ -48,4 +48,9 @@ public class DataUtils {
     return testClass.getResourceAsStream(dataInputTestFilePath);
   }
 
+  public static String getDataInputFileAbsolutePath(Class testClass, String relFilePath) {
+    URL dataRootURL = testClass.getResource(File.separator + DATA_ROOT_DIR_NAME);
+    return dataRootURL.getPath() + File.separator + INPUT_DATA_DIR_NAME + File.separator + relFilePath;
+  }
+
 }

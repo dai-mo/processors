@@ -1,99 +1,55 @@
 package org.dcs.api.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
+import javax.ws.rs.core.Response;
 
-import java.util.Objects;
+/**
+ * Created by cmathew on 27/01/16.
+ */
+public class Error {
 
+  private String errorCode;
+  private String message;
+  private Response.Status httpStatus;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-19T21:49:38.067+01:00")
-public class Error   {
-  
-  private Integer code = null;
-  private String message = null;
-  private String fields = null;
-
-  
-  /**
-   **/
-  
-  @ApiModelProperty(value = "")
-  @JsonProperty("code")
-  public Integer getCode() {
-    return code;
-  }
-  public void setCode(Integer code) {
-    this.code = code;
+  public Error(String errorCode, String message, Response.Status httpStatus) {
+    this.errorCode = errorCode;
+    this.message = message;
+    this.httpStatus = httpStatus;
   }
 
-  
-  /**
-   **/
-  
-  @ApiModelProperty(value = "")
-  @JsonProperty("message")
+
+  public String getErrorCode() {
+    return errorCode;
+  }
+
   public String getMessage() {
     return message;
   }
-  public void setMessage(String message) {
-    this.message = message;
+
+  public Response.Status getHttpStatus() {
+    return httpStatus;
   }
 
-  
-  /**
-   **/
-  
-  @ApiModelProperty(value = "")
-  @JsonProperty("fields")
-  public String getFields() {
-    return fields;
-  }
-  public void setFields(String fields) {
-    this.fields = fields;
+  public static Error DCS101() {
+    return new Error("DCS101",
+            "Datasource with given name already exists",
+            Response.Status.NOT_ACCEPTABLE);
   }
 
-  
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Error error = (Error) o;
-    return Objects.equals(code, error.code) &&
-        Objects.equals(message, error.message) &&
-        Objects.equals(fields, error.fields);
+  public static Error DCS102() {
+    return new Error("DCS102",
+            "Error storing data",
+            Response.Status.INTERNAL_SERVER_ERROR);
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hash(code, message, fields);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Error {\n");
-    
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
-    sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+  public boolean equals(Object object) {
+    if(object instanceof Error && object != null) {
+      Error that = (Error) object;
+      if(this.errorCode.equals(that.errorCode) && this.httpStatus.equals(that.httpStatus)) {
+        return true;
+      }
     }
-    return o.toString().replace("\n", "\n    ");
+    return false;
   }
 }
-

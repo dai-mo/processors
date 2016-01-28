@@ -22,14 +22,10 @@ import java.net.URL;
  */
 public class DataManagerTest extends BaseDataTest {
 
-
-
   protected static DataManager dataManager;
-
 
   @BeforeClass
   public static void dataManagerSetup() {
-
     dataManager = DataManager.instance(dataHomeAbsolutePath);
     assertEquals(dataHomeAbsolutePath, dataManager.getDataHomePath());
     assertTrue((new File(dataHomeAbsolutePath)).exists());

@@ -23,7 +23,7 @@ public class DataApiServiceImpl implements DataApiService {
 
   @Override
   public Response dataPost(InputStream inputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext)
-          throws NotFoundException, DataManagerException {
+          throws DataManagerException {
 
     UUID uuid = UUID.randomUUID();
     DataManager dataManager = DataManager.instance();

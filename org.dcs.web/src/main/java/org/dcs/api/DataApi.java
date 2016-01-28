@@ -1,5 +1,6 @@
 package org.dcs.api;
 
+import org.dcs.api.data.DataManagerException;
 import org.dcs.api.service.DataApiService;
 
 import org.dcs.api.model.DataLoader;
@@ -38,7 +39,7 @@ public class DataApi  {
 
     public Response dataPost(  @FormDataParam("file") InputStream inputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail,@Context SecurityContext securityContext)
-    throws NotFoundException {
+            throws NotFoundException, DataManagerException {
         DataApiService delegate = (DataApiService) FrameworkService.getService(DataApiService.class.getName());
         return delegate.dataPost(inputStream, fileDetail,securityContext);
     }
