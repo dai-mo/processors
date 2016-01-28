@@ -11,10 +11,10 @@
     <modules>
         <module>org.dcs.servlet.basic</module>
         <module>org.dcs.servlet.ds</module>
-        <module>org.dcs.web</module>
+        <module>org.dcs.test</module>
         <module>org.dcs.api</module>
         <module>org.dcs.core</module>
-        <module>org.dcs.test</module>
+        <module>org.dcs.web</module>
 
     </modules>
 
