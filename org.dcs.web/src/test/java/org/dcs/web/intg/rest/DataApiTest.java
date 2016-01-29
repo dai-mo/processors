@@ -23,7 +23,7 @@ import java.io.InputStream;
 public class DataApiTest {
 
   @BeforeClass
-  public void setup() {
+  public static void setup() {
     RestAssured.port = 9090;
   }
 
