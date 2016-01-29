@@ -378,6 +378,9 @@
                     <stopKey>stopKey</stopKey>
                     <stopPort>9091</stopPort>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
+                    <httpConnector>
+                        <port>9090</port>
+                    </httpConnector>
                     <webApp>
                         <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
                             <resourcesAsCSV>${basedir}/src/main/webapp,${project.build.directory}/dcs</resourcesAsCSV>
