@@ -1,68 +1,74 @@
 package org.dcs.api.data;
 
+import org.dcs.api.Configuration;
+import org.dcs.api.Configurator;
 import org.dcs.api.model.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.*;
 
 /**
  * Created by cmathew on 27/01/16.
  */
+@Default
+@Singleton
 public class DataManager {
   static final Logger logger = LoggerFactory.getLogger(DataManager.class);
 
-  private String dataHomePath = null;
-  File dataHome;
+  private String dataRootPath;
+  private File dataRoot;
+
+  private final static String DATA_HOME_DIR = "home";
+  private String dataHomePath;
+  private File dataHome;
   private static DataManager instance;
 
-  private DataManager() {
+
+  private Configurator configurator;
+
+  @Inject
+  public DataManager(Configurator configurator) throws DataManagerException {
+    this.configurator = configurator;
     readConfig();
-    init();
-  }
-
-  private DataManager(String dataHomePath) {
-    this.dataHomePath = dataHomePath;
-    init();
-  }
-
-  private void init() {
+    dataRoot = new File(dataRootPath);
+    dataHomePath = dataRootPath + File.separator + DATA_HOME_DIR;
     dataHome = new File(dataHomePath);
+    createDataRootDirectory();
     createDataHomeDirectory();
   }
 
   private void readConfig() {
-    // read configuration from a yaml file here
-
-    // for now the settings are hardcoded
-    dataHomePath = "/data/home";
-  }
-
-  public static DataManager instance(String dataHomePath) {
-
-    if(instance == null) {
-      instance = new DataManager(dataHomePath);
-    }
-    return instance;
-  }
-
-  public static DataManager instance() {
-
-    if(instance == null) {
-      instance = new DataManager();
-    }
-    return instance;
+    Configuration configuration = configurator.getConfiguration();
+    dataRootPath = configuration.getDataRootPath();
   }
 
   public String getDataHomePath() {
     return dataHomePath;
   }
 
-  private boolean createDataHomeDirectory() {
+  private boolean createDataHomeDirectory() throws DataManagerException {
     if(dataHome.exists()) {
       logger.info("Data home directory already exists - ignoring create");
     } else {
-      return dataHome.mkdir();
+      if(!dataHome.mkdir()) {
+        throw new DataManagerException(Error.DCS103());
+      }
+    }
+    return true;
+  }
+
+  private boolean createDataRootDirectory() throws DataManagerException {
+    boolean created = true;
+    if(dataRoot.exists()) {
+      logger.info("Data root directory already exists - ignoring create");
+    } else {
+      if(!dataRoot.mkdir()) {
+        throw new DataManagerException(Error.DCS103());
+      }
     }
     return true;
   }

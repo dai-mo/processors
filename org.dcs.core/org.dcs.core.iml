@@ -48,6 +48,23 @@
     <orderEntry type="library" name="Maven: org.glassfish.jersey.media:jersey-media-multipart:2.22.1" level="project" />
     <orderEntry type="library" name="Maven: org.jvnet.mimepull:mimepull:1.9.6" level="project" />
     <orderEntry type="module" module-name="org.dcs.api" />
+    <orderEntry type="library" name="Maven: org.jboss.weld.se:weld-se:2.3.2.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.container:arquillian-weld-ee-embedded-1.1:1.0.0.CR9" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.container:arquillian-container-spi:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.core:arquillian-core-spi:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.core:arquillian-core-api:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.config:arquillian-config-api:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.config:arquillian-config-impl-base:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:2.0.0-alpha-5" level="project" />
+    <orderEntry type="library" name="Maven: org.easytesting:fest-assert:1.4" level="project" />
+    <orderEntry type="library" name="Maven: org.easytesting:fest-util:1.1.6" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.shrinkwrap:shrinkwrap-api:1.2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:2.0.0-alpha-5" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.container:arquillian-container-test-spi:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.test:arquillian-test-spi:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.test:arquillian-test-api:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.container:arquillian-container-test-api:1.1.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-cdi:1.1.4.Final" level="project" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-jersey2-jaxrs:1.5.6" level="project" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-jaxrs:1.5.6" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.4.5" level="project" />

@@ -38,7 +38,13 @@ public class Error {
 
   public static Error DCS102() {
     return new Error("DCS102",
-            "Error storing data",
+            "Error loading data",
+            Response.Status.INTERNAL_SERVER_ERROR);
+  }
+
+  public static Error DCS103() {
+    return new Error("DCS103",
+            "Error initializing data store",
             Response.Status.INTERNAL_SERVER_ERROR);
   }
 
