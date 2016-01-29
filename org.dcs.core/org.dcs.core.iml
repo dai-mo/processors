@@ -8,6 +8,7 @@
           <property key="Import-Package" value="*;resolution:=optional,org.osgi.service.component" />
           <property key="-dsannotations" value="*" />
           <property key="Bundle-Name" value="org.dcs.core" />
+          <property key="Include-Resource" value="logback.xml=$MODULE_DIR$/src/main/resources/logback.xml" />
         </additionalProperties>
         <additionalJARContents />
       </configuration>
