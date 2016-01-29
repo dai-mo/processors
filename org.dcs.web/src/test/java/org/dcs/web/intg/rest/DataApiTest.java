@@ -4,10 +4,12 @@ import static com.jayway.restassured.RestAssured.*;
 import static com.jayway.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.response.ResponseBody;
 import org.dcs.test.DataUtils;
 import org.dcs.web.intg.IntegrationTest;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -19,6 +21,12 @@ import java.io.InputStream;
  */
 @Category(IntegrationTest.class)
 public class DataApiTest {
+
+  @BeforeClass
+  public void setup() {
+    RestAssured.port = 9090;
+  }
+
 
   @Test
   public void testDataUpload() {
