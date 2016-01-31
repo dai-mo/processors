@@ -15,9 +15,16 @@
     <properties>
         <exam.version>4.8.0</exam.version>
         <url.version>1.6.0</url.version>
+        <data.root.parent.path>${project.build.directory}</data.root.parent.path>
     </properties>
 
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
@@ -26,12 +33,16 @@
                 <configuration>
                     <instructions>
                         <Private-Package>
-                            org.dcs.api.service.impl.*
+                            org.dcs.api.service.impl.*;org.dcs.api.data.impl.*
                         </Private-Package>
                         <Import-Package>
                             *;resolution:=optional,org.osgi.service.component
                         </Import-Package>
                         <_dsannotations>*</_dsannotations>
+                        <Require-Capability>
+                            org.ops4j.pax.cdi.extension;
+                            filter:="(&amp;(extension=pax-cdi-extension)(version&gt;=0.12.0)(!(version&gt;=1.0.0)))",
+                            osgi.extender; filter:="(osgi.extender=pax.cdi)"</Require-Capability>
                     </instructions>
                     <unpackBundle>true</unpackBundle>
                 </configuration>
@@ -100,6 +111,64 @@
             <artifactId>jersey-media-multipart</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se</artifactId>
+            <version>2.3.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.ops4j.pax.cdi</groupId>-->
+            <!--<artifactId>pax-cdi-api</artifactId>-->
+            <!--<version>0.12.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.ops4j.pax.cdi</groupId>-->
+            <!--<artifactId>pax-cdi-extender</artifactId>-->
+            <!--<version>0.12.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.ops4j.pax.cdi</groupId>-->
+            <!--<artifactId>pax-cdi-spi</artifactId>-->
+            <!--<version>0.12.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.ops4j.pax.cdi</groupId>-->
+            <!--<artifactId>pax-cdi-extension</artifactId>-->
+            <!--<version>0.12.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.annotation</groupId>-->
+            <!--<artifactId>javax.annotation-api</artifactId>-->
+            <!--<version>1.2</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.xbean</groupId>-->
+            <!--<artifactId>xbean-bundleutils</artifactId>-->
+            <!--<version>4.5</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>javax.enterprise</groupId>-->
+            <!--<artifactId>cdi-api</artifactId>-->
+            <!--<version>1.2</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.el</groupId>-->
+            <!--<artifactId>javax.el-api</artifactId>-->
+            <!--<version>3.0.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.interceptor</groupId>-->
+            <!--<artifactId>javax.interceptor-api</artifactId>-->
+            <!--<version>1.2</version>-->
+        <!--</dependency>-->
+
+
+        <dependency>
             <groupId>org.dcs</groupId>
             <artifactId>org.dcs.api</artifactId>
         </dependency>
@@ -113,13 +182,13 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <scope>test</scope>
+
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <scope>test</scope>
+
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -133,6 +202,9 @@
             <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
+
+
     </dependencies>
+
 
 </project>

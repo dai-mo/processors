@@ -2,6 +2,7 @@ package org.dcs.api;
 
 import static org.junit.Assert.*;
 
+import org.dcs.test.DataUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -27,17 +28,16 @@ public class ConfiguratorTest {
   public static JavaArchive createDeployment() {
     return ShrinkWrap.create(JavaArchive.class)
             .addClass(Configurator.class)
-            .addClass(TestConfigurator.class)
+            .addClass(YamlConfigurator.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
   }
 
   @Inject
-  @Named("testConfigurator")
   private Configurator configurator;
 
   @Test
   public void testConfigurationLoad() {
     Configuration config = configurator.getConfiguration();
-    assertEquals(this.getClass().getResource(".").getPath() + "data", config.getDataRootPath());
+    assertTrue(config.getDataRootPath().endsWith("/target/data"));
   }
 }

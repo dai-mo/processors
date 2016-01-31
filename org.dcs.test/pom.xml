@@ -23,12 +23,17 @@
             <artifactId>pax-exam-container-native</artifactId>
             <version>${exam.version}</version>
         </dependency>
-
+        <!--<dependency>-->
+            <!--<groupId>org.ops4j.pax.exam</groupId>-->
+            <!--<artifactId>pax-exam-container-weld</artifactId>-->
+            <!--<version>${exam.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>
             <artifactId>pax-exam-junit4</artifactId>
             <version>${exam.version}</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>

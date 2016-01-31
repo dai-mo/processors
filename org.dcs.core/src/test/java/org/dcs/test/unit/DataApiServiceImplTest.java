@@ -1,38 +1,63 @@
 package org.dcs.test.unit;
 
-import org.dcs.api.model.Error;
 import org.dcs.api.data.DataManager;
 import org.dcs.api.data.DataManagerException;
 import org.dcs.api.model.DataLoader;
+import org.dcs.api.model.Error;
+import org.dcs.api.service.DataApiService;
 import org.dcs.api.service.NotFoundException;
-import org.dcs.api.service.impl.DataApiServiceImpl;
-import org.dcs.test.BaseDataTest;
 import org.dcs.test.DataUtils;
+import org.dcs.test.ReflectionUtils;
+import org.dcs.test.intg.IntegrationTest;
+import org.dcs.test.paxe.PaxExamConfigOptionsFactory;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.ops4j.pax.exam.Configuration;
+import org.ops4j.pax.exam.Option;
+import org.ops4j.pax.exam.junit.PaxExam;
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by cmathew on 26/01/16.
  */
-public class DataApiServiceImplTest extends BaseDataTest {
+@RunWith(PaxExam.class)
+//@ExamReactorStrategy(PerMethod.class)
+@Category(IntegrationTest.class)
+public class DataApiServiceImplTest {
 
-  private static DataManager dataManager;
+  static final Logger logger = LoggerFactory.getLogger(DataApiServiceImplTest.class);
 
-  @BeforeClass
-  public static void dataManagerSetup() {
-    dataManager = DataManager.instance(dataHomeAbsolutePath);
-  }
+//  @Configuration
+//  public Option[] config() {
+//    return PaxExamConfigOptionsFactory.generateConfigOptions(this.getClass());
+//  }
 
-  @AfterClass
-  public static void dataManagerCleanup() {
-    dataManager.deleteDataHomeDirectory();
+  @Inject
+  private DataManager dataManager;
+
+  @Inject
+  //@OsgiService
+  private DataApiService dataApiService;
+
+  @Before
+  public void testDeleteDataHomeDirContents() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    assertTrue(new File(dataManager.getDataHomePath()).exists());
+    ReflectionUtils.invokeMethod(dataManager,"deleteDataHomeDirContents");
+    assertTrue(new File(dataManager.getDataHomePath()).listFiles().length == 0);
   }
 
   @Test
@@ -43,10 +68,10 @@ public class DataApiServiceImplTest extends BaseDataTest {
             FormDataContentDisposition.name("file").fileName("test.csv").build();
 
     // check upload of file
-    DataApiServiceImpl dasi = new DataApiServiceImpl();
+
     Response response;
     try {
-      response = dasi.dataPost(inputStream, fdcd, null);
+      response = dataApiService.dataPost(inputStream, fdcd, null);
       DataLoader loader = (DataLoader) response.getEntity();
       assertNotNull(loader.getDataSourceId());
     } catch(DataManagerException dme) {
@@ -55,7 +80,7 @@ public class DataApiServiceImplTest extends BaseDataTest {
 
     try {
       // uploading the same file a second time should produce an error
-      response = dasi.dataPost(inputStream, fdcd, null);
+      response = dataApiService.dataPost(inputStream, fdcd, null);
       fail("Exception should be thrown here");
     } catch(DataManagerException dme) {
       Error errorCode = dme.getErrorCode();

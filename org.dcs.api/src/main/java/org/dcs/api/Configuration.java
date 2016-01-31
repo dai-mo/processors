@@ -11,23 +11,20 @@ public class Configuration {
 
   private String dataRootPath;
 
-  public Configuration() {
-    dataRootPath = File.separator + dataRootPath;
-  }
+  private String dataRootParentPath;
+
 
   public String getDataRoot() {
     return dataRoot;
   }
 
-  public void setDataRoot(String dataRoot) {
-    this.dataRoot = dataRoot;
-  }
 
   public String getDataRootPath() {
-    return dataRootPath;
+    return dataRootParentPath + File.separator + dataRoot;
   }
 
-  public void setDataRootPath(String dataRootPath) {
-    this.dataRootPath = dataRootPath;
+  public String getDataRootParentPath() {
+    return dataRootParentPath;
   }
+
 }
