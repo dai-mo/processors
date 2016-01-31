@@ -53,7 +53,7 @@
                             <configOptions>
                                 <sourceFolder>src/main/java</sourceFolder>
                                 <apiPackage>org.dcs.api</apiPackage>
-                                <modelPackage>org.dcs.api.model</modelPackage>
+                                <modelPackage>org.dcs.org.dcs.api.model</modelPackage>
                                 <groupId>${project.groupId}</groupId>
                                 <artifactId>${project.artifactId}</artifactId>
                                 <artifactVersion>${project.version}</artifactVersion>

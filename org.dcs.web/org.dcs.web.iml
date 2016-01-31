@@ -208,5 +208,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.weld:weld-core-jsf:2.3.2.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.weld:weld-spi:2.3.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.weld.probe:weld-probe-core:2.3.2.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.modules:jboss-modules:1.4.3.Final" level="project" />
   </component>
 </module>

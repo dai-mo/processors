@@ -38,11 +38,12 @@
                         <Import-Package>
                             *;resolution:=optional,org.osgi.service.component
                         </Import-Package>
-                        <_dsannotations>*</_dsannotations>
                         <Require-Capability>
                             org.ops4j.pax.cdi.extension;
                             filter:="(&amp;(extension=pax-cdi-extension)(version&gt;=0.12.0)(!(version&gt;=1.0.0)))",
-                            osgi.extender; filter:="(osgi.extender=pax.cdi)"</Require-Capability>
+                            osgi.extender; filter:="(osgi.extender=pax.cdi)"
+                        </Require-Capability>
+                        <_dsannotations>*</_dsannotations>
                     </instructions>
                     <unpackBundle>true</unpackBundle>
                 </configuration>

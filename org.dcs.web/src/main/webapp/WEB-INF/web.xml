@@ -28,20 +28,20 @@
         <listener-class>org.dcs.osgi.StartupListener</listener-class>
     </listener>
 
-    <!--<listener>-->
-        <!--<listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>-->
-    <!--</listener>-->
+    <listener>
+        <listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>
+    </listener>
 
-    <!--<servlet>-->
-        <!--<servlet-name>proxy</servlet-name>-->
-        <!--<servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>-->
-        <!--<load-on-startup>1</load-on-startup>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>proxy</servlet-name>
+        <servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>proxy</servlet-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>proxy</servlet-name>
+        <url-pattern>/system/*</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>jersey</servlet-name>
@@ -56,7 +56,7 @@
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-            <param-value>com.sun.jersey.api.container.filter.PostReplaceFilter</param-value>
+            <param-value>com.sun.jersey.org.dcs.api.container.filter.PostReplaceFilter</param-value>
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>

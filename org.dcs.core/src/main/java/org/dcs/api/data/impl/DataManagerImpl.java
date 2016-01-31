@@ -6,21 +6,24 @@ import org.dcs.api.YamlConfigurator;
 import org.dcs.api.data.DataManager;
 import org.dcs.api.data.DataManagerException;
 import org.dcs.api.model.Error;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import java.io.*;
 
 /**
  * Created by cmathew on 27/01/16.
  */
+
+//@Component
+@Named
 @Default
-@Singleton
-@Component
 public class DataManagerImpl implements DataManager {
   static final Logger logger = LoggerFactory.getLogger(DataManagerImpl.class);
 

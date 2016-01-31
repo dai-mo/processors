@@ -20,6 +20,9 @@ import org.dcs.osgi.FrameworkService;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public final class StartupListener
     implements ServletContextListener
@@ -28,6 +31,14 @@ public final class StartupListener
 
     public void contextInitialized(ServletContextEvent event)
     {
+        // The atmosphere framework (included in vaadin)
+        // uses java.util.logging, which can be tricky to control
+        // a an app (like dcs) which uses slf4j. For this reason,
+        // jul is reset below to the FINEST log level
+        // TODO: Investigate the possibility and the performance cost in using http://www.slf4j.org/legacy.html
+        LogManager.getLogManager().reset();
+        java.util.logging.Logger.getLogger("global").setLevel(Level.FINEST);
+
         this.service = new FrameworkService(event.getServletContext());
         this.service.start();
     }

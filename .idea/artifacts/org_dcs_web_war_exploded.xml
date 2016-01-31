@@ -87,6 +87,7 @@
           <element id="library" level="project" name="Maven: javax.interceptor:javax.interceptor-api:1.2" />
           <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
           <element id="library" level="project" name="Maven: org.apache.xbean:xbean-bundleutils:4.5" />
+          <element id="library" level="project" name="Maven: org.jboss.modules:jboss-modules:1.4.3.Final" />
         </element>
       </element>
       <element id="directory" name="META-INF">

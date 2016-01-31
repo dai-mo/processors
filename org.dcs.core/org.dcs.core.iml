@@ -6,10 +6,10 @@
         <additionalProperties>
           <property key="Private-Package" value="org.dcs.api.service.impl.*;org.dcs.api.data.impl.*" />
           <property key="Import-Package" value="*;resolution:=optional,org.osgi.service.component" />
-          <property key="-dsannotations" value="*" />
           <property key="Require-Capability" value="org.ops4j.pax.cdi.extension;filter:=&quot;(&amp;(extension=pax-cdi-extension)(version&gt;=0.12.0)(!(version&gt;=1.0.0)))&quot;,osgi.extender; filter:=&quot;(osgi.extender=pax.cdi)&quot;" />
+          <property key="-dsannotations" value="*" />
           <property key="Bundle-Name" value="org.dcs.core" />
-          <property key="Include-Resource" value="logback.xml=$MODULE_DIR$/src/main/resources/logback.xml,META-INF/beans.xml=$MODULE_DIR$/src/main/resources/META-INF/beans.xml" />
+          <property key="Include-Resource" value="META-INF/beans.xml=$MODULE_DIR$/src/main/resources/META-INF/beans.xml" />
         </additionalProperties>
         <additionalJARContents />
       </configuration>
