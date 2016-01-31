@@ -24,6 +24,7 @@
           <element id="library" level="project" name="Maven: javax.websocket:javax.websocket-api:1.1" />
           <element id="library" level="project" name="Maven: org.apache.felix:org.apache.felix.framework:5.4.0" />
           <element id="library" level="project" name="Maven: org.apache.felix:org.apache.felix.http.proxy:3.0.0" />
+          <element id="library" level="project" name="Maven: com.google.code.findbugs:jsr305:3.0.0" />
           <element id="library" level="project" name="Maven: org.osgi:org.osgi.service.log:1.3.0" />
           <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.3.1" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
@@ -74,8 +75,18 @@
           <element id="library" level="project" name="Maven: com.google.guava:guava:19.0" />
           <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.1.3" />
           <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.3" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.7" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.3.2" />
+          <element id="library" level="project" name="Maven: org.jboss.classfilewriter:jboss-classfilewriter:1.1.2.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" />
+          <element id="library" level="project" name="Maven: org.ops4j.base:ops4j-base-lang:1.5.0" />
+          <element id="library" level="project" name="Maven: org.ops4j.pax.swissbox:pax-swissbox-core:1.8.2" />
+          <element id="library" level="project" name="Maven: org.ops4j.pax.swissbox:pax-swissbox-lifecycle:1.8.2" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.7" />
+          <element id="library" level="project" name="Maven: javax.enterprise:cdi-api:1.2" />
+          <element id="library" level="project" name="Maven: javax.el:javax.el-api:3.0.0" />
+          <element id="library" level="project" name="Maven: javax.interceptor:javax.interceptor-api:1.2" />
+          <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
+          <element id="library" level="project" name="Maven: org.apache.xbean:xbean-bundleutils:4.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">

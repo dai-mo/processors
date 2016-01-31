@@ -50,6 +50,9 @@
     <orderEntry type="library" name="Maven: org.jvnet.mimepull:mimepull:1.9.6" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.weld.se:weld-se:2.3.2.Final" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ops4j.pax.cdi:pax-cdi-api:0.12.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.osgi:org.osgi.core:6.0.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.osgi:org.osgi.compendium:4.3.1" level="project" />
     <orderEntry type="module" module-name="org.dcs.api" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-jersey2-jaxrs:1.5.6" level="project" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-jaxrs:1.5.6" level="project" />
