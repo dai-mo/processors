@@ -10,7 +10,9 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.io.InputStream;
@@ -18,6 +20,7 @@ import java.util.UUID;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-26T15:01:10.051+01:00")
 @OsgiServiceProvider
+@Default
 public class DataApiServiceImpl implements DataApiService {
   static final Logger logger = LoggerFactory.getLogger(DataApiServiceImpl.class);
 

@@ -1,2 +1,2 @@
-dataRootParentPath: ${data.root.parent.path}
+dataRootParentPath: ${default.data.root.parent.path}
 dataRoot: data

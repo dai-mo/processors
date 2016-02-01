@@ -15,7 +15,8 @@
     <properties>
         <exam.version>4.8.0</exam.version>
         <url.version>1.6.0</url.version>
-        <data.root.parent.path>${project.build.directory}</data.root.parent.path>
+        <default.data.root.parent.path>${user.home}</default.data.root.parent.path>
+        <test.data.root.parent.path>${project.build.directory}</test.data.root.parent.path>
     </properties>
 
     <build>

@@ -21,6 +21,10 @@
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <logger name="org.atmosphere.cpr.AtmosphereFramework" level="ERROR"/>
+    <logger name="org.atmosphere.cpr.AtmosphereFramework" level="DEBUG"/>
+
+    <logger name="org.dcs.api.RESTExceptionHandler" level="DEBUG" additivity="false">
+        <appender-ref ref="DCS_LOG"/>
+    </logger>
 
 </configuration>

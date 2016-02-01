@@ -9,5 +9,5 @@ import javax.inject.Singleton;
 
 public interface Configurator {
 
-  public Configuration getConfiguration();
+  public Configuration loadConfiguration();
 }

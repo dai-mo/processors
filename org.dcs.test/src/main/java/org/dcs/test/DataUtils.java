@@ -13,6 +13,8 @@ public class DataUtils {
   private static final String HOME_DATA_DIR_NAME = "home";
   private static final String INPUT_DATA_DIR_NAME = "input";
 
+  private static final String TARGET_MARKER = "target";
+
 
   private static final String HOME_DATA_REL_DIR_NAME =
           File.separator + DATA_ROOT_DIR_NAME + File.separator + HOME_DATA_DIR_NAME;
@@ -56,5 +58,14 @@ public class DataUtils {
     URL dataRootURL = testClass.getResource(File.separator + DATA_ROOT_DIR_NAME);
     return dataRootURL.getPath() + File.separator + INPUT_DATA_DIR_NAME + File.separator + relFilePath;
   }
+
+  public static String getTargetDirectory(Class testClass) {
+    URL testClassUrl = testClass.getResource(".");
+    File testClassDir = new File(testClassUrl.getFile());
+    String thisPath = testClassDir.getAbsolutePath();
+
+    return thisPath.substring(0, thisPath.lastIndexOf(TARGET_MARKER) + TARGET_MARKER.length());
+  }
+
 
 }

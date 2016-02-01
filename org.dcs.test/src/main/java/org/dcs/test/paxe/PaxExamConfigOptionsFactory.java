@@ -35,7 +35,7 @@ public class PaxExamConfigOptionsFactory {
     String thisPath = thisDir.getAbsolutePath();
 
     String bundleDir = thisPath
-            .substring(0, thisPath.indexOf(TARGET_TEST_CLASSES_MARKER) +
+            .substring(0, thisPath.lastIndexOf(TARGET_TEST_CLASSES_MARKER) +
                     TARGET_TEST_CLASSES_MARKER.length())
             .replaceAll(TARGET_TEST_CLASSES_MARKER, "target/classes");
     logger.info("Bundle directory : "  + bundleDir);

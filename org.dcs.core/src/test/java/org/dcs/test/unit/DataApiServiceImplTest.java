@@ -2,15 +2,24 @@ package org.dcs.test.unit;
 
 import org.dcs.api.data.DataManager;
 import org.dcs.api.data.DataManagerException;
+import org.dcs.api.data.impl.DataManagerImpl;
 import org.dcs.api.model.DataLoader;
 import org.dcs.api.model.Error;
 import org.dcs.api.service.DataApiService;
 import org.dcs.api.service.NotFoundException;
+import org.dcs.api.service.impl.DataApiServiceImpl;
+import org.dcs.api.utils.DataManagerUtils;
 import org.dcs.test.DataUtils;
 import org.dcs.test.ReflectionUtils;
+import org.dcs.test.intg.CoreBaseTest;
 import org.dcs.test.intg.IntegrationTest;
 import org.dcs.test.paxe.PaxExamConfigOptionsFactory;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -28,36 +37,32 @@ import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by cmathew on 26/01/16.
  */
-@RunWith(PaxExam.class)
-//@ExamReactorStrategy(PerMethod.class)
+@RunWith(Arquillian.class)
 @Category(IntegrationTest.class)
-public class DataApiServiceImplTest {
+public class DataApiServiceImplTest extends CoreBaseTest {
 
   static final Logger logger = LoggerFactory.getLogger(DataApiServiceImplTest.class);
 
-//  @Configuration
-//  public Option[] config() {
-//    return PaxExamConfigOptionsFactory.generateConfigOptions(this.getClass());
-//  }
 
   @Inject
-  private DataManager dataManager;
-
-  @Inject
-  //@OsgiService
   private DataApiService dataApiService;
 
-  @Before
-  public void testDeleteDataHomeDirContents() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    assertTrue(new File(dataManager.getDataHomePath()).exists());
-    ReflectionUtils.invokeMethod(dataManager,"deleteDataHomeDirContents");
-    assertTrue(new File(dataManager.getDataHomePath()).listFiles().length == 0);
+
+
+  @Deployment
+  public static JavaArchive createDeployment() {
+    return createBaseDeployment()
+            .addClass(DataApiService.class)
+            .addClass(DataApiServiceImpl.class);
+
   }
 
   @Test

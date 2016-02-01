@@ -9,6 +9,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -21,31 +22,44 @@ public class YamlConfigurator implements Configurator {
   private static final Logger logger = LoggerFactory.getLogger(YamlConfigurator.class);
   private ObjectMapper mapper;
   private static final String DEFAULT_CONFIG_FILE = "config.yaml";
+  private static final String TEST_CONFIG_FILE = "test_config.yaml";
   private static final String CONFIG_FILE_KEY = "config";
+  private static final String RUN_MODE_KEY = "mode";
+  private static final String TEST_MODE_VALUE = "test";
   protected Configuration config;
 
 
-  public YamlConfigurator() {
-    loadConfiguration();
+  @Override
+  public Configuration loadConfiguration() {
+    try {
+      return loadConfiguration(true);
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.exit(1);
+    }
+    return null;
   }
 
-  protected void loadConfiguration() {
+  public Configuration loadConfiguration(boolean exitOnError) throws IOException {
     try {
       String configFilePath = System.getProperty(CONFIG_FILE_KEY);
       if(configFilePath == null) {
-        configFilePath = this.getClass().getResource(DEFAULT_CONFIG_FILE).getPath();
+        String mode = System.getProperty(RUN_MODE_KEY);
+        if(mode != null && mode.equals(TEST_MODE_VALUE)) {
+          configFilePath = this.getClass().getResource(TEST_CONFIG_FILE).getPath();
+        } else {
+          configFilePath = this.getClass().getResource(DEFAULT_CONFIG_FILE).getPath();
+        }
       }
       logger.info("Config file path : " + configFilePath);
       File configFile = new File(configFilePath);
       mapper = new ObjectMapper(new YAMLFactory());
       config = mapper.readValue(configFile, Configuration.class);
-
+      return config;
     } catch (Exception e) {
-      e.printStackTrace();
-      System.exit(1);
+      throw e;
     }
   }
-  public Configuration getConfiguration() {
-    return config;
-  }
+
+
 }

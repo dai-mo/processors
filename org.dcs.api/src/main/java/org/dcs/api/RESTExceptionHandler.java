@@ -16,14 +16,10 @@ public class RESTExceptionHandler  implements ExceptionMapper<RESTException> {
 
   private static final Logger logger = (Logger) LoggerFactory.getLogger(RESTExceptionHandler.class);
 
-  static {
-    logger.setLevel(Level.ERROR);
-  }
-
 
   @Override
   public Response toResponse(RESTException re) {
-    logger.error("Rest Exception", re);
+    logger.debug("Rest Exception", re);
     return Response.status(re.getErrorCode().getHttpStatus()).entity(re.getErrorCode()).build();
   }
 }

@@ -21,7 +21,8 @@
         <slf4j-version>1.6.3</slf4j-version>
         <junit-version>4.8.1</junit-version>
         <pax.cdi.version>0.12.0</pax.cdi.version>
-        <data.root.parent.path>${project.build.directory}</data.root.parent.path>
+        <default.data.root.parent.path>${user.home}</default.data.root.parent.path>
+        <test.data.root.parent.path>${project.build.directory}</test.data.root.parent.path>
     </properties>
 
     <repositories>
@@ -329,12 +330,12 @@
     </dependencies>
 
     <build>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-            </testResource>
-        </testResources>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -473,17 +474,24 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.plugin.version}</version>
                 <configuration>
-                    <jvmArgs>-Dconfig=${project.build.testOutputDirectory}/org/dcs/api/config.yaml -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5050</jvmArgs>
+                    <jvmArgs>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5050</jvmArgs>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>mode</name>
+                            <value>test</value>
+                        </systemProperty>
+                    </systemProperties>
                     <stopKey>stopKey</stopKey>
                     <stopPort>9091</stopPort>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
                     <httpConnector>
-                        <port>9090</port>
+                        <port>8080</port>
                     </httpConnector>
                     <webApp>
                         <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
                             <resourcesAsCSV>${basedir}/src/main/webapp,${project.build.directory}/dcs</resourcesAsCSV>
                         </baseResource>
+                        <contextPath>/dcs</contextPath>
                     </webApp>
                 </configuration>
                 <executions>
