@@ -41,6 +41,7 @@ public class DataApi  {
       @FormDataParam("file") FormDataContentDisposition fileDetail,@Context SecurityContext securityContext)
             throws NotFoundException, DataManagerException {
         DataApiService delegate = (DataApiService) FrameworkService.getService(DataApiService.class.getName());
-        return delegate.dataPost(inputStream, fileDetail,securityContext);
+        DataLoader loader = delegate.dataPost(inputStream, fileDetail.getFileName(),securityContext);
+        return Response.ok().entity(loader).build();
     }
 }

@@ -38,8 +38,7 @@ import static org.junit.Assert.assertTrue;
  * Created by cmathew on 27/01/16.
  */
 @RunWith(Arquillian.class)
-@Category(IntegrationTest.class)
-public class DataManagerTest  extends CoreBaseTest{
+public class DataManagerTest extends CoreBaseTest {
 
   static final Logger logger = LoggerFactory.getLogger(DataManagerTest.class);
 

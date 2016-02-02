@@ -16,8 +16,7 @@
         <default.data.root.parent.path>${user.home}</default.data.root.parent.path>
         <test.data.root.parent.path>${project.build.directory}</test.data.root.parent.path>
     </properties>
-
-
+    
     <build>
         <testResources>
             <testResource>

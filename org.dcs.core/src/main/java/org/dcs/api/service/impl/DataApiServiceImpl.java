@@ -4,16 +4,12 @@ import org.dcs.api.data.DataManager;
 import org.dcs.api.data.DataManagerException;
 import org.dcs.api.model.DataLoader;
 import org.dcs.api.service.DataApiService;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
-import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.io.InputStream;
 import java.util.UUID;
@@ -28,14 +24,14 @@ public class DataApiServiceImpl implements DataApiService {
   private DataManager dataManager;
 
   @Override
-  public Response dataPost(InputStream inputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext)
+  public DataLoader dataPost(InputStream inputStream, String fileName, SecurityContext securityContext)
           throws DataManagerException {
 
     UUID uuid = UUID.randomUUID();
-    dataManager.loadDataSource(inputStream, fileDetail.getFileName());
+    dataManager.loadDataSource(inputStream, fileName);
     DataLoader dataLoader = new DataLoader();
     dataLoader.setDataSourceId(uuid.toString());
-    return Response.ok().entity(dataLoader).build();
+    return dataLoader;
   }
 
 }

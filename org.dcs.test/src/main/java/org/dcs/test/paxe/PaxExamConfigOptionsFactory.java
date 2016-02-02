@@ -81,7 +81,7 @@ public class PaxExamConfigOptionsFactory {
             mavenBundle().groupId("org.glassfish.jersey.media").artifactId("jersey-media-multipart").version("2.22.1"),
             mavenBundle().groupId("javax.ws.rs").artifactId("javax.ws.rs-api").version("2.0.1"),
 
-            systemPackages("org.dcs.api.service", "org.dcs.api.data", "org.dcs.api", "javax.ws.rs.core", "org.ops4j.pax.cdi.extension"),
+            systemPackages("org.dcs.api.service", "org.dcs.api.data", "org.dcs.api", "org.dcs.api.model", "javax.ws.rs.core", "org.ops4j.pax.cdi.extension"),
             // add SLF4J and logback bundles
             mavenBundle("org.slf4j", "slf4j-api").startLevel( START_LEVEL_SYSTEM_BUNDLES ),
             mavenBundle("ch.qos.logback", "logback-core").startLevel( START_LEVEL_SYSTEM_BUNDLES ),

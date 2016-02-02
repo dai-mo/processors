@@ -49,49 +49,6 @@
                     <unpackBundle>true</unpackBundle>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
-                        <version>2.12</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <includes>
-                        <include>**/*.class</include>
-                    </includes>
-                    <excludedGroups>org.dcs.test.intg.IntegrationTest</excludedGroups>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
-                        <version>2.12</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <groups>org.dcs.test.intg.IntegrationTest</groups>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>**/*.class</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -104,13 +61,9 @@
             <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core"  -->
-            <artifactId>jersey-container-servlet</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-multipart</artifactId>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
@@ -128,49 +81,6 @@
             <version>0.12.0</version>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.ops4j.pax.cdi</groupId>-->
-            <!--<artifactId>pax-cdi-extender</artifactId>-->
-            <!--<version>0.12.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.ops4j.pax.cdi</groupId>-->
-            <!--<artifactId>pax-cdi-spi</artifactId>-->
-            <!--<version>0.12.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.ops4j.pax.cdi</groupId>-->
-            <!--<artifactId>pax-cdi-extension</artifactId>-->
-            <!--<version>0.12.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.annotation</groupId>-->
-            <!--<artifactId>javax.annotation-api</artifactId>-->
-            <!--<version>1.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.xbean</groupId>-->
-            <!--<artifactId>xbean-bundleutils</artifactId>-->
-            <!--<version>4.5</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>javax.enterprise</groupId>-->
-            <!--<artifactId>cdi-api</artifactId>-->
-            <!--<version>1.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.el</groupId>-->
-            <!--<artifactId>javax.el-api</artifactId>-->
-            <!--<version>3.0.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.interceptor</groupId>-->
-            <!--<artifactId>javax.interceptor-api</artifactId>-->
-            <!--<version>1.2</version>-->
-        <!--</dependency>-->
-
-
         <dependency>
             <groupId>org.dcs</groupId>
             <artifactId>org.dcs.api</artifactId>
@@ -185,14 +95,13 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -205,9 +114,6 @@
             <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
-
 
 </project>
