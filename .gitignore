@@ -1,3 +1,7 @@
 target
 felix-cache
 *.log
+.project
+.classpath
+.settings
+.externalToolBuilders
