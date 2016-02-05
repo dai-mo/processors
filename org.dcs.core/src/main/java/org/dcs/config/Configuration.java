@@ -1,4 +1,4 @@
-package org.dcs.api;
+package org.dcs.config;
 
 import java.io.File;
 

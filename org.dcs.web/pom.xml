@@ -140,6 +140,10 @@
 			<artifactId>json</artifactId>
 			<version>20151123</version>
 		</dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+		</dependency>
 		<!-- OSGi Dependencies Start -->
 
 		<!-- Override older asm dependency in swagger-jersey-jaxrs for vaadin widgetset 
@@ -322,12 +326,12 @@
 	</dependencies>
 
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
 				<filtering>true</filtering>
-			</resource>
-		</resources>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -344,7 +348,7 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-bundles</id>						
+						<id>copy-bundles</id>
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
@@ -458,11 +462,11 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.plugin.version}</version>
 				<configuration>
-					<jvmArgs>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5050</jvmArgs>
+					<jvmArgs>-Xdebug -agentlib:jdwp=transport=dt_socket,address=5050,server=y,suspend=n</jvmArgs>
 					<systemProperties>
 						<systemProperty>
-							<name>mode</name>
-							<value>test</value>
+							<name>config</name>
+							<value>${project.build.testOutputDirectory}/org/dcs/config/config.yaml</value>
 						</systemProperty>
 					</systemProperties>
 					<stopKey>stopKey</stopKey>
@@ -485,9 +489,9 @@
 						<goals>
 							<goal>start</goal>
 						</goals>
-						<configuration>
-							<scanIntervalSeconds>0</scanIntervalSeconds>
-						</configuration>
+						<!-- <configuration> -->
+						<!-- <scanIntervalSeconds>0</scanIntervalSeconds> -->
+						<!-- </configuration> -->
 					</execution>
 					<execution>
 						<id>stop-jetty</id>

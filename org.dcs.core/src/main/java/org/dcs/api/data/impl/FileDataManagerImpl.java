@@ -3,16 +3,16 @@ package org.dcs.api.data.impl;
 import java.io.File;
 import java.io.InputStream;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.dcs.api.Configuration;
-import org.dcs.api.Configurator;
 import org.dcs.api.RESTException;
 import org.dcs.api.data.FileDataManager;
 import org.dcs.api.model.ErrorCode;
 import org.dcs.api.utils.DataManagerUtils;
+import org.dcs.config.Configuration;
+import org.dcs.config.Configurator;
+import org.dcs.config.YamlConfigurator;
 import org.dcs.data.reader.TableLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +31,14 @@ public class FileDataManagerImpl implements FileDataManager {
 
 	private String dataHomePath;
 	private File dataHome;
-	private static FileDataManagerImpl instance;
+
 
 	private Configurator configurator;
 
 
-	@Inject
-	public FileDataManagerImpl(Configurator configurator) throws RESTException {
-		this.configurator = configurator;
+	//@Inject
+	public FileDataManagerImpl() throws RESTException {
+		this.configurator = new YamlConfigurator();
 
 		readConfig();
 		dataRoot = new File(dataRootPath);

@@ -38,6 +38,9 @@ public class DataManagerUtils {
   public static boolean deleteDirContents(File dir) {
     boolean areAllFilesDeleted = true;
     File[] files = dir.listFiles();
+    if(files == null) {
+    	return true;
+    }
     logger.info("Deleting contents of directory " + dir.getAbsolutePath() + " ... ");
     for(File file : files) {
       boolean deleted = delete(file);

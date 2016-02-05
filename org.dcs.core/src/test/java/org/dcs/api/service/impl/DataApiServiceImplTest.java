@@ -1,4 +1,4 @@
-package org.dcs.core;
+package org.dcs.api.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,18 +9,13 @@ import java.io.InputStream;
 import javax.inject.Inject;
 
 import org.dcs.api.RESTException;
-import org.dcs.api.data.FileDataManager;
-import org.dcs.api.data.impl.FileDataManagerImpl;
 import org.dcs.api.model.DataLoader;
 import org.dcs.api.model.ErrorCode;
 import org.dcs.api.service.DataApiService;
-import org.dcs.api.service.NotFoundException;
-import org.dcs.api.service.impl.DataApiServiceImpl;
 import org.dcs.test.DataUtils;
 import org.dcs.test.intg.CoreBaseTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
@@ -47,9 +42,7 @@ public class DataApiServiceImplTest extends CoreBaseTest {
   public static JavaArchive createDeployment() {
     PomEquippedResolveStage resolver = Maven.resolver().loadPomFromFile("pom.xml");
     JavaArchive[] as = resolver.resolve("javax.ws.rs:javax.ws.rs-api").withTransitivity().as(JavaArchive.class);
-    JavaArchive javaArchive = ShrinkWrap.create(JavaArchive.class)
-            .addClass(FileDataManager.class)
-            .addClass(FileDataManagerImpl.class)
+    JavaArchive javaArchive = CoreBaseTest.createBaseDeployment()
             .addClass(DataApiService.class)
             .addClass(DataApiServiceImpl.class)
             .addClass(DataLoader.class)
@@ -62,7 +55,7 @@ public class DataApiServiceImplTest extends CoreBaseTest {
   }
 
   @Test
-  public void testloadFile() throws NotFoundException {
+  public void testloadFile()  {
     InputStream inputStream = DataUtils.getInputResourceAsStream(this.getClass(), "/test.csv");
 
     // check upload of file

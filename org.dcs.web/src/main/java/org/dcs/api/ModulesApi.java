@@ -1,16 +1,22 @@
 package org.dcs.api;
 
-import io.swagger.annotations.ApiParam;
-import org.dcs.api.model.Module;
-import org.dcs.api.service.ModulesApiService;
-import org.dcs.api.service.NotFoundException;
-import org.dcs.osgi.FrameworkService;
+import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.List;
+
+import org.dcs.api.model.Module;
+import org.dcs.api.service.ModulesApiService;
+import org.dcs.osgi.FrameworkService;
+
+import io.swagger.annotations.ApiParam;
 
 @Path("/modules")
 
@@ -28,7 +34,7 @@ public class ModulesApi  {
           @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = Module.class, responseContainer = "List") })
 
   public Response modulesGet(@ApiParam(value = "Type of module.") @DefaultValue("") @QueryParam("type") List<String> type,@Context SecurityContext securityContext)
-          throws NotFoundException {
+          throws RESTException {
     ModulesApiService delegate = (ModulesApiService) FrameworkService.getService(ModulesApiService.class.getName());
     return delegate.modulesGet(type,securityContext);
   }

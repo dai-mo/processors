@@ -12,7 +12,6 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.dcs.api.model.DataLoader;
 import org.dcs.api.service.DataApiService;
-import org.dcs.api.service.NotFoundException;
 import org.dcs.osgi.FrameworkService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -36,7 +35,7 @@ public class DataApi  {
 
     public Response dataPost(  @FormDataParam("file") InputStream inputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail,@Context SecurityContext securityContext)
-            throws NotFoundException, RESTException {
+            throws RESTException {
         DataApiService delegate = (DataApiService) FrameworkService.getService(DataApiService.class.getName());
         DataLoader loader = delegate.dataPost(inputStream, fileDetail.getFileName(),securityContext);
         return Response.ok().entity(loader).build();

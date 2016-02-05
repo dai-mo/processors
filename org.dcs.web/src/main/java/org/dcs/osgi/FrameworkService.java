@@ -27,78 +27,80 @@ import java.util.Properties;
 
 public final class FrameworkService
 {
-    private final ServletContext context;
-    private Felix felix;
-    private static HostActivator hostActivator;
+	private final ServletContext context;
+	private Felix felix;
+	private static HostActivator hostActivator;
 
-    public FrameworkService(ServletContext context) {
-        this.context = context;
-    }
+	public FrameworkService(ServletContext context) {
+		this.context = context;
+	}
 
-    public void start()
-    {
-        try {
-            doStart();
-        } catch (Exception e) {
-            log("Failed to start framework", e);
-        }
-    }
+	public void start()
+	{
+		try {
+			log("Starting OSGi Framework ...", null);
+			doStart();
+		} catch (Exception e) {
+			log("Failed to start framework", e);
+		}
+	}
 
-    public void stop()
-    {
-        try {
-            doStop();
-        } catch (Exception e) {
-            log("Error stopping framework", e);
-        }
-    }
+	public void stop()
+	{
+		try {
+			doStop();
+		} catch (Exception e) {
+			log("Error stopping framework", e);
+		}
+	}
 
-    private void doStart()
-        throws Exception
-    {
-        Felix tmp = new Felix(createConfig());
-        tmp.start();
-        this.felix = tmp;
-        log("OSGi framework started", null);
-        tmp.start();
-    }
+	private void doStart()
+			throws Exception
+	{
+		Felix tmp = new Felix(createConfig());
+		tmp.start();
+		this.felix = tmp;
+		log("OSGi framework started", null);
+		tmp.start();
+	}
 
-    private void doStop()
-        throws Exception
-    {
-        if (this.felix != null) {
-            this.felix.stop();
-        }
+	private void doStop()
+			throws Exception
+	{
+		log("Stopping OSGi framework ...", null);
+		if (this.felix != null) {
+			this.felix.stop();
+		}
 
-        log("OSGi framework stopped", null);
-    }
+		log("OSGi framework stopped", null);
+	}
 
-    private Map<String, Object> createConfig()
-        throws Exception
-    {
-        Properties props = new Properties();
-        props.load(this.context.getResourceAsStream("/WEB-INF/framework.properties"));
+	private Map<String, Object> createConfig()
+			throws Exception
+	{
+		Properties props = new Properties();
+		props.load(this.context.getResourceAsStream("/WEB-INF/framework.properties"));
 
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        for (Object key : props.keySet()) {
-            map.put(key.toString(), props.get(key));
-        }
-        hostActivator = new HostActivator();
-        map.put(FelixConstants.SYSTEMBUNDLE_ACTIVATORS_PROP,
-                Arrays.asList(new ProvisionActivator(this.context), hostActivator));
-        return map;
-    }
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		for (Object key : props.keySet()) {
+			map.put(key.toString(), props.get(key));
+		}
+		hostActivator = new HostActivator();
+		map.put(FelixConstants.SYSTEMBUNDLE_ACTIVATORS_PROP,
+				Arrays.asList(new ProvisionActivator(this.context), hostActivator));
+		return map;
+	}
 
-    private void log(String message, Throwable cause)
-    {
-        this.context.log(message, cause);
-    }
+	private void log(String message, Throwable cause)
+	{
+		this.context.log(message, cause);
+	}
 
-    public static Object getService(String className) {
-        if(hostActivator != null) {
-            Object service = hostActivator.getService(className);
-            return service;
-        }
-        return null;
-    }
+	public static Object getService(String className) {
+		if(hostActivator != null) {
+			Object service = hostActivator.getService(className);
+			return service;
+		}
+		return null;
+	}
 }

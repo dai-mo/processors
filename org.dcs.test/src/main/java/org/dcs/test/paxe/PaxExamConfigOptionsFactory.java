@@ -1,5 +1,6 @@
 package org.dcs.test.paxe;
 
+import org.dcs.test.DataUtils;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.ops4j.pax.exam.Option;
@@ -41,6 +42,14 @@ public class PaxExamConfigOptionsFactory {
     logger.info("Bundle directory : "  + bundleDir);
 
     return options(
+    				    		
+    				systemProperty("config").value(DataUtils.getTargetDirectory(testClass) + "/test-classes/org/dcs/config/config.yaml"),
+    		
+            // add SLF4J and logback bundles
+            mavenBundle("org.slf4j", "slf4j-api"),
+            mavenBundle("ch.qos.logback", "logback-core"),
+            mavenBundle("ch.qos.logback", "logback-classic"),
+            
             mavenBundle().groupId("javax.annotation").artifactId("javax.annotation-api"),
             mavenBundle().groupId("javax.interceptor").artifactId("javax.interceptor-api"),
             mavenBundle().groupId("javax.el").artifactId("javax.el-api"),
@@ -80,12 +89,18 @@ public class PaxExamConfigOptionsFactory {
             mavenBundle().groupId("org.jvnet.mimepull").artifactId("mimepull").version("1.9.6"),
             mavenBundle().groupId("org.glassfish.jersey.media").artifactId("jersey-media-multipart").version("2.22.1"),
             mavenBundle().groupId("javax.ws.rs").artifactId("javax.ws.rs-api").version("2.0.1"),
+            
+            mavenBundle().groupId("com.fasterxml.jackson.core").artifactId("jackson-annotations").version("2.4.5"),
+            mavenBundle().groupId("com.fasterxml.jackson.core").artifactId("jackson-core").version("2.4.5"),
+            mavenBundle().groupId("com.fasterxml.jackson.core").artifactId("jackson-databind").version("2.4.5"),
+            mavenBundle().groupId("com.fasterxml.jackson.dataformat").artifactId("jackson-dataformat-yaml").version("2.4.5"),
+            
+            mavenBundle().groupId("org.apache.commons").artifactId("commons-lang3").version("3.3.2"),
+            mavenBundle().groupId("com.opencsv").artifactId("opencsv").version("3.7"),
 
-            systemPackages("org.dcs.api.service", "org.dcs.api.data", "org.dcs.api", "org.dcs.api.model", "javax.ws.rs.core", "org.ops4j.pax.cdi.extension"),
-            // add SLF4J and logback bundles
-            mavenBundle("org.slf4j", "slf4j-api").startLevel( START_LEVEL_SYSTEM_BUNDLES ),
-            mavenBundle("ch.qos.logback", "logback-core").startLevel( START_LEVEL_SYSTEM_BUNDLES ),
-            mavenBundle("ch.qos.logback", "logback-classic").startLevel( START_LEVEL_SYSTEM_BUNDLES ),
+            systemPackages("org.dcs.config", "org.dcs.api.service", "org.dcs.api.data", "org.dcs.api", "org.dcs.api.model", "org.dcs.api.utils"),
+            systemPackages("javax.ws.rs.core", "org.ops4j.pax.cdi.extension"),
+
             bundle("reference:file:" + bundleDir),
             // Set logback configuration via system property.
             // This way, both the driver and the container use the same configuration

@@ -1,7 +1,4 @@
-package org.dcs.api;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
+package org.dcs.config;
 
 /**
  * Created by cmathew on 29/01/16.
