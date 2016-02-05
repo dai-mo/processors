@@ -24,7 +24,7 @@ public class DataApiIT {
   @BeforeClass
   public static void setup() {
 
-    RestAssured.port = 8080;
+    RestAssured.port = 9090;
     System.setProperty("mode","test");
   }
 
