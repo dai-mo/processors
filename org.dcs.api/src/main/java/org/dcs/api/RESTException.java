@@ -1,6 +1,6 @@
 package org.dcs.api;
 
-import org.dcs.api.model.Error;
+import org.dcs.api.model.ErrorCode;
 
 /**
  * Created by cmathew on 27/01/16.
@@ -8,23 +8,23 @@ import org.dcs.api.model.Error;
 public class RESTException extends Exception {
 
 
-  private Error errorCode;
+  private ErrorCode errorCode;
 
-  public RESTException(Error errorCode) {
+  public RESTException(ErrorCode errorCode) {
     this.errorCode = errorCode;
   }
 
-  public RESTException(Error errorCode, String message) {
+  public RESTException(ErrorCode errorCode, String message) {
     super(message);
     this.errorCode = errorCode;
   }
 
-  public RESTException(Error errorCode, Throwable t) {
+  public RESTException(ErrorCode errorCode, Throwable t) {
     super(t);
     this.errorCode = errorCode;
   }
 
-  public Error getErrorCode() {
+  public ErrorCode getErrorCode() {
     return errorCode;
   }
 

@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="org.dcs.vaadin:war">
-    <output-path>$PROJECT_DIR$/org.dcs.vaadin/target</output-path>
-    <root id="archive" name="org.dcs.vaadin-1.0.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="org.dcs.vaadin:war exploded" />
-    </root>
-  </artifact>
-</component>

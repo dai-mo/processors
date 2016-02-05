@@ -8,6 +8,6 @@ import javax.inject.Singleton;
  */
 
 public interface Configurator {
-
-  public Configuration loadConfiguration();
+	
+  public Configuration getConfiguration();
 }

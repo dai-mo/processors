@@ -1,10 +1,11 @@
 package org.dcs.api.service;
 
-import org.dcs.api.data.DataManagerException;
-import org.dcs.api.model.DataLoader;
+import java.io.InputStream;
 
 import javax.ws.rs.core.SecurityContext;
-import java.io.InputStream;
+
+import org.dcs.api.RESTException;
+import org.dcs.api.model.DataLoader;
 
 
 
@@ -12,6 +13,6 @@ import java.io.InputStream;
 public interface DataApiService {
   
       public DataLoader dataPost(InputStream inputStream, String fileName, SecurityContext securityContext)
-      throws DataManagerException;
+      throws RESTException;
   
 }

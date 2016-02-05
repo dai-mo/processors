@@ -26,17 +26,24 @@ public class YamlConfigurator implements Configurator {
   private static final String CONFIG_FILE_KEY = "config";
   private static final String RUN_MODE_KEY = "mode";
   private static final String TEST_MODE_VALUE = "test";
-  protected Configuration config;
+  private Configuration configuration;
 
+  public YamlConfigurator() {
+		configuration = loadConfiguration();
+	}
 
   @Override
+  public Configuration getConfiguration() {
+  	return configuration;
+  }
+  
   public Configuration loadConfiguration() {
     try {
       return loadConfiguration(true);
     } catch (IOException e) {
       e.printStackTrace();
       System.exit(1);
-    }
+    }    
     return null;
   }
 
@@ -54,8 +61,7 @@ public class YamlConfigurator implements Configurator {
       logger.info("Config file path : " + configFilePath);
       File configFile = new File(configFilePath);
       mapper = new ObjectMapper(new YAMLFactory());
-      config = mapper.readValue(configFile, Configuration.class);
-      return config;
+      return mapper.readValue(configFile, Configuration.class);      
     } catch (Exception e) {
       throw e;
     }

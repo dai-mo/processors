@@ -1,5 +1,7 @@
 package org.dcs.api.utils;
 
+import org.dcs.api.RESTException;
+import org.dcs.api.model.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +15,7 @@ public class DataManagerUtils {
   private static final Logger logger = LoggerFactory.getLogger(DataManagerUtils.class);
 
   public final static String DATA_HOME_DIR_NAME = "home";
+  public final static String DATA_ADMIN_DIR_NAME = "admin";
 
   public static boolean delete(File fileOrDirToDelete) {
     if(fileOrDirToDelete.exists()) {
@@ -42,4 +45,15 @@ public class DataManagerUtils {
     }
     return areAllFilesDeleted;
   }
+  
+	public static boolean createDirectory(File dir) throws RESTException {		
+		if(dir.exists()) {
+			logger.info("Data root directory " + dir.getAbsolutePath() + " already exists - ignoring create");
+		} else {
+			if(!dir.mkdir()) {
+				throw new RESTException(ErrorCode.DCS103());
+			}
+		}
+		return true;
+	}
 }
