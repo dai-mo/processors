@@ -14,9 +14,6 @@ public class DataManagerUtils {
 
   private static final Logger logger = LoggerFactory.getLogger(DataManagerUtils.class);
 
-  public final static String DATA_HOME_DIR_NAME = "home";
-  public final static String DATA_ADMIN_DIR_NAME = "admin";
-
   public static boolean delete(File fileOrDirToDelete) {
     if(fileOrDirToDelete.exists()) {
       if (fileOrDirToDelete.isDirectory()) {

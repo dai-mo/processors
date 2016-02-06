@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.UUID;
 
 import org.dcs.api.utils.DataManagerUtils;
+import org.dcs.config.DataConfiguration;
 import org.dcs.test.DataUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -31,7 +32,7 @@ public class DataApiIT {
   @Before
   public void preTest() {
     String targetDirectory = DataUtils.getTargetDirectory(this.getClass());
-    DataManagerUtils.deleteDirContents(new File(targetDirectory + File.separator + "data" + File.separator + DataManagerUtils.DATA_HOME_DIR_NAME));
+    DataManagerUtils.deleteDirContents(new File(targetDirectory + File.separator + "data" + File.separator + DataConfiguration.DATA_HOME_DIR_NAME));
   }
 
   @Test

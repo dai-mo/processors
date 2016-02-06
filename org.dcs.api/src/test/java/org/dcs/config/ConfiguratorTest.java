@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by cmathew on 29/01/16.
  */
-//@RunWith(Arquillian.class)
 public class ConfiguratorTest {
 
   static final Logger logger = LoggerFactory.getLogger(ConfiguratorTest.class);
@@ -33,17 +32,17 @@ public class ConfiguratorTest {
     String userDefinedConfigFilePath = this.getClass().getResource("config.yaml").getPath();
     String defaultDataRootPath = DataUtils.getTargetDirectory(this.getClass()) + File.separator + "data";
 
-    Configuration config = null;
+    DataConfiguration config = null;
     try {
       System.setProperty("config", userDefinedConfigFilePath);
-      YamlConfigurator configurator = new YamlConfigurator();
-      config = configurator.getConfiguration();
+      ConfigurationFacade configurator = new ConfigurationFacade();
+      config = configurator.getDataConfiguration();
       assertEquals(defaultDataRootPath,config.getDataRootPath());
       
       
       System.clearProperty("config");
-      configurator = new YamlConfigurator();
-      config = configurator.getConfiguration();
+      configurator = new ConfigurationFacade();
+      config = configurator.getDataConfiguration();
       assertEquals(defaultDataRootPath,config.getDataRootPath());
       
       
@@ -59,7 +58,7 @@ public class ConfiguratorTest {
     
     try {
       System.setProperty("config", userDefinedConfigFilePath);
-      new YamlConfigurator();
+      new ConfigurationFacade();
       fail("An exception should be thrown when loading wrong config file");
     } catch (Exception e) {
     	

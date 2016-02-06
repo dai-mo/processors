@@ -65,7 +65,8 @@ public class DataApiServiceImplTest extends CoreBaseTest {
       loader = dataApiService.dataPost(inputStream, "test.csv", null);
       assertNotNull(loader.getDataSourceId());
     } catch(RESTException dme) {
-      fail("Exception should be thrown here");
+    	dme.printStackTrace();
+      fail("Exception should not be thrown here");
     }
 
     try {

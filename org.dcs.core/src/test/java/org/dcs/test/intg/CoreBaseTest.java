@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.dcs.api.data.FileDataManager;
 import org.dcs.api.data.impl.FileDataManagerImpl;
-import org.dcs.config.YamlConfigurator;
+import org.dcs.config.ConfigurationFacade;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -30,7 +30,7 @@ public class CoreBaseTest {
     return ShrinkWrap.create(JavaArchive.class)
             .addClass(FileDataManager.class)
             .addClass(FileDataManagerImpl.class)
-            .addClass(YamlConfigurator.class)
+            .addClass(ConfigurationFacade.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
   }
 

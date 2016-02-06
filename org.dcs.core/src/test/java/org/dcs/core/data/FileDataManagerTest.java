@@ -1,7 +1,10 @@
 package org.dcs.core.data;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +15,8 @@ import org.apache.commons.io.FileUtils;
 import org.dcs.api.RESTException;
 import org.dcs.api.model.ErrorCode;
 import org.dcs.api.utils.DataManagerUtils;
+import org.dcs.config.ConfigurationFacade;
+import org.dcs.config.DataConfiguration;
 import org.dcs.test.DataUtils;
 import org.dcs.test.ReflectionUtils;
 import org.dcs.test.intg.CoreBaseTest;
@@ -31,6 +36,8 @@ import org.slf4j.LoggerFactory;
 public class FileDataManagerTest extends CoreBaseTest {
 
   static final Logger logger = LoggerFactory.getLogger(FileDataManagerTest.class);
+  
+  DataConfiguration dataConfiguration = ConfigurationFacade.getCurrentDataConfiguration();
 
   @Deployment
   public static JavaArchive createDeployment() {
@@ -40,21 +47,21 @@ public class FileDataManagerTest extends CoreBaseTest {
 
   @Before
   public void testDeleteDataHomeDirContents() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    assertTrue(new File(dataManager.getDataStoreLocation()).exists());
-    DataManagerUtils.deleteDirContents(new File(dataManager.getDataStoreLocation()));
-    assertTrue(new File(dataManager.getDataStoreLocation()).listFiles().length == 0);
+    assertTrue(new File(dataConfiguration.getDataHomePath()).exists());
+    DataManagerUtils.deleteDirContents(new File(dataConfiguration.getDataHomePath()));
+    assertTrue(new File(dataConfiguration.getDataHomePath()).listFiles().length == 0);
   }
   
   @Test
   public void testManageDataHomeDirectory() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, IOException, RESTException {
-    // check if multiple calls to create the home directory works fine
-    ReflectionUtils.invokeMethod(dataManager, "createDataHomeDirectory");
+
+    DataManagerUtils.createDirectory(new File(dataConfiguration.getDataRootPath()));
 
     // check load of data
     InputStream inputStream = DataUtils.getInputResourceAsStream(this.getClass(), "/test.csv");
     dataManager.load(inputStream, "test.csv");
 
-    File dataSourceFile = new File(dataManager.getDataStoreLocation() + "/test.csv/test.csv");
+    File dataSourceFile = new File(dataConfiguration.getDataHomePath() + "/test.csv/test.csv");
     assertTrue(dataSourceFile.exists());
 
     File dataInputFile = new File(DataUtils.getDataInputAbsolutePath(this.getClass())  + "/valid-test.csv");
@@ -67,7 +74,7 @@ public class FileDataManagerTest extends CoreBaseTest {
     	assertEquals(ErrorCode.DCS101(), dme.getErrorCode());
     }
     
-    File dataSourceDir = new File(dataManager.getDataStoreLocation() + "/test.csv");
+    File dataSourceDir = new File(dataConfiguration.getDataHomePath() + "/test.csv");
     assertTrue(dataManager.delete("test.csv"));
     assertFalse(dataSourceDir.exists());
     
