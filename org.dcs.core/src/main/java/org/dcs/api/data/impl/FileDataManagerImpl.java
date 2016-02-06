@@ -3,6 +3,7 @@ package org.dcs.api.data.impl;
 import java.io.File;
 import java.io.InputStream;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -36,10 +37,8 @@ public class FileDataManagerImpl implements FileDataManager {
 	private Configurator configurator;
 
 
-	//@Inject
 	public FileDataManagerImpl() throws RESTException {
-		this.configurator = new YamlConfigurator();
-
+		
 		readConfig();
 		dataRoot = new File(dataRootPath);
 		dataHomePath = dataRootPath + File.separator + DataManagerUtils.DATA_HOME_DIR_NAME;
@@ -50,7 +49,7 @@ public class FileDataManagerImpl implements FileDataManager {
 	}
 
 	private void readConfig() {
-		Configuration configuration = configurator.getConfiguration();
+		Configuration configuration = YamlConfigurator.getCurrentConfiguration();
 		dataRootPath = configuration.getDataRootPath();
 	}
 

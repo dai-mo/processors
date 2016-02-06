@@ -5,6 +5,5 @@ package org.dcs.config;
  */
 
 public interface Configurator {
-	
-  public Configuration getConfiguration();
+	  
 }

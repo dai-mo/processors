@@ -24,35 +24,43 @@ public class YamlConfigurator implements Configurator {
 
 	private Configuration configuration;
 
-	public YamlConfigurator() {
+	private static YamlConfigurator yamlConfigurator;
+
+	private String configFilePath;
+
+
+	public YamlConfigurator() throws Exception {
 		configuration = loadConfiguration();
 	}
 
-	public YamlConfigurator(boolean exitOnError) throws Exception {
-		configuration = loadConfiguration(exitOnError);
+	public static YamlConfigurator getInstance() {
+		if(yamlConfigurator == null) {
+			try {
+				yamlConfigurator = new YamlConfigurator();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}		
+		return yamlConfigurator;
 	}
 
-	@Override
 	public Configuration getConfiguration() {
 		return configuration;
 	}
 
-	public Configuration loadConfiguration() {
-		try {
-			return loadConfiguration(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}    
-		return null;
+	public static Configuration getCurrentConfiguration() {
+		return getInstance().getConfiguration();
 	}
 
-	public Configuration loadConfiguration(boolean exitOnError) throws Exception {
+
+	public Configuration loadConfiguration() throws Exception {
 		try {
 			mapper = new ObjectMapper(new YAMLFactory());
 
-			String configFilePath = System.getProperty(CONFIG_FILE_KEY);
-			
+			configFilePath = System.getProperty(CONFIG_FILE_KEY);
+
 			if(configFilePath == null) {
 				InputStream inputStream = this.getClass().getResourceAsStream(DEFAULT_CONFIG_FILE_NAME);				
 				if(inputStream == null) {
@@ -65,10 +73,13 @@ public class YamlConfigurator implements Configurator {
 				logger.warn("Config file path : " + configFilePath);
 				return mapper.readValue(configFile, Configuration.class);      
 			}    
-			
+
 		} catch (Exception e) {
+
 			throw e;
 		}
+
+
 	}
 
 
