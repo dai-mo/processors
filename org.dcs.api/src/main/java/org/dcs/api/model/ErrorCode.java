@@ -59,6 +59,18 @@ public class ErrorCode {
             "Error writing data",
             Response.Status.INTERNAL_SERVER_ERROR);
   }
+  
+  public static ErrorCode DCS106() {
+    return new ErrorCode("DCS106",
+            "Error initialising Data Admin",
+            Response.Status.INTERNAL_SERVER_ERROR);
+  }
+  
+  public static ErrorCode DCS107() {
+    return new ErrorCode("DCS106",
+            "Error loading / retrieving Data Source Info",
+            Response.Status.INTERNAL_SERVER_ERROR);
+  }
 
   @Override
   public boolean equals(Object object) {

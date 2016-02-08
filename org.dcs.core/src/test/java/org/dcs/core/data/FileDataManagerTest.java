@@ -16,10 +16,10 @@ import org.dcs.api.RESTException;
 import org.dcs.api.model.ErrorCode;
 import org.dcs.api.utils.DataManagerUtils;
 import org.dcs.config.ConfigurationFacade;
+import org.dcs.config.CoreBaseTest;
 import org.dcs.config.DataConfiguration;
 import org.dcs.test.DataUtils;
 import org.dcs.test.ReflectionUtils;
-import org.dcs.test.intg.CoreBaseTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -35,9 +35,8 @@ import org.slf4j.LoggerFactory;
 @RunWith(Arquillian.class)
 public class FileDataManagerTest extends CoreBaseTest {
 
-  static final Logger logger = LoggerFactory.getLogger(FileDataManagerTest.class);
-  
-  DataConfiguration dataConfiguration = ConfigurationFacade.getCurrentDataConfiguration();
+  private static final Logger logger = LoggerFactory.getLogger(FileDataManagerTest.class);
+
 
   @Deployment
   public static JavaArchive createDeployment() {

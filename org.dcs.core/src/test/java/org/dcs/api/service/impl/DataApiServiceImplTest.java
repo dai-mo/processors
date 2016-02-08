@@ -12,8 +12,9 @@ import org.dcs.api.RESTException;
 import org.dcs.api.model.DataLoader;
 import org.dcs.api.model.ErrorCode;
 import org.dcs.api.service.DataApiService;
+import org.dcs.config.CoreBaseTest;
+import org.dcs.core.data.DataHomeBaseTest;
 import org.dcs.test.DataUtils;
-import org.dcs.test.intg.CoreBaseTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -29,14 +30,12 @@ import org.slf4j.LoggerFactory;
  * Created by cmathew on 26/01/16.
  */
 @RunWith(Arquillian.class)
-public class DataApiServiceImplTest extends CoreBaseTest {
+public class DataApiServiceImplTest extends DataHomeBaseTest {
 
   static final Logger logger = LoggerFactory.getLogger(DataApiServiceImplTest.class);
 
   @Inject
   private DataApiService dataApiService;
-
-
 
   @Deployment
   public static JavaArchive createDeployment() {
@@ -46,14 +45,14 @@ public class DataApiServiceImplTest extends CoreBaseTest {
             .addClass(DataApiService.class)
             .addClass(DataApiServiceImpl.class)
             .addClass(DataLoader.class)
-            .addClass(RESTException.class)
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+            .addClass(RESTException.class);
+    
     for(JavaArchive archive : as) {
       javaArchive.merge(archive);
     }
     return javaArchive;
   }
-
+  
   @Test
   public void testloadFile()  {
     InputStream inputStream = DataUtils.getInputResourceAsStream(this.getClass(), "/test.csv");

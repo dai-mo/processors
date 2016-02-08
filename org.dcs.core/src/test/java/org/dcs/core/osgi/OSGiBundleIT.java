@@ -1,16 +1,15 @@
-package org.dcs.test.intg.osgi;
+package org.dcs.core.osgi;
 
 
 import static org.junit.Assert.assertNotNull;
-
-import java.io.File;
+import static org.junit.Assert.assertSame;
 
 import javax.inject.Inject;
 
 import org.dcs.api.service.DataApiService;
 import org.dcs.api.service.ModulesApiService;
+import org.dcs.config.ConfigurationFacade;
 import org.dcs.test.paxe.PaxExamConfigOptionsFactory;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
@@ -44,6 +43,7 @@ public class OSGiBundleIT {
 
   @Test
   public void testLaunchBundle() throws Exception {
+  	assertSame(ConfigurationFacade.getInstance(), ConfigurationFacade.getInstance());
     assertNotNull(modulesService);
     assertNotNull(dataService);
   }

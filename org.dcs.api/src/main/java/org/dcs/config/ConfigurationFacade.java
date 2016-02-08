@@ -2,10 +2,13 @@ package org.dcs.config;
 
 import java.io.File;
 import java.io.InputStream;
-
-import javax.inject.Singleton;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.dcs.api.RESTException;
+import org.dcs.api.model.ErrorCode;
 import org.dcs.api.utils.DataManagerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,19 +79,22 @@ public class ConfigurationFacade {
 				logger.warn("Config file path : " + configFilePath);
 				dataConfiguration = mapper.readValue(configFile, DataConfiguration.class);      
 			}    
-			initialiseDataStore();
+			initialise();
 		} catch (Exception e) {
 			throw e;
 		}
 	}
 
-	private void initialiseDataStore() throws RESTException {
+	private void initialise() throws RESTException {
 		DataManagerUtils.createDirectory(new File(dataConfiguration.getDataRootPath()));
 		DataManagerUtils.createDirectory(new File(dataConfiguration.getDataHomePath()));
+		DataManagerUtils.createDirectory(new File(dataConfiguration.getDataAdminPath()));
 	}
+
 
 
 	public boolean deleteDataStore() {	
 		return DataManagerUtils.delete(new File(dataRootPath));
 	}
+
 }

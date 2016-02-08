@@ -15,12 +15,10 @@ public class TableLoader {
 	
 	private final CSVRowIterator csvRowIterator;
 	private final CSVRowWriter csvRowWriter;
-	private final String dataSourcePath;
 	
 	public TableLoader(InputStream inputStream, String dataSourcePath) throws RESTException {		
 		this.csvRowIterator = new CSVRowIterator(inputStream);
 		this.csvRowWriter = new CSVRowWriter(dataSourcePath);
-		this.dataSourcePath = dataSourcePath;
 	}
 	
 	public void load() throws RESTException {
