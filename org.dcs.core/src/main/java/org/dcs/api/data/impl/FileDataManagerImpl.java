@@ -27,20 +27,20 @@ import ch.qos.logback.classic.spi.Configurator;
 public class FileDataManagerImpl implements FileDataManager {
 	static final Logger logger = LoggerFactory.getLogger(FileDataManagerImpl.class);
 
-	private File dataHome;
+	private File dataHomeDir;
 	
 	private DataConfiguration configuration;
 
 	public FileDataManagerImpl() throws RESTException {
 		configuration = ConfigurationFacade.getCurrentDataConfiguration();
-		dataHome = new File(configuration.getDataHomePath());
+		dataHomeDir = new File(configuration.getDataHomePath());
 	}
 
 
 	@Override
 	public boolean delete(String dataSourceId) {
-		if(dataHome.exists()) {
-			return DataManagerUtils.delete(new File(dataHome.getAbsolutePath() + File.separator + dataSourceId));
+		if(dataHomeDir.exists()) {
+			return DataManagerUtils.delete(new File(dataHomeDir.getAbsolutePath() + File.separator + dataSourceId));
 		} else {
 			logger.info("Data source with id : " + dataSourceId + " does not exist - ignoring delete");
 		}
@@ -51,7 +51,7 @@ public class FileDataManagerImpl implements FileDataManager {
 	@Override
 	public void load(InputStream inputStream, String dataSourceName) throws RESTException {
     
-    File dataSourceDir = new File(dataHome.getAbsolutePath() + File.separator + dataSourceName);
+    File dataSourceDir = new File(dataHomeDir.getAbsolutePath() + File.separator + dataSourceName);
     if(dataSourceDir.exists()) {
       throw new RESTException(ErrorCode.DCS101());
     }
