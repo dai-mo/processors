@@ -45,9 +45,12 @@ public class DataAdminTest extends CoreBaseTest {
   DataAdmin dataAdmin;
   
   @BeforeClass
-  public static void testDeleteDataHomeDirContents() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-  	String dataAdminDbPath = dataConfiguration.getDataAdminDbPath();
-    assertTrue(new File(dataAdminDbPath).delete());
+  public static void deleteDataAdminContents() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+  	String dataAdminDbPath = dataConfiguration.getDataAdminDbPath();  	
+   	File dataAdminDb = new File(dataAdminDbPath);
+   	dataAdminDb.delete();
+   	assertTrue(!dataAdminDb.exists());
+    
   }
   
   @Test
