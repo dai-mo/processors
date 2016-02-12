@@ -477,7 +477,9 @@
 					</httpConnector>
 					<webApp>
 						<baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
-							<resourcesAsCSV>${basedir}/src/main/webapp,${project.build.directory}/dcs</resourcesAsCSV>
+							<resourcesAsCSV>${basedir}/src/main/webapp,
+							${basedir}/ui,
+							${project.build.directory}/dcs</resourcesAsCSV>
 						</baseResource>
 						<contextPath>/dcs</contextPath>
 					</webApp>
