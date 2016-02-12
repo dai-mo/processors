@@ -11,8 +11,9 @@ import org.dcs.config.DataConfiguration;
 import org.dcs.test.DataUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
@@ -22,11 +23,18 @@ import com.jayway.restassured.response.Response;
  * Created by cmathew on 28/01/16.
  */
 public class DataApiIT {
+	
+	static final Logger logger = LoggerFactory.getLogger(DataApiIT.class);
 
   @BeforeClass
   public static void setup() {
-
     RestAssured.port = 9090;
+    String portString = System.getProperty("testHttpPort");    
+    if(portString != null) {
+    	int port = Integer.valueOf(portString);    	
+    	RestAssured.port = port;
+    }
+    logger.warn("Setting port to connect as " + RestAssured.port);
   }
 
   @Before

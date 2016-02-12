@@ -23,6 +23,7 @@
 		<pax.cdi.version>0.12.0</pax.cdi.version>
 		<default.data.root.parent.path>${user.home}</default.data.root.parent.path>
 		<test.data.root.parent.path>${project.build.directory}</test.data.root.parent.path>
+		<test.http.port>9090</test.http.port>
 	</properties>
 
 	<repositories>
@@ -454,7 +455,15 @@
 					</filesets>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<systemPropertyVariables>
+						<testHttpPort>${test.http.port}</testHttpPort>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
 			<!-- The Jetty plugin allows us to easily test the development build by 
 				running jetty:run on the command line. -->
 			<plugin>
@@ -462,18 +471,23 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.plugin.version}</version>
 				<configuration>
-					<jvmArgs>-Xdebug -agentlib:jdwp=transport=dt_socket,address=5050,server=y,suspend=n</jvmArgs>
+					<jvmArgs>-Xdebug
+						-agentlib:jdwp=transport=dt_socket,address=5050,server=y,suspend=n</jvmArgs>
 					<systemProperties>
 						<systemProperty>
 							<name>config</name>
 							<value>${project.build.testOutputDirectory}/org/dcs/config/config.yaml</value>
+						</systemProperty>
+						<systemProperty>
+							<name>testHttpPort</name>
+							<value>${test.http.port}</value>
 						</systemProperty>
 					</systemProperties>
 					<stopKey>stopKey</stopKey>
 					<stopPort>9091</stopPort>
 					<scanIntervalSeconds>2</scanIntervalSeconds>
 					<httpConnector>
-						<port>9090</port>
+						<port>${test.http.port}</port>
 					</httpConnector>
 					<webApp>
 						<baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
