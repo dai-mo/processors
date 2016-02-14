@@ -1,22 +1,22 @@
-package org.dcs.api.data.impl;
+package org.dcs.core.data.impl;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.dcs.api.RESTException;
-import org.dcs.api.data.FileDataManager;
 import org.dcs.api.model.ErrorCode;
 import org.dcs.api.utils.DataManagerUtils;
 import org.dcs.config.ConfigurationFacade;
 import org.dcs.config.DataConfiguration;
-import org.dcs.data.reader.TableLoader;
+import org.dcs.core.data.reader.TableLoader;
+import org.dcs.data.FileDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.spi.Configurator;
 
 /**
  * Created by cmathew on 27/01/16.
@@ -30,6 +30,9 @@ public class FileDataManagerImpl implements FileDataManager {
 	private File dataHomeDir;
 	
 	private DataConfiguration configuration;
+	
+	@Inject
+	DataAdmin dataAdmin;
 
 	public FileDataManagerImpl() throws RESTException {
 		configuration = ConfigurationFacade.getCurrentDataConfiguration();
@@ -49,7 +52,7 @@ public class FileDataManagerImpl implements FileDataManager {
 
 
 	@Override
-	public void load(InputStream inputStream, String dataSourceName) throws RESTException {
+	public UUID load(InputStream inputStream, String dataSourceName) throws RESTException {
     
     File dataSourceDir = new File(dataHomeDir.getAbsolutePath() + File.separator + dataSourceName);
     if(dataSourceDir.exists()) {
@@ -61,6 +64,8 @@ public class FileDataManagerImpl implements FileDataManager {
     
 		TableLoader tableLoader = new TableLoader(inputStream, dataSourcePath);
 		tableLoader.load();
+		
+		return dataAdmin.addDataSource(dataSourceName, dataSourcePath);
 	}
 
 }

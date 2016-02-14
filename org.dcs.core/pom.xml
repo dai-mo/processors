@@ -33,7 +33,7 @@
 				<configuration>
 					<instructions>
 						<Private-Package>
-							org.dcs.api.service.impl.*;org.dcs.api.data.impl.*
+							org.dcs.core.api.service.impl.*;org.dcs.core.data.impl.*
 						</Private-Package>
 						<Import-Package>
 							*;resolution:=optional,org.osgi.service.component
@@ -83,10 +83,6 @@
 		<dependency>
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>			
-		</dependency>
-		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>			
 		</dependency>
 		<dependency>
 			<groupId>org.dcs</groupId>

@@ -1,4 +1,4 @@
-package org.dcs.api.data.impl;
+package org.dcs.data;
 
 
 import java.sql.Connection;

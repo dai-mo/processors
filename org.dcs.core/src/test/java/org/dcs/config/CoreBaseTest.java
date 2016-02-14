@@ -8,12 +8,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.dcs.api.data.FileDataManager;
-import org.dcs.api.data.impl.DataAdmin;
-import org.dcs.api.data.impl.FileDataManagerImpl;
 import org.dcs.api.utils.DataManagerUtils;
 import org.dcs.config.ConfigurationFacade;
 import org.dcs.config.DataConfiguration;
+import org.dcs.core.data.impl.FileDataManagerImpl;
+import org.dcs.core.data.impl.LocalDataAdmin;
+import org.dcs.data.FileDataManager;
 import org.dcs.test.DataUtils;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -42,7 +42,7 @@ public class CoreBaseTest {
             .addClass(FileDataManager.class)
             .addClass(FileDataManagerImpl.class)
             .addClass(ConfigurationFacade.class)
-            .addClass(DataAdmin.class)
+            .addClass(LocalDataAdmin.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
   }
   

@@ -2,10 +2,12 @@ package org.dcs.web.intg.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.UUID;
 
+import org.dcs.api.model.ErrorCode;
 import org.dcs.api.utils.DataManagerUtils;
 import org.dcs.config.DataConfiguration;
 import org.dcs.test.DataUtils;
@@ -50,9 +52,10 @@ public class DataApiIT {
     response.body().prettyPrint();
     String json = response.asString();
     UUID data_source_id = JsonPath.from(json).getUUID("data_source_id");
-
+    assertNotNull(data_source_id);
+    
     response = given().multiPart(new File(inputFilePath)).when().post("/dcs/api/v0/data");
     response.body().prettyPrint();
-    response.then().body("errorCode", equalTo("DCS101"));
+    response.then().body("errorCode", equalTo(ErrorCode.DCS101().getErrorCode()));
   }
 }
