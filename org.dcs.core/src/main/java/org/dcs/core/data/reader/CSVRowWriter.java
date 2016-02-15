@@ -1,4 +1,4 @@
-package org.dcs.data.reader;
+package org.dcs.core.data.reader;
 
 import java.io.FileWriter;
 import java.io.IOException;

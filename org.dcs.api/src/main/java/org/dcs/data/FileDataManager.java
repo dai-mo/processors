@@ -1,6 +1,7 @@
-package org.dcs.api.data;
+package org.dcs.data;
 
 import java.io.InputStream;
+import java.util.UUID;
 
 import org.dcs.api.RESTException;
 
@@ -11,5 +12,5 @@ public interface FileDataManager {
   
   public boolean delete(String dataSourceId);
 
-  void load(InputStream inputStream, String dataSourceName) throws  RESTException;
+  public UUID load(InputStream inputStream, String dataSourceName) throws  RESTException;
 }

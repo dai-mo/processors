@@ -1,9 +1,11 @@
-package org.dcs.api.data.impl;
+package org.dcs.core.data.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Singleton;
@@ -13,15 +15,16 @@ import org.dcs.api.model.DataSource;
 import org.dcs.api.model.ErrorCode;
 import org.dcs.config.ConfigurationFacade;
 import org.dcs.config.DataConfiguration;
+import org.dcs.data.SQLDataSource;
 
 @Singleton
-public class DataAdmin {
+public class LocalDataAdmin implements DataAdmin {
 	
 	
 	private DataConfiguration dataConfiguration;
 	private SQLDataSource sqlDataSource;
 	
-	public DataAdmin() throws RESTException {
+	public LocalDataAdmin() throws RESTException {
 		dataConfiguration = ConfigurationFacade.getCurrentDataConfiguration();		
 		try {
 			sqlDataSource = new SQLDataSource("org.sqlite.JDBC", dataConfiguration.getDataAdminDbPath());
@@ -36,6 +39,10 @@ public class DataAdmin {
 			sqlDataSource.executeStmt(dataSourceCreateTable);	  
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.dcs.api.data.impl.DataAdmin#addDataSource(java.lang.String, java.lang.String)
+	 */
+	@Override
 	public UUID addDataSource(String dataSourceName, String dataSourceUrl) throws RESTException  {
 		UUID uuid = UUID.randomUUID();
 		
@@ -52,17 +59,21 @@ public class DataAdmin {
 		return uuid;
 	}
 	
-	public DataSource getDataSource(UUID uuid) throws RESTException {
-		String dataSourceQuery = "SELECT uuid, name, URL " +
-				"FROM datasource WHERE uuid = ?";
+	/* (non-Javadoc)
+	 * @see org.dcs.api.data.impl.DataAdmin#getDataSources()
+	 */
+	@Override
+	public List<DataSource> getDataSources() throws RESTException {
+		String dataSourceQuery = "SELECT uuid, name, URL  FROM datasource";
 		try (Connection conn = sqlDataSource.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(dataSourceQuery)) {
-			pstmt.setString(1, uuid.toString());       
+				PreparedStatement pstmt = conn.prepareStatement(dataSourceQuery)) {			
 			ResultSet rs  = pstmt.executeQuery();
+			List<DataSource> dataSources = new ArrayList<>();
+			
 			while(rs.next()) {
-				return new DataSource(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3));
+				dataSources.add(new DataSource(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3)));
 			}
-			throw new RESTException(ErrorCode.DCS107(), "No data source found for given uuid");
+			return dataSources;
 		} catch (SQLException e) {
 			throw new RESTException(ErrorCode.DCS107(), e);
 		}

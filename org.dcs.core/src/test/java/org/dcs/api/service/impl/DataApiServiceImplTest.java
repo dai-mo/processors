@@ -13,6 +13,7 @@ import org.dcs.api.model.DataLoader;
 import org.dcs.api.model.ErrorCode;
 import org.dcs.api.service.DataApiService;
 import org.dcs.config.CoreBaseTest;
+import org.dcs.core.api.service.impl.DataApiServiceImpl;
 import org.dcs.core.data.DataHomeBaseTest;
 import org.dcs.test.DataUtils;
 import org.jboss.arquillian.container.test.api.Deployment;

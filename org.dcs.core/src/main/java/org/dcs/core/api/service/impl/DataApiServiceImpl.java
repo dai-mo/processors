@@ -1,4 +1,4 @@
-package org.dcs.api.service.impl;
+package org.dcs.core.api.service.impl;
 
 import java.io.InputStream;
 import java.util.UUID;
@@ -8,9 +8,9 @@ import javax.inject.Inject;
 import javax.ws.rs.core.SecurityContext;
 
 import org.dcs.api.RESTException;
-import org.dcs.api.data.FileDataManager;
 import org.dcs.api.model.DataLoader;
 import org.dcs.api.service.DataApiService;
+import org.dcs.data.FileDataManager;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +27,9 @@ public class DataApiServiceImpl implements DataApiService {
   @Override
   public DataLoader dataPost(InputStream inputStream, String fileName, SecurityContext securityContext)
           throws RESTException {
-
-    UUID uuid = UUID.randomUUID();
-    dataManager.load(inputStream, fileName);
+  	
     DataLoader dataLoader = new DataLoader();
-    dataLoader.setDataSourceId(uuid.toString());
+    dataLoader.setDataSourceId(dataManager.load(inputStream, fileName).toString());
     return dataLoader;
   }
 

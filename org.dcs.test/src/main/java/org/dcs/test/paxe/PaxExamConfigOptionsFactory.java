@@ -97,8 +97,10 @@ public class PaxExamConfigOptionsFactory {
             
             mavenBundle().groupId("org.apache.commons").artifactId("commons-lang3").version("3.3.2"),
             mavenBundle().groupId("com.opencsv").artifactId("opencsv").version("3.7"),
-
-            systemPackages("org.dcs.config", "org.dcs.api.service", "org.dcs.api.data", "org.dcs.api", "org.dcs.api.model", "org.dcs.api.utils"),
+            
+            systemPackages("org.dcs.config", "org.dcs.data", "org.dcs.api", "org.dcs.api.service",   
+            		"org.dcs.api.model", "org.dcs.api.utils"),
+            
             systemPackages("javax.ws.rs.core", "org.ops4j.pax.cdi.extension"),
 
             bundle("reference:file:" + bundleDir),

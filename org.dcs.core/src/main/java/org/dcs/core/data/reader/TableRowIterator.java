@@ -1,4 +1,4 @@
-package org.dcs.data.reader;
+package org.dcs.core.data.reader;
 
 public interface TableRowIterator {
 

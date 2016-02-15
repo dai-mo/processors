@@ -393,7 +393,7 @@
 						</resource>
 						<resource>
 							<directory>
-								ui/app
+								ui/dcs/app
 							</directory>
 							<targetPath>./app</targetPath>
 						</resource>
@@ -492,7 +492,7 @@
 					<webApp>
 						<baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
 							<resourcesAsCSV>${basedir}/src/main/webapp,
-							${basedir}/ui,
+							${basedir}/ui/dcs,
 							${project.build.directory}/dcs</resourcesAsCSV>
 						</baseResource>
 						<contextPath>/dcs</contextPath>

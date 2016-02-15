@@ -1,6 +1,7 @@
 target
 felix-cache
 *.log
+*.cache
 .project
 .classpath
 .settings
@@ -8,3 +9,4 @@ felix-cache
 
 /.idea
 *.iml
+
