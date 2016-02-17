@@ -1,30 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>org.dcs.parent</artifactId>
 		<groupId>org.dcs</groupId>
+		<artifactId>org.dcs.parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<modelVersion>4.0.0</modelVersion>
-
-	<artifactId>org.dcs.core</artifactId>
-	<packaging>bundle</packaging>
-
-	<properties>
-		<exam.version>4.8.0</exam.version>
-		<url.version>1.6.0</url.version>
-		<default.data.root.parent.path>${user.home}</default.data.root.parent.path>
-		<test.data.root.parent.path>${project.build.directory}</test.data.root.parent.path>
-	</properties>
-
+	<artifactId>org.dcs.data</artifactId>
+	<name>DCS Data Module</name>
+	<description>Module which handles all of DCS Data needs</description>
 	<build>
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-				<filtering>true</filtering>
-			</testResource>
-		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -33,10 +18,10 @@
 				<configuration>
 					<instructions>
 						<Private-Package>
-							org.dcs.core.api.service.impl.*;org.dcs.core.data.impl.*
+							org.dcs.data.*
 						</Private-Package>
 						<Import-Package>
-							*;resolution:=optional,org.osgi.service.component
+							*;resolution:=optional
 						</Import-Package>
 						<Require-Capability>
 							org.ops4j.pax.cdi.extension;
@@ -50,25 +35,28 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+
 	<dependencies>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>osgi.cmpn</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.cdi</groupId>
 			<artifactId>pax-cdi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.dcs</groupId>
+			<artifactId>org.dcs.api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.dcs</groupId>
+			<artifactId>org.dcs.test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -77,36 +65,27 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.api</artifactId>
-			
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.framework</artifactId>
-			<version>5.4.0</version>
-			<scope>test</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.5</version>
+			<type>bundle</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.test</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.data</artifactId>			
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>2.4.5</version>
+			<type>bundle</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -114,5 +93,10 @@
 			<artifactId>javax.ws.rs-api</artifactId>
 		</dependency>
 	</dependencies>
-
+	
+	<packaging>bundle</packaging>
 </project>
+
+
+
+	

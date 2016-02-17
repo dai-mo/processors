@@ -1,19 +1,24 @@
 package org.dcs.features;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.ops4j.pax.exam.CoreOptions.maven;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.configureConsole;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.features;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
 
 import java.io.File;
 import java.net.MalformedURLException;
 
 import javax.inject.Inject;
+import javax.sql.DataSource;
 
 import org.dcs.api.service.DataApiService;
 import org.dcs.api.service.ModulesApiService;
-import org.dcs.config.ConfigurationFacade;
 import org.dcs.test.DataUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ops4j.pax.cdi.api.OsgiService;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.ConfigurationManager;
 import org.ops4j.pax.exam.CoreOptions;
@@ -21,18 +26,8 @@ import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.options.MavenArtifactUrlReference;
 import org.ops4j.pax.exam.options.MavenUrlReference;
-import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.ops4j.pax.exam.spi.reactors.PerMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-import static org.ops4j.pax.exam.CoreOptions.maven;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.configureConsole;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.features;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
 
 @RunWith(PaxExam.class)
 public class CoreBundleLoadITest {
@@ -44,6 +39,9 @@ public class CoreBundleLoadITest {
 
   @Inject
   private DataApiService dataService;
+  
+  @OsgiService
+  DataSource dataSource;
 
   @Configuration
   public Option[] config() throws MalformedURLException {
@@ -68,13 +66,10 @@ public class CoreBundleLoadITest {
           keepRuntimeFolder(),
           configureConsole().ignoreLocalConsole(),
           features(DataUtils.getTargetDirectoryUrl(this.getClass()) + "/feature/feature.xml", "org.dcs.features"),
-          features(karafEnterpriseRepo , "pax-cdi", "pax-cdi-weld", "scr", "wrap"),
+          features(karafEnterpriseRepo , "jdbc", "pax-jdbc", "pax-jdbc-config", "pax-jdbc-sqlite",
+          		"pax-cdi", "pax-cdi-weld", "scr", "wrap"),
           CoreOptions.systemProperty("config").value(DataUtils.getTargetDirectory(this.getClass()) + 
           		"/test-classes/config.yaml")
-//          mavenBundle()
-//              .groupId("org.dcs")
-//              .artifactId("org.dcs.core")
-//              .versionAsInProject().start()
      };
   }
 

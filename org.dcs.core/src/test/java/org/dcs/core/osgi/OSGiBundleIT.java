@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import org.dcs.api.service.DataApiService;
 import org.dcs.api.service.ModulesApiService;
-import org.dcs.config.ConfigurationFacade;
+import org.dcs.data.config.ConfigurationFacade;
 import org.dcs.test.paxe.PaxExamConfigOptionsFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;

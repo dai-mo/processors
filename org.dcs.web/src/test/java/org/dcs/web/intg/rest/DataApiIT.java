@@ -2,14 +2,14 @@ package org.dcs.web.intg.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.util.UUID;
 
 import org.dcs.api.model.ErrorCode;
-import org.dcs.api.utils.DataManagerUtils;
-import org.dcs.config.DataConfiguration;
+import org.dcs.data.config.DataConfiguration;
+import org.dcs.data.utils.DataManagerUtils;
 import org.dcs.test.DataUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;

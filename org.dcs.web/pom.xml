@@ -141,10 +141,6 @@
 			<artifactId>json</artifactId>
 			<version>20151123</version>
 		</dependency>
-		<dependency>
-			<groupId>com.opencsv</groupId>
-			<artifactId>opencsv</artifactId>
-		</dependency>
 		<!-- OSGi Dependencies Start -->
 
 		<!-- Override older asm dependency in swagger-jersey-jaxrs for vaadin widgetset 
@@ -220,7 +216,6 @@
 		<dependency>
 			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.test</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -273,8 +268,7 @@
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
-			<version>1.2</version>
-		</dependency>
+			</dependency>
 		<dependency>
 			<groupId>org.apache.xbean</groupId>
 			<artifactId>xbean-bundleutils</artifactId>
@@ -283,7 +277,6 @@
 		<dependency>
 			<groupId>org.ops4j.pax.cdi</groupId>
 			<artifactId>pax-cdi-api</artifactId>
-			<version>${pax.cdi.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -324,6 +317,11 @@
 			<version>1.4.3.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.dcs</groupId>
+			<artifactId>org.dcs.data</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -337,7 +335,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
 				<configuration>
 					<!--<encoding>${project.encoding}</encoding> -->
 					<source>${project.source.version}</source>
