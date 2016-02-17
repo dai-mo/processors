@@ -1,7 +1,6 @@
 package org.dcs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Objects;
 
@@ -18,7 +17,6 @@ public class Module   {
    * Unique identifier representing a specific module.
    **/
   
-  @ApiModelProperty(value = "Unique identifier representing a specific module.")
   @JsonProperty("product_id")
   public String getProductId() {
     return productId;
@@ -32,7 +30,6 @@ public class Module   {
    * Description of module.
    **/
   
-  @ApiModelProperty(value = "Description of module.")
   @JsonProperty("description")
   public String getDescription() {
     return description;
@@ -46,7 +43,6 @@ public class Module   {
    * Display name of module.
    **/
   
-  @ApiModelProperty(value = "Display name of module.")
   @JsonProperty("display_name")
   public String getDisplayName() {
     return displayName;

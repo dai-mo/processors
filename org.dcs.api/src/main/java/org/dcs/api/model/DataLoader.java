@@ -1,7 +1,6 @@
 package org.dcs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Objects;
 
@@ -16,7 +15,7 @@ public class DataLoader   {
    * unique identifier for uploaded data file.
    **/
   
-  @ApiModelProperty(value = "unique identifier for uploaded data file.")
+
   @JsonProperty("data_source_id")
   public String getDataSourceId() {
     return dataSourceId;

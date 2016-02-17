@@ -2,7 +2,6 @@ package org.dcs.api.model;
 
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
 
 public class DataSource {
 	
@@ -10,7 +9,7 @@ public class DataSource {
 	private final String name;
 	private final String url;
 	
-	public DataSource(@NotNull UUID uuid, @NotNull String name, @NotNull String url) {
+	public DataSource(UUID uuid, String name, String url) {
 		this.uuid = uuid;
 		this.name = name;
 		this.url = url;		

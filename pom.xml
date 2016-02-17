@@ -13,6 +13,7 @@
 		<module>org.dcs.test</module>
 		<module>org.dcs.api</module>
 		<module>org.dcs.core</module>
+		<module>org.dcs.features</module>
 		<module>org.dcs.web</module>
 
 	</modules>

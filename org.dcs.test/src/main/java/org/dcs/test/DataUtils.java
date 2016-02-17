@@ -2,6 +2,7 @@ package org.dcs.test;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -65,6 +66,10 @@ public class DataUtils {
     String thisPath = testClassDir.getAbsolutePath();
 
     return thisPath.substring(0, thisPath.lastIndexOf(TARGET_MARKER) + TARGET_MARKER.length());
+  }
+  
+  public static URL getTargetDirectoryUrl(Class testClass) throws MalformedURLException {
+  	return new File(getTargetDirectory(testClass)).toURI().toURL();
   }
 
 
