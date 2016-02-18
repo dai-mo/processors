@@ -76,8 +76,14 @@ public class DataBundleLoadOsgiIT {
           keepRuntimeFolder(),
           configureConsole().ignoreLocalConsole(),
           features(karafEnterpriseRepo , "pax-cdi", "pax-cdi-weld", "scr", "wrap"),
+          // TODO: The ideal mechanism to deploy would be to just provision
+          //       the .kar files into the deploy directory, but it's not clear
+          //       how to create a maven kar bundle as an option
           features(orgDcsApiRepo , "org.dcs.api"),
-          features(orgDcsDataRepo , "org.dcs.data"),          
+          features(orgDcsDataRepo , "org.dcs.data"),    
+          // TODO: Seems that .versionAsInProject() works only if the
+          //       the version is explicitly declared in the pom.
+          //       If it is inherited the method does not work
           mavenBundle("org.dcs","org.dcs.api").version("1.0.0-SNAPSHOT").start(),
           mavenBundle("org.dcs","org.dcs.data").version("1.0.0-SNAPSHOT").start(),
           CoreOptions.systemProperty("config").value(DataUtils.getKarafConfigurationFilePath(this.getClass()))
@@ -93,7 +99,7 @@ public class DataBundleLoadOsgiIT {
 
   @Test
   public void testLaunchBundle() throws Exception {
-  	//assertSame(ConfigurationFacade.getInstance(), ConfigurationFacade.getInstance());
+  	
     assertNotNull(fileDataManager);
     assertNotNull(dataAdmin);
   }

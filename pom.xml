@@ -24,6 +24,7 @@
 		<swagger-core-version>1.5.6</swagger-core-version>
 		<project.source.version>1.8</project.source.version>
 		<project.target.version>1.8</project.target.version>
+		<karaf.dir>karaf</karaf.dir>
 	</properties>
 
 	<dependencyManagement>
@@ -173,6 +174,11 @@
 				<artifactId>jackson-annotations</artifactId>
 				<version>2.4.5</version>
 			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.4.5</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -258,4 +264,53 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>karaf-deploy</id>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.7</version>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<!-- here the phase you need -->
+								<phase>install</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${karaf.dir}/deploy</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.build.directory}</directory>
+											<includes>
+												<include>${artifactId}-${project.version}.kar</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>3.0.0</version>
+						<configuration>
+							<filesets>
+								<fileset>
+									<directory>${karaf.dir}/deploy</directory>
+									<includes>
+										<include>${artifactId}-${project.version}.kar</include>									
+									</includes>
+								</fileset>
+							</filesets>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
