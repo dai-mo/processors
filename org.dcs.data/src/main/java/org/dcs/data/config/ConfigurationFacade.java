@@ -24,7 +24,7 @@ public class ConfigurationFacade {
 
 	private static final Logger logger = LoggerFactory.getLogger(ConfigurationFacade.class);
 	private ObjectMapper mapper;
-	private static final String DEFAULT_CONFIG_FILE_NAME = "config.yaml";
+	private static final String DEFAULT_CONFIG_FILE_NAME = "/config.yaml";
 	private static final String CONFIG_FILE_KEY = "config";
 
 	private DataConfiguration dataConfiguration;

@@ -1,4 +1,4 @@
-package org.dcs.data;
+package org.dcs.osgi;
 
 import static org.junit.Assert.assertNotNull;
 import static org.ops4j.pax.exam.CoreOptions.maven;
@@ -13,6 +13,7 @@ import java.net.MalformedURLException;
 
 import javax.inject.Inject;
 
+import org.dcs.data.FileDataManager;
 import org.dcs.data.impl.DataAdmin;
 import org.dcs.test.DataUtils;
 import org.junit.Test;
@@ -28,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RunWith(PaxExam.class)
-public class DataBundleLoadIT {
+public class DataBundleLoadOsgiIT {
 
-  static final Logger logger = LoggerFactory.getLogger(DataBundleLoadIT.class);
+  static final Logger logger = LoggerFactory.getLogger(DataBundleLoadOsgiIT.class);
 
 
   @Inject
@@ -60,6 +61,12 @@ public class DataBundleLoadIT {
           .version("1.0.0-SNAPSHOT")
           .classifier("features")
           .type("xml");
+      MavenUrlReference orgDcsApiRepo = maven()
+          .groupId("org.dcs")
+          .artifactId("org.dcs.api")
+          .version("1.0.0-SNAPSHOT")
+          .classifier("features")
+          .type("xml");
       return new Option[] {
           // KarafDistributionOption.debugConfiguration("5005", true),
           karafDistributionConfiguration()
@@ -69,9 +76,11 @@ public class DataBundleLoadIT {
           keepRuntimeFolder(),
           configureConsole().ignoreLocalConsole(),
           features(karafEnterpriseRepo , "pax-cdi", "pax-cdi-weld", "scr", "wrap"),
-          features(orgDcsDataRepo , "org.dcs.data"),
+          features(orgDcsApiRepo , "org.dcs.api"),
+          features(orgDcsDataRepo , "org.dcs.data"),          
+          mavenBundle("org.dcs","org.dcs.api").version("1.0.0-SNAPSHOT").start(),
           mavenBundle("org.dcs","org.dcs.data").version("1.0.0-SNAPSHOT").start(),
-          CoreOptions.systemProperty("config").value(DataUtils.getConfigurationFilePath(this.getClass()))
+          CoreOptions.systemProperty("config").value(DataUtils.getKarafConfigurationFilePath(this.getClass()))
      };
   }
 

@@ -22,7 +22,7 @@ public class ConfiguratorFacadeTest {
 
   static final Logger logger = LoggerFactory.getLogger(ConfiguratorFacadeTest.class);
   
-  String userDefinedConfigFilePath = this.getClass().getResource("config.yaml").getPath();
+  String userDefinedConfigFilePath = DataUtils.getTestConfigurationFilePath(this.getClass());
   String defaultDataRootPath = DataUtils.getTargetDirectory(this.getClass()) + File.separator + "data";
   String defaultDataHomePath = defaultDataRootPath + File.separator + DataConfiguration.DATA_HOME_DIR_NAME;
   String defaultDataAdminPath = defaultDataRootPath + File.separator + DataConfiguration.DATA_ADMIN_DIR_NAME;
@@ -43,10 +43,9 @@ public class ConfiguratorFacadeTest {
 
 
   @Test
-  public void testCorrectFileStoreConfigurationLoad() {
-    String userDefinedConfigFilePath = this.getClass().getResource("config.yaml").getPath();
-    String defaultDataRootPath = "." + File.separator + "target" + File.separator + "data";
-    String defaultDataHomePath = defaultDataRootPath + File.separator + DataConfiguration.DATA_HOME_DIR_NAME;
+  public void testCorrectFileStoreConfigurationLoad() {   
+    String testDataRootPath = "." + File.separator + "target" + File.separator + "data";
+    String testDataHomePath = testDataRootPath + File.separator + DataConfiguration.DATA_HOME_DIR_NAME;
 
     
     DataConfiguration config = null;
@@ -54,15 +53,15 @@ public class ConfiguratorFacadeTest {
       System.setProperty("config", userDefinedConfigFilePath);
       ConfigurationFacade configurator = new ConfigurationFacade();
       config = configurator.getDataConfiguration();
-      assertEquals(defaultDataRootPath,config.getDataRootPath());
-      assertEquals(defaultDataHomePath,config.getDataHomePath());
-      assertTrue((new File(defaultDataHomePath)).exists());
+      assertEquals(testDataRootPath,config.getDataRootPath());
+      assertEquals(testDataHomePath,config.getDataHomePath());
+      assertTrue((new File(testDataHomePath)).exists());
       
       System.clearProperty("config");
       configurator = new ConfigurationFacade();
       config = configurator.getDataConfiguration();
-      assertEquals(defaultDataRootPath,config.getDataRootPath());
-      assertEquals(defaultDataHomePath,config.getDataHomePath());      
+      assertEquals(testDataRootPath,config.getDataRootPath());
+      assertEquals(testDataHomePath,config.getDataHomePath());      
 
       
     } catch (Exception e) {

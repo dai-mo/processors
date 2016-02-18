@@ -18,9 +18,6 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<!-- <Private-Package> -->
-						<!-- org.dcs.data.*,org.dcs.data.impl -->
-						<!-- </Private-Package> -->
 						<Export-Package>
 							org.dcs.data.*
 						</Export-Package>
@@ -46,11 +43,26 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>compile</id>
+						<id>generate-features</id>
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>features-generate-descriptor</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.karaf.tooling</groupId>
+				<artifactId>features-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>create-kar</id>
+						<goals>
+							<goal>create-kar</goal>
+						</goals>
+						<configuration>
+							<featuresFile>${project.build.directory}/feature/feature.xml</featuresFile>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -67,11 +79,28 @@
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>target/feature/feature.xml</file>
+									<file>${project.build.directory}/feature/feature.xml</file>
 									<classifier>features</classifier>
 									<type>xml</type>
 								</artifact>
 							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>**/*OsgiIT.java</include>
+							</includes>
 						</configuration>
 					</execution>
 				</executions>
@@ -90,6 +119,7 @@
 		<dependency>
 			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>

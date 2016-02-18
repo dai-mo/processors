@@ -90,14 +90,16 @@ public class DataUtils {
   			+ "feature.xml";
   }
   
-  public static String getConfigurationFilePath(Class testClass) {
+  public static String getTestConfigurationFilePath(Class testClass) {
   	return DataUtils.getTargetDirectory(testClass) + File.separator  
 		 + "test-classes" + File.separator  
-//		 + "org" + File.separator  
-//		 + "dcs" + File.separator  
-//		 + "data" + File.separator  
-//		 + "config" + File.separator  
 		 + "config.yaml";
+  }
+  
+  public static String getKarafConfigurationFilePath(Class testClass) {
+  	return DataUtils.getTargetDirectory(testClass) + File.separator  
+		 + "test-classes" + File.separator  
+		 + "dcs-karaf-config.yaml";
   }
 
 }
