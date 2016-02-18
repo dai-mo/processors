@@ -1,4 +1,4 @@
-package org.dcs.data;
+package org.dcs.data.impl;
 
 
 import static org.junit.Assert.assertEquals;

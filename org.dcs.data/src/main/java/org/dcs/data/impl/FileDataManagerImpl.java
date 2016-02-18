@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -15,6 +16,7 @@ import org.dcs.data.config.ConfigurationFacade;
 import org.dcs.data.config.DataConfiguration;
 import org.dcs.data.reader.TableLoader;
 import org.dcs.data.utils.DataManagerUtils;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +24,8 @@ import org.slf4j.LoggerFactory;
  * Created by cmathew on 27/01/16.
  */
 
-@Named
-@Singleton
+@OsgiServiceProvider
+@Default
 public class FileDataManagerImpl implements FileDataManager {
 	static final Logger logger = LoggerFactory.getLogger(FileDataManagerImpl.class);
 

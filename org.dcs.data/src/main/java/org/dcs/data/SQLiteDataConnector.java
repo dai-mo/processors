@@ -8,19 +8,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class SQLDataSource {
+import org.sqlite.JDBC;
+
+public class SQLiteDataConnector {
 
 	private static final String JDBC_SQLITE = "jdbc:sqlite:";
 	
 	int timeout = 30;
   public  String dbPath;
 
-
-  /* quick and dirty constructor to test the database passing the DriverManager name and the fully loaded url to handle */
-  /* NB this will typically be available if you make this class concrete and not abstract */
-  public SQLDataSource(String jdbcDriverName, String dbPath) throws Exception {
+  public SQLiteDataConnector(String dbPath) throws Exception {
   	this.dbPath = dbPath;
-    Class.forName(jdbcDriverName);
+    Class.forName(JDBC.class.getName());
    
   }
   

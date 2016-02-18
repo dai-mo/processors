@@ -12,7 +12,7 @@
 	<name>DCS Apache Karaf Features Project</name>
 	<description>Generates a .kar file which includes all core DCS bundles</description>
 
-	<packaging>kar</packaging>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
@@ -45,12 +45,6 @@
 		<!-- </dependency> -->
 	</dependencies>
 	<build>
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-				<filtering>true</filtering>
-			</testResource>
-		</testResources>
 		<pluginManagement>
 			<plugins>
 				<plugin>

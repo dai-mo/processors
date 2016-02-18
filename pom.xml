@@ -12,10 +12,10 @@
 		<module>org.dcs.servlet.ds</module>
 		<module>org.dcs.test</module>
 		<module>org.dcs.api</module>
-		<module>org.dcs.core</module>
+		<module>org.dcs.core</module>				
+		<module>org.dcs.data</module>
 		<module>org.dcs.features</module>
 		<module>org.dcs.web</module>
-		<module>org.dcs.data</module>
 	</modules>
 
 	<properties>
@@ -192,6 +192,17 @@
 						<source>1.8</source>
 						<target>1.8</target>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.karaf.tooling</groupId>
+					<artifactId>karaf-maven-plugin</artifactId>
+					<version>4.0.3</version>
+					<extensions>true</extensions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.10</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

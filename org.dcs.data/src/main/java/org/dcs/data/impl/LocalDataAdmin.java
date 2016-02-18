@@ -8,26 +8,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.inject.Singleton;
+import javax.enterprise.inject.Default;
+import javax.inject.Named;
 
 import org.dcs.api.RESTException;
 import org.dcs.api.model.DataSource;
 import org.dcs.api.model.ErrorCode;
-import org.dcs.data.SQLDataSource;
+import org.dcs.data.SQLiteDataConnector;
 import org.dcs.data.config.ConfigurationFacade;
 import org.dcs.data.config.DataConfiguration;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 
-@Singleton
+@OsgiServiceProvider
+@Default
 public class LocalDataAdmin implements DataAdmin {
 	
 	
 	private DataConfiguration dataConfiguration;
-	private SQLDataSource sqlDataSource;
+	private SQLiteDataConnector sqlDataSource;
 	
 	public LocalDataAdmin() throws RESTException {
 		dataConfiguration = ConfigurationFacade.getCurrentDataConfiguration();		
 		try {
-			sqlDataSource = new SQLDataSource("org.sqlite.JDBC", dataConfiguration.getDataAdminDbPath());
+			sqlDataSource = new SQLiteDataConnector(dataConfiguration.getDataAdminDbPath());
 			init();
 		} catch (Exception e) {
 			throw new RESTException(ErrorCode.DCS106(), e);
