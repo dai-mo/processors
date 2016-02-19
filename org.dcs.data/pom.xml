@@ -22,7 +22,7 @@
 							org.dcs.data.*
 						</Export-Package>
 						<Import-Package>
-							*;resolution:=optional,org.osgi.service.component
+							*
 						</Import-Package>
 						<Require-Capability>
 							org.ops4j.pax.cdi.extension;
@@ -49,20 +49,11 @@
 							<goal>features-generate-descriptor</goal>
 						</goals>
 					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.karaf.tooling</groupId>
-				<artifactId>features-maven-plugin</artifactId>
-				<executions>
 					<execution>
 						<id>create-kar</id>
 						<goals>
-							<goal>create-kar</goal>
+							<goal>kar</goal>
 						</goals>
-						<configuration>
-							<featuresFile>${project.build.directory}/feature/feature.xml</featuresFile>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -88,18 +79,32 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Needed if you use versionAsInProject() -->
+			<plugin>
+				<groupId>org.apache.servicemix.tooling</groupId>
+				<artifactId>depends-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<id>generate-depends-file</id>
+						<goals>
+							<goal>generate-depends-file</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
+				<artifactId>maven-surefire-plugin</artifactId>
 				<executions>
 					<execution>
 						<phase>install</phase>
 						<goals>
-							<goal>integration-test</goal>
+							<goal>test</goal>
 						</goals>
 						<configuration>
 							<includes>
-								<include>**/*OsgiIT.java</include>
+								<include>**/*OsgiT.java</include>
 							</includes>
 						</configuration>
 					</execution>
@@ -161,11 +166,6 @@
 			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.weld</groupId>
-			<artifactId>weld-osgi-bundle</artifactId>
-			<version>2.3.2.Final</version>
 		</dependency>
 	</dependencies>
 

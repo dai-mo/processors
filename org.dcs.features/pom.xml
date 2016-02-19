@@ -17,15 +17,15 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.data</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.dcs</groupId>
+			<artifactId>org.dcs.core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.cdi</groupId>
@@ -59,21 +59,95 @@
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
-			</plugin>
-			<!-- Needed if you use versionAsInProject() -->
-			<plugin>
-				<groupId>org.apache.servicemix.tooling</groupId>
-				<artifactId>depends-maven-plugin</artifactId>
-				<version>1.2</version>
+				<configuration>
+				</configuration>
 				<executions>
 					<execution>
-						<id>generate-depends-file</id>
+						<id>generate-features</id>
+						<phase>generate-resources</phase>
 						<goals>
-							<goal>generate-depends-file</goal>
+							<goal>features-generate-descriptor</goal>
 						</goals>
+					</execution>
+					<execution>
+						<id>create-kar</id>
+						<goals>
+							<goal>kar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${project.build.directory}/feature/feature.xml</file>
+									<classifier>features</classifier>
+									<type>xml</type>
+								</artifact>
+							</artifacts>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+		<profiles>
+		<profile>
+			<id>karaf-deploy</id>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.7</version>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<!-- here the phase you need -->
+								<phase>install</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${karaf.dir}/deploy</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.build.directory}</directory>
+											<includes>
+												<include>${artifactId}-${project.version}.kar</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>3.0.0</version>
+						<configuration>
+							<filesets>
+								<fileset>
+									<directory>${karaf.dir}/deploy</directory>
+									<includes>
+										<include>${artifactId}-${project.version}.kar</include>									
+									</includes>
+								</fileset>
+							</filesets>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

@@ -1,26 +1,28 @@
-package org.dcs.core.test;
+package org.dcs.data.test;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.dcs.data.FileDataManager;
 import org.dcs.data.config.ConfigurationFacade;
 import org.dcs.data.config.DataConfiguration;
-import org.dcs.data.FileDataManager;
 import org.dcs.data.impl.FileDataManagerImpl;
 import org.dcs.data.impl.LocalDataAdmin;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
-
-
 /**
  * Created by cmathew on 01/02/16.
  */
-public class CoreBaseTest {
+public class DataBaseTest {
+
   
   protected static DataConfiguration dataConfiguration = ConfigurationFacade.getCurrentDataConfiguration();
+
+  @Inject
+  protected FileDataManager dataManager;
 
 
   public static List<Class<?>> getClassesToAdd() {

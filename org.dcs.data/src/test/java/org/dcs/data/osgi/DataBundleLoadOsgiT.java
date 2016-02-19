@@ -1,4 +1,4 @@
-package org.dcs.osgi;
+package org.dcs.data.osgi;
 
 import static org.junit.Assert.assertNotNull;
 import static org.ops4j.pax.exam.CoreOptions.maven;
@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RunWith(PaxExam.class)
-public class DataBundleLoadOsgiIT {
+public class DataBundleLoadOsgiT {
 
-  static final Logger logger = LoggerFactory.getLogger(DataBundleLoadOsgiIT.class);
+  static final Logger logger = LoggerFactory.getLogger(DataBundleLoadOsgiT.class);
 
 
   @Inject
@@ -58,13 +58,13 @@ public class DataBundleLoadOsgiIT {
       MavenUrlReference orgDcsDataRepo = maven()
           .groupId("org.dcs")
           .artifactId("org.dcs.data")
-          .version("1.0.0-SNAPSHOT")
+          .versionAsInProject()
           .classifier("features")
           .type("xml");
       MavenUrlReference orgDcsApiRepo = maven()
           .groupId("org.dcs")
           .artifactId("org.dcs.api")
-          .version("1.0.0-SNAPSHOT")
+          .versionAsInProject()
           .classifier("features")
           .type("xml");
       return new Option[] {
@@ -84,8 +84,8 @@ public class DataBundleLoadOsgiIT {
           // TODO: Seems that .versionAsInProject() works only if the
           //       the version is explicitly declared in the pom.
           //       If it is inherited the method does not work
-          mavenBundle("org.dcs","org.dcs.api").version("1.0.0-SNAPSHOT").start(),
-          mavenBundle("org.dcs","org.dcs.data").version("1.0.0-SNAPSHOT").start(),
+          mavenBundle("org.dcs","org.dcs.api").versionAsInProject().start(),
+          mavenBundle("org.dcs","org.dcs.data").versionAsInProject().start(),
           CoreOptions.systemProperty("config").value(DataUtils.getKarafConfigurationFilePath(this.getClass()))
      };
   }

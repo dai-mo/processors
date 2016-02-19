@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import org.dcs.api.RESTException;
 import org.dcs.api.model.DataSource;
 import org.dcs.data.impl.DataAdmin;
-import org.dcs.data.test.CoreBaseTest;
+import org.dcs.data.test.DataBaseTest;
 import org.dcs.data.config.DataConfiguration;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 
 @RunWith(Arquillian.class)
-public class DataAdminTest extends CoreBaseTest {
+public class DataAdminTest extends DataBaseTest {
 
   static final Logger logger = LoggerFactory.getLogger(FileDataManagerTest.class);
 

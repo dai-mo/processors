@@ -14,7 +14,7 @@ import org.dcs.api.model.ErrorCode;
 import org.dcs.api.service.DataApiService;
 import org.dcs.core.api.service.impl.DataApiServiceImpl;
 import org.dcs.core.test.CoreBaseTest;
-import org.dcs.core.test.DataHomeBaseTest;
+import org.dcs.core.test.CoreHomeBaseTest;
 import org.dcs.test.DataUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  * Created by cmathew on 26/01/16.
  */
 @RunWith(Arquillian.class)
-public class DataApiServiceImplTest extends DataHomeBaseTest {
+public class DataApiServiceImplTest extends CoreHomeBaseTest {
 
   static final Logger logger = LoggerFactory.getLogger(DataApiServiceImplTest.class);
 

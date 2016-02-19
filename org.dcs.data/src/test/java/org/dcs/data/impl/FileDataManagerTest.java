@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.io.FileUtils;
 import org.dcs.api.RESTException;
 import org.dcs.api.model.ErrorCode;
-import org.dcs.data.test.CoreBaseTest;
+import org.dcs.data.test.DataBaseTest;
 import org.dcs.data.utils.DataManagerUtils;
 import org.dcs.test.DataUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  * Created by cmathew on 27/01/16.
  */
 @RunWith(Arquillian.class)
-public class FileDataManagerTest extends CoreBaseTest {
+public class FileDataManagerTest extends DataBaseTest {
 
   private static final Logger logger = LoggerFactory.getLogger(FileDataManagerTest.class);
 

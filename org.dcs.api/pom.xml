@@ -27,7 +27,7 @@
 							org.dcs.api.*
 						</Export-Package>
 						<Import-Package>
-							*;resolution:=optional
+							*
 						</Import-Package>
 						<Require-Capability>
 							org.ops4j.pax.cdi.extension;
@@ -54,20 +54,11 @@
 							<goal>features-generate-descriptor</goal>
 						</goals>
 					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.karaf.tooling</groupId>
-				<artifactId>features-maven-plugin</artifactId>
-				<executions>
 					<execution>
 						<id>create-kar</id>
 						<goals>
-							<goal>create-kar</goal>
+							<goal>kar</goal>
 						</goals>
-						<configuration>
-							<featuresFile>${project.build.directory}/feature/feature.xml</featuresFile>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -135,7 +126,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>			
+			<artifactId>jackson-annotations</artifactId>
 		</dependency>
 	</dependencies>
 </project>

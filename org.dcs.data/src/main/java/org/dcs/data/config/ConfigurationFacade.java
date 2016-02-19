@@ -2,13 +2,8 @@ package org.dcs.data.config;
 
 import java.io.File;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.dcs.api.RESTException;
-import org.dcs.api.model.ErrorCode;
 import org.dcs.data.utils.DataManagerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

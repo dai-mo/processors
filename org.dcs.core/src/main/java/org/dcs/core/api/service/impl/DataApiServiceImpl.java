@@ -1,7 +1,6 @@
 package org.dcs.core.api.service.impl;
 
 import java.io.InputStream;
-import java.util.UUID;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -11,6 +10,7 @@ import org.dcs.api.RESTException;
 import org.dcs.api.model.DataLoader;
 import org.dcs.api.service.DataApiService;
 import org.dcs.data.FileDataManager;
+import org.ops4j.pax.cdi.api.OsgiService;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +22,7 @@ public class DataApiServiceImpl implements DataApiService {
   static final Logger logger = LoggerFactory.getLogger(DataApiServiceImpl.class);
 
   @Inject
+  @OsgiService
   private FileDataManager dataManager;
 
   @Override
