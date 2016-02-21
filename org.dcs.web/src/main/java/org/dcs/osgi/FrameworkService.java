@@ -61,7 +61,7 @@ public final class FrameworkService
 		tmp.start();
 		this.felix = tmp;
 		log("OSGi framework started", null);
-		tmp.start();
+		
 	}
 
 	private void doStop()
@@ -70,6 +70,7 @@ public final class FrameworkService
 		log("Stopping OSGi framework ...", null);
 		if (this.felix != null) {
 			this.felix.stop();
+			this.felix.waitForStop(0);
 		}
 
 		log("OSGi framework stopped", null);
