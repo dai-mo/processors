@@ -16,20 +16,24 @@
  */
 package org.dcs.osgi;
 
-import org.apache.felix.framework.Felix;
-import org.apache.felix.framework.util.FelixConstants;
-
-import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.servlet.ServletContext;
+
+import org.apache.felix.framework.Felix;
+import org.apache.felix.framework.util.FelixConstants;
 
 public final class FrameworkService
 {
 	private final ServletContext context;
 	private Felix felix;
 	private static HostActivator hostActivator;
+	private static final String FELIX_CONFIG_PROPERTY_KEY="felixConfig";
 
 	public FrameworkService(ServletContext context) {
 		this.context = context;
@@ -81,11 +85,19 @@ public final class FrameworkService
 	{
 		Properties props = new Properties();
 		props.load(this.context.getResourceAsStream("/WEB-INF/framework.properties"));
-
+		String felixConfigPath = System.getProperty(FELIX_CONFIG_PROPERTY_KEY);
+		
+		if(felixConfigPath != null) {
+			File felixConfigFile =  new File(felixConfigPath);
+			if(felixConfigFile.exists()) {
+				props.load(new FileInputStream(felixConfigFile));
+			}
+		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		for (Object key : props.keySet()) {
 			map.put(key.toString(), props.get(key));
 		}
+
 		hostActivator = new HostActivator();
 		map.put(FelixConstants.SYSTEMBUNDLE_ACTIVATORS_PROP,
 				Arrays.asList(new ProvisionActivator(this.context), hostActivator));

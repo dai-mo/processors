@@ -13,6 +13,7 @@ import org.dcs.data.utils.DataManagerUtils;
 import org.dcs.test.DataUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,9 @@ import com.jayway.restassured.response.Response;
 /**
  * Created by cmathew on 28/01/16.
  */
+//FIXME: Enable once the e2e test environment
+//is configured
+@Ignore
 public class DataApiIT {
 	
 	static final Logger logger = LoggerFactory.getLogger(DataApiIT.class);

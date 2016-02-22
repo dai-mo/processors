@@ -27,51 +27,52 @@ import java.util.List;
 import java.util.Set;
 
 public final class ProvisionActivator
-    implements BundleActivator
+implements BundleActivator
 {
-    private final ServletContext servletContext;
+	private final ServletContext servletContext;
 
-    public ProvisionActivator(ServletContext servletContext) {
+	public ProvisionActivator(ServletContext servletContext) {
 
-        this.servletContext = servletContext;
-    }
+		this.servletContext = servletContext;
+	}
 
-    public void start(BundleContext context)
-        throws Exception
-    {
-        servletContext.setAttribute(BundleContext.class.getName(), context);
+	public void start(BundleContext context)
+			throws Exception
+	{
+		servletContext.setAttribute(BundleContext.class.getName(), context);
 
-        ArrayList<Bundle> installed = new ArrayList<Bundle>();
-        for (URL url : findBundles()) {
-            this.servletContext.log("Installing bundle [" + url + "]");
-            Bundle bundle = context.installBundle(url.toExternalForm());
-            installed.add(bundle);
-        }
+		ArrayList<Bundle> installed = new ArrayList<Bundle>();
+		for (URL url : findBundles()) {
+			Bundle bundle = context.installBundle(url.toExternalForm());
+			installed.add(bundle);
+		}
 
-        for (Bundle bundle : installed) {
-            bundle.start();
-        }
-    }
 
-    public void stop(BundleContext context)
-        throws Exception
-    {
-    }
+		for (Bundle bundle : installed) {
+			this.servletContext.log("Starting bundle [" + bundle.getSymbolicName() + "]");
+			bundle.start();
+		}
+	}
 
-    private List<URL> findBundles()
-        throws Exception
-    {
-        ArrayList<URL> list = new ArrayList<URL>();
-        Set<String> resourcePaths = this.servletContext.getResourcePaths("/WEB-INF/bundles/");
-        for (String name : resourcePaths) {
-            if (name.endsWith(".jar")) {
-                URL url = this.servletContext.getResource(name);
-                if (url != null) {
-                    list.add(url);
-                }
-            }
-        }
+	public void stop(BundleContext context)
+			throws Exception
+	{
+	}
 
-        return list;
-    }
+	private List<URL> findBundles()
+			throws Exception
+	{
+		ArrayList<URL> list = new ArrayList<URL>();
+		Set<String> resourcePaths = this.servletContext.getResourcePaths("/WEB-INF/bundles/");
+		for (String name : resourcePaths) {
+			if (name.endsWith(".jar")) {
+				URL url = this.servletContext.getResource(name);
+				if (url != null) {
+					list.add(url);
+				}
+			}
+		}
+
+		return list;
+	}
 }

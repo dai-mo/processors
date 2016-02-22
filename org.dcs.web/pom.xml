@@ -80,6 +80,14 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
 		</dependency>
+		<!-- Override older asm dependency in swagger-jersey-jaxrs for vaadin widgetset 
+			compilation -->
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>5.0.3</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- OSGi Dependencies Start -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -122,6 +130,234 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.configadmin</artifactId>
+			<version>1.8.8</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.bundlerepository</artifactId>
+			<version>2.0.6</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.fileinstall</artifactId>
+			<version>3.5.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.log</artifactId>
+			<version>1.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf.dosgi</groupId>
+			<artifactId>cxf-dosgi-ri-singlebundle-distribution</artifactId>
+			<version>1.4.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf.dosgi</groupId>
+			<artifactId>cxf-dosgi-ri-discovery-distributed</artifactId>
+			<version>1.7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf.dosgi</groupId>
+			<artifactId>cxf-dosgi-ri-discovery-local</artifactId>
+			<version>1.7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf.dosgi</groupId>
+			<artifactId>cxf-dosgi-ri-topology-manager</artifactId>
+			<version>1.7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-core</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-databinding-aegis</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-bindings-soap</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-wsdl</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-simple</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-client</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-extension-providers</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-bindings-xml</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-databinding-jaxb</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.wsdl4j</artifactId>
+			<version>1.6.3_1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.specs</groupId>
+			<artifactId>org.apache.servicemix.specs.jaxb-api-2.2</artifactId>
+			<version>2.4.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.jaxb-xjc</artifactId>
+			<version>2.2.11_1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.specs</groupId>
+			<artifactId>org.apache.servicemix.specs.activation-api-1.1</artifactId>
+			<version>2.4.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.specs</groupId>
+			<artifactId>org.apache.servicemix.specs.activation-api-1.1</artifactId>
+			<version>2.2.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.servicemix.specs</groupId>
+			<artifactId>org.apache.servicemix.specs.jaxws-api-2.2</artifactId>
+			<version>2.4.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.specs</groupId>
+			<artifactId>org.apache.servicemix.specs.stax-api-1.0</artifactId>
+			<version>2.4.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.specs</groupId>
+			<artifactId>org.apache.servicemix.specs.saaj-api-1.3</artifactId>
+			<version>2.4.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.jaxb-impl</artifactId>
+			<version>2.2.11_1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ws.xmlschema</groupId>
+			<artifactId>xmlschema-core</artifactId>
+			<version>2.2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>stax2-api</artifactId>
+			<version>3.1.4</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.apache.cxf.dosgi</groupId>
+			<artifactId>cxf-dosgi-ri-osgi-api</artifactId>
+			<version>1.7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf.dosgi</groupId>
+			<artifactId>cxf-dosgi-ri-dsw-cxf</artifactId>
+			<version>1.7.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.service.remoteserviceadmin</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>woodstox-core-asl</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.4.7</version>
+		</dependency>
+		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.service.log</artifactId>
 			<version>1.3.0</version>
@@ -143,14 +379,7 @@
 		</dependency>
 		<!-- OSGi Dependencies Start -->
 
-		<!-- Override older asm dependency in swagger-jersey-jaxrs for vaadin widgetset 
-			compilation -->
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm</artifactId>
-			<version>5.0.3</version>
-			<scope>compile</scope>
-		</dependency>
+
 
 		<!-- Swagger JAX-RS Jersey Dependencies Start -->
 		<dependency>
@@ -268,7 +497,7 @@
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
-			</dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.xbean</groupId>
 			<artifactId>xbean-bundleutils</artifactId>
@@ -352,16 +581,43 @@
 						</goals>
 						<configuration>
 							<includeArtifactIds>
+								javax.ws.rs-api,
+								jackson-annotations,
+								org.apache.felix.bundlerepository,
 								org.apache.felix.webconsole,
+								org.apache.felix.fileinstall,
+								org.apache.felix.configadmin,
 								org.apache.felix.http.bridge,
 								org.apache.felix.scr,
-								org.dcs.core,
-								pax-cdi-api,
-								pax-cdi-spi,
-								pax-cdi-extender,
-								pax-cdi-extension,
-								pax-cdi-weld,
-								weld-osgi-bundle
+								org.apache.felix.log,
+								cxf-dosgi-ri-discovery-distributed,
+								cxf-dosgi-ri-discovery-local,
+								org.osgi.service.remoteserviceadmin,
+								cxf-dosgi-ri-topology-manager,
+								cxf-dosgi-ri-osgi-api,
+								cxf-dosgi-ri-dsw-cxf,
+								cxf-core,
+								cxf-rt-databinding-aegis,
+								xmlschema-core,
+								cxf-rt-bindings-soap,
+								cxf-rt-wsdl,
+								cxf-rt-frontend-jaxws,
+								cxf-rt-frontend-jaxrs,
+								cxf-rt-frontend-simple,
+								cxf-rt-bindings-xml,
+								cxf-rt-rs-client,
+								cxf-rt-databinding-jaxb,
+								cxf-rt-transports-http,
+								cxf-rt-rs-extension-providers,
+								org.apache.servicemix.bundles.wsdl4j,
+								org.apache.servicemix.specs.jaxws-api-2.2,
+								org.apache.servicemix.specs.jaxb-api-2.2,
+								org.apache.servicemix.specs.activation-api-1.1,
+								org.apache.servicemix.specs.stax-api-1.0,
+								org.apache.servicemix.specs.saaj-api-1.3,
+								woodstox-core-asl,
+								zookeeper,
+								stax2-api
 							</includeArtifactIds>
 							<!--<stripVersion>true</stripVersion> -->
 							<outputDirectory>
@@ -479,6 +735,10 @@
 							<name>testHttpPort</name>
 							<value>${test.http.port}</value>
 						</systemProperty>
+						<systemProperty>
+							<name>felixConfig</name>
+							<value>${basedir}/src/test/resources/felix/config.properties</value>
+						</systemProperty>
 					</systemProperties>
 					<stopKey>stopKey</stopKey>
 					<stopPort>9091</stopPort>
@@ -489,8 +749,8 @@
 					<webApp>
 						<baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
 							<resourcesAsCSV>${basedir}/src/main/webapp,
-							${basedir}/ui/dcs,
-							${project.build.directory}/dcs</resourcesAsCSV>
+								${basedir}/ui/dcs,
+								${project.build.directory}/dcs</resourcesAsCSV>
 						</baseResource>
 						<contextPath>/dcs</contextPath>
 					</webApp>

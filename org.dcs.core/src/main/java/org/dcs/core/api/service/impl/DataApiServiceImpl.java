@@ -21,9 +21,7 @@ import org.slf4j.LoggerFactory;
 @OsgiServiceProvider
 @Properties({
   @Property(name = "service.exported.interfaces", value = "*"),
-  @Property(name = "service.exported.configs", value = "org.apache.cxf.ws"),
-  //@Property(name = "org.apache.cxf.ws.address", value = "/"),
-  @Property(name = "org.apache.cxf.ws.httpservice.context", value = "/dcs")
+  @Property(name = "service.exported.configs", value = "org.apache.cxf.ws")
 })
 @Default
 public class DataApiServiceImpl implements DataApiService {

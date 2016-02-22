@@ -33,7 +33,7 @@ public class ModulesApi  {
 
           @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = Module.class, responseContainer = "List") })
 
-  public Response modulesGet(@ApiParam(value = "Type of module.") @DefaultValue("") @QueryParam("type") List<String> type,@Context SecurityContext securityContext)
+  public Module modulesGet(@ApiParam(value = "Type of module.") @DefaultValue("") @QueryParam("type") List<String> type,@Context SecurityContext securityContext)
           throws RESTException {
     ModulesApiService delegate = (ModulesApiService) FrameworkService.getService(ModulesApiService.class.getName());
     return delegate.modulesGet(type,securityContext);
