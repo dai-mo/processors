@@ -3,8 +3,8 @@ package org.dcs.data.reader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.dcs.api.RESTException;
-import org.dcs.api.model.ErrorCode;
+import org.dcs.api.model.ErrorConstants;
+import org.dcs.api.service.RESTException;
 
 import com.opencsv.CSVWriter;
 
@@ -18,7 +18,7 @@ public class CSVRowWriter {
 		try {
 			this.csvWriter = new CSVWriter(new FileWriter(dataSourcePath), ',');
 		} catch (IOException ioe) {
-			throw new RESTException(ErrorCode.DCS105(), ioe);
+			throw new RESTException(ErrorConstants.DCS105(), ioe);
 		}	
 	}
 	
@@ -30,7 +30,7 @@ public class CSVRowWriter {
 		try {
 			csvWriter.close();
 		} catch (IOException ioe) {
-			throw new RESTException(ErrorCode.DCS105(), ioe);
+			throw new RESTException(ErrorConstants.DCS105(), ioe);
 		}
 	}
 

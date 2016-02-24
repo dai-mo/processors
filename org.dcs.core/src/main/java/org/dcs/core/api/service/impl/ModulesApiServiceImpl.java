@@ -2,13 +2,11 @@ package org.dcs.core.api.service.impl;
 
 import java.util.List;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import org.dcs.api.RESTException;
 import org.dcs.api.model.Module;
-import org.dcs.api.service.ApiResponseMessage;
 import org.dcs.api.service.ModulesApiService;
+import org.dcs.api.service.RESTException;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.ops4j.pax.cdi.api.Properties;
 import org.ops4j.pax.cdi.api.Property;
@@ -22,8 +20,7 @@ import org.ops4j.pax.cdi.api.Property;
 public class ModulesApiServiceImpl implements ModulesApiService {
   
       @Override
-      public Module modulesGet(List<String> type,SecurityContext securityContext)
-      throws RESTException {
+      public Module modulesGet(List<String> type) throws RESTException {
       Module module = new Module();
       module.setProductId("some id");
       module.setDescription("some description");

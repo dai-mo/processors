@@ -99,8 +99,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.framework</artifactId>
-			<version>5.4.0</version>
+			<artifactId>org.apache.felix.framework</artifactId>			
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
@@ -387,10 +386,6 @@
 			<!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core" -->
 			<artifactId>jersey-container-servlet</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-jersey2-jaxrs</artifactId>
-		</dependency>
 
 		<!-- Required only when you are using JAX-RS Client -->
 		<dependency>
@@ -550,6 +545,14 @@
 			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.data</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.dcs</groupId>
+			<artifactId>org.dcs.restapi</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>org.dcs</groupId>
+			<artifactId>org.dcs.remote</artifactId>			
 		</dependency>
 	</dependencies>
 

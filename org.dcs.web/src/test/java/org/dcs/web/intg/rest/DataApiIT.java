@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.util.UUID;
 
-import org.dcs.api.model.ErrorCode;
+import org.dcs.api.model.ErrorConstants;
 import org.dcs.data.config.DataConfiguration;
 import org.dcs.data.utils.DataManagerUtils;
 import org.dcs.test.DataUtils;
@@ -60,6 +60,6 @@ public class DataApiIT {
     
     response = given().multiPart(new File(inputFilePath)).when().post("/dcs/api/v0/data");
     response.body().prettyPrint();
-    response.then().body("errorCode", equalTo(ErrorCode.DCS101().getErrorCode()));
+    response.then().body("errorCode", equalTo(ErrorConstants.DCS101().getCode()));
   }
 }

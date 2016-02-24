@@ -10,11 +10,10 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.dcs.api.RESTException;
 import org.dcs.api.model.DataSource;
-import org.dcs.data.impl.DataAdmin;
-import org.dcs.data.test.DataBaseTest;
+import org.dcs.api.service.RESTException;
 import org.dcs.data.config.DataConfiguration;
+import org.dcs.data.test.DataBaseTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -78,8 +77,12 @@ public class DataAdminTest extends DataBaseTest {
       fail("No exception should occur when correctly inserting data source info");
 		}
   	
+  	assertTrue(uuid != null);
   	try {
-			assertTrue(dataAdmin.getDataSources().contains(new DataSource(uuid, name, url)));
+  		DataSource ds = new DataSource();
+  		ds.setUuid(uuid.toString());
+  		ds.setName(name);
+			assertTrue(dataAdmin.getDataSources().contains(ds));
 		} catch (RESTException e) {
 			e.printStackTrace();
       fail("No exception should occur when correctly retrieving data source info");

@@ -12,8 +12,8 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.io.FileUtils;
-import org.dcs.api.RESTException;
-import org.dcs.api.model.ErrorCode;
+import org.dcs.api.model.ErrorConstants;
+import org.dcs.api.service.RESTException;
 import org.dcs.data.test.DataBaseTest;
 import org.dcs.data.utils.DataManagerUtils;
 import org.dcs.test.DataUtils;
@@ -67,7 +67,7 @@ public class FileDataManagerTest extends DataBaseTest {
     	dataManager.load(inputStream, "test.csv");
     	fail("DataManagerException should be thrown here");
     } catch(RESTException dme) {
-    	assertEquals(ErrorCode.DCS101(), dme.getErrorCode());
+    	assertEquals(ErrorConstants.DCS101(), dme.getErrorResponse());
     }
     
     File dataSourceDir = new File(dataConfiguration.getDataHomePath() + "/test.csv");

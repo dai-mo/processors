@@ -7,8 +7,8 @@ import java.util.UUID;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
-import org.dcs.api.RESTException;
-import org.dcs.api.model.ErrorCode;
+import org.dcs.api.model.ErrorConstants;
+import org.dcs.api.service.RESTException;
 import org.dcs.data.FileDataManager;
 import org.dcs.data.config.ConfigurationFacade;
 import org.dcs.data.config.DataConfiguration;
@@ -58,7 +58,7 @@ public class FileDataManagerImpl implements FileDataManager {
     
     File dataSourceDir = new File(dataHomeDir.getAbsolutePath() + File.separator + dataSourceName);
     if(dataSourceDir.exists()) {
-      throw new RESTException(ErrorCode.DCS101());
+      throw new RESTException(ErrorConstants.DCS101());
     }
     dataSourceDir.mkdir();
 

@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.enterprise.inject.Default;
-import javax.inject.Named;
 
-import org.dcs.api.RESTException;
 import org.dcs.api.model.DataSource;
-import org.dcs.api.model.ErrorCode;
+import org.dcs.api.model.ErrorConstants;
+import org.dcs.api.service.RESTException;
 import org.dcs.data.SQLiteDataConnector;
 import org.dcs.data.config.ConfigurationFacade;
 import org.dcs.data.config.DataConfiguration;
@@ -33,7 +32,7 @@ public class LocalDataAdmin implements DataAdmin {
 			sqlDataSource = new SQLiteDataConnector(dataConfiguration.getDataAdminDbPath());
 			init();
 		} catch (Exception e) {
-			throw new RESTException(ErrorCode.DCS106(), e);
+			throw new RESTException(ErrorConstants.DCS106(), e);
 		} 
 	}
 	
@@ -57,7 +56,7 @@ public class LocalDataAdmin implements DataAdmin {
 			pstmt.setString(3, dataSourceUrl);
 			pstmt.executeUpdate();
 		} catch (SQLException sqle) {
-			throw new RESTException(ErrorCode.DCS107(), sqle);
+			throw new RESTException(ErrorConstants.DCS107(), sqle);
 		}
 		return uuid;
 	}
@@ -74,11 +73,14 @@ public class LocalDataAdmin implements DataAdmin {
 			List<DataSource> dataSources = new ArrayList<>();
 			
 			while(rs.next()) {
-				dataSources.add(new DataSource(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3)));
+				DataSource ds = new DataSource();
+				ds.setUuid(rs.getString(1));
+				ds.setName(rs.getString(2));
+				dataSources.add(ds);
 			}
 			return dataSources;
 		} catch (SQLException e) {
-			throw new RESTException(ErrorCode.DCS107(), e);
+			throw new RESTException(ErrorConstants.DCS107(), e);
 		}
 	}
 }

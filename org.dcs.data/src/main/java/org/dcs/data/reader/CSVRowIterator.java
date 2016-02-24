@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.dcs.api.RESTException;
-import org.dcs.api.model.ErrorCode;
+import org.dcs.api.model.ErrorConstants;
+import org.dcs.api.service.RESTException;
 
 import com.opencsv.CSVReader;
 
@@ -30,9 +30,9 @@ public class CSVRowIterator implements TableRowIterator {
 			try {
 				csvReader.close();
 			} catch (IOException ioe2) {
-				throw new RESTException(ErrorCode.DCS104(), ioe2);
+				throw new RESTException(ErrorConstants.DCS104(), ioe2);
 			}
-			throw new RESTException(ErrorCode.DCS104(),ioe1);
+			throw new RESTException(ErrorConstants.DCS104(),ioe1);
 		}
 	}
 

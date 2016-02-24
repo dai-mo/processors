@@ -3,7 +3,7 @@ package org.dcs.data.config;
 import java.io.File;
 import java.io.InputStream;
 
-import org.dcs.api.RESTException;
+import org.dcs.api.service.RESTException;
 import org.dcs.data.utils.DataManagerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

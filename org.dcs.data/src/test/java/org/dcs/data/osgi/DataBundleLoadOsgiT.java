@@ -61,12 +61,12 @@ public class DataBundleLoadOsgiT {
           .versionAsInProject()
           .classifier("features")
           .type("xml");
-      MavenUrlReference orgDcsApiRepo = maven()
-          .groupId("org.dcs")
-          .artifactId("org.dcs.api")
-          .versionAsInProject()
-          .classifier("features")
-          .type("xml");
+//      MavenUrlReference orgDcsApiRepo = maven()
+//          .groupId("org.dcs")
+//          .artifactId("org.dcs.api")
+//          .versionAsInProject()
+//          .classifier("features")
+//          .type("xml");
       return new Option[] {
           // KarafDistributionOption.debugConfiguration("5005", true),
           karafDistributionConfiguration()
@@ -79,12 +79,12 @@ public class DataBundleLoadOsgiT {
           // TODO: The ideal mechanism to deploy would be to just provision
           //       the .kar files into the deploy directory, but it's not clear
           //       how to create a maven kar bundle as an option
-          features(orgDcsApiRepo , "org.dcs.api"),
+          //features(orgDcsApiRepo , "org.dcs.api"),
           features(orgDcsDataRepo , "org.dcs.data"),    
           // TODO: Seems that .versionAsInProject() works only if the
           //       the version is explicitly declared in the pom.
           //       If it is inherited the method does not work
-          mavenBundle("org.dcs","org.dcs.api").versionAsInProject().start(),
+          //mavenBundle("org.dcs","org.dcs.api").versionAsInProject().start(),
           mavenBundle("org.dcs","org.dcs.data").versionAsInProject().start(),
           CoreOptions.systemProperty("config").value(DataUtils.getKarafConfigurationFilePath(this.getClass()))
      };

@@ -1,7 +1,7 @@
 package org.dcs.data.utils;
 
-import org.dcs.api.RESTException;
-import org.dcs.api.model.ErrorCode;
+import org.dcs.api.model.ErrorConstants;
+import org.dcs.api.service.RESTException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +52,7 @@ public class DataManagerUtils {
 		} else {
 			if(!dir.mkdir()) {
 				logger.info("Could not create data root directory at " + dir.getAbsolutePath());
-				throw new RESTException(ErrorCode.DCS103());
+				throw new RESTException(ErrorConstants.DCS103());
 			}
 		}
 		return true;
