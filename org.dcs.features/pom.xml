@@ -17,10 +17,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.data</artifactId>
 		</dependency>
 		<dependency>
@@ -61,12 +57,6 @@
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>features-generate-descriptor</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>create-kar</id>
-						<goals>
-							<goal>kar</goal>
 						</goals>
 					</execution>
 				</executions>

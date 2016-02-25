@@ -430,10 +430,6 @@
 
 		<dependency>
 			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.core</artifactId>
 			<scope>provided</scope>
 		</dependency>
@@ -548,7 +544,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.restapi</artifactId>			
+			<artifactId>org.dcs.openapi</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.dcs</groupId>

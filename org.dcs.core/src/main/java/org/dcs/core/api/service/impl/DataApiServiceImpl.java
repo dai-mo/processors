@@ -10,7 +10,6 @@ import org.dcs.api.model.DataSource;
 import org.dcs.api.service.DataApiService;
 import org.dcs.api.service.RESTException;
 import org.dcs.data.FileDataManager;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.ops4j.pax.cdi.api.OsgiService;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.ops4j.pax.cdi.api.Properties;
@@ -40,10 +39,10 @@ public class DataApiServiceImpl implements DataApiService {
 	}
 
 	@Override
-	public DataLoader dataPost(InputStream inputStream, FormDataContentDisposition fileDetail)
+	public DataLoader dataPost(InputStream inputStream, String fileName)
 			throws RESTException {
     DataLoader dataLoader = new DataLoader();
-    dataLoader.setDataSourceId(dataManager.load(inputStream, fileDetail.getFileName()).toString());
+    dataLoader.setDataSourceId(dataManager.load(inputStream, fileName).toString());
     return dataLoader;
 
 	}

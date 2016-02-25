@@ -18,7 +18,6 @@ import org.dcs.core.test.CoreBaseTest;
 import org.dcs.core.test.CoreHomeBaseTest;
 import org.dcs.core.test.CoreMockFactory;
 import org.dcs.test.DataUtils;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -59,11 +58,12 @@ public class DataApiServiceImplTest extends CoreHomeBaseTest {
   @Test
   public void testloadFile()  {
     InputStream inputStream = DataUtils.getInputResourceAsStream(this.getClass(), "/test.csv");
-    FormDataContentDisposition fdcd =  CoreMockFactory.getFormDataContentDisposition("test.csv");
+
+    // check upload of file
 
     DataLoader loader;
     try {
-      loader = dataApiService.dataPost(inputStream, fdcd);
+      loader = dataApiService.dataPost(inputStream, "test.csv");
       assertNotNull(loader.getDataSourceId());
     } catch(RESTException dme) {
     	dme.printStackTrace();
@@ -72,10 +72,10 @@ public class DataApiServiceImplTest extends CoreHomeBaseTest {
 
     try {
       // uploading the same file a second time should produce an error
-      loader = dataApiService.dataPost(inputStream, fdcd);
+      loader = dataApiService.dataPost(inputStream, "test.csv");
       fail("Exception should be thrown here");
-    } catch(RESTException re) {
-      ErrorResponse errorResponse = re.getErrorResponse();
+    } catch(RESTException dme) {
+      ErrorResponse errorResponse = dme.getErrorResponse();
       assertEquals(ErrorConstants.DCS101(), errorResponse);
     }
 
