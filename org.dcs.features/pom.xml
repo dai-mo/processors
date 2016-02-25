@@ -59,6 +59,13 @@
 							<goal>features-generate-descriptor</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>create-kar</id>
+						<goals>
+							<goal>kar</goal>
+						</goals>
+
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
