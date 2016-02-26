@@ -8,17 +8,18 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 
-import org.dcs.api.RESTException;
 import org.dcs.api.model.DataLoader;
-import org.dcs.api.model.ErrorCode;
+import org.dcs.api.model.ErrorConstants;
+import org.dcs.api.model.ErrorResponse;
 import org.dcs.api.service.DataApiService;
-import org.dcs.config.CoreBaseTest;
+import org.dcs.api.service.RESTException;
 import org.dcs.core.api.service.impl.DataApiServiceImpl;
-import org.dcs.core.data.DataHomeBaseTest;
+import org.dcs.core.test.CoreBaseTest;
+import org.dcs.core.test.CoreHomeBaseTest;
+import org.dcs.core.test.CoreMockFactory;
 import org.dcs.test.DataUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
@@ -31,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * Created by cmathew on 26/01/16.
  */
 @RunWith(Arquillian.class)
-public class DataApiServiceImplTest extends DataHomeBaseTest {
+public class DataApiServiceImplTest extends CoreHomeBaseTest {
 
   static final Logger logger = LoggerFactory.getLogger(DataApiServiceImplTest.class);
 
@@ -62,7 +63,7 @@ public class DataApiServiceImplTest extends DataHomeBaseTest {
 
     DataLoader loader;
     try {
-      loader = dataApiService.dataPost(inputStream, "test.csv", null);
+      loader = dataApiService.dataPost(inputStream, "test.csv");
       assertNotNull(loader.getDataSourceId());
     } catch(RESTException dme) {
     	dme.printStackTrace();
@@ -71,11 +72,11 @@ public class DataApiServiceImplTest extends DataHomeBaseTest {
 
     try {
       // uploading the same file a second time should produce an error
-      loader = dataApiService.dataPost(inputStream, "test.csv", null);
+      loader = dataApiService.dataPost(inputStream, "test.csv");
       fail("Exception should be thrown here");
     } catch(RESTException dme) {
-      ErrorCode errorCode = dme.getErrorCode();
-      assertEquals(ErrorCode.DCS101(), errorCode);
+      ErrorResponse errorResponse = dme.getErrorResponse();
+      assertEquals(ErrorConstants.DCS101(), errorResponse);
     }
 
   }

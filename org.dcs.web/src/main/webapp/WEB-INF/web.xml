@@ -25,7 +25,7 @@
 
     <!-- Servlet settings for OSGI Http Service-->
     <listener>
-        <listener-class>org.dcs.osgi.StartupListener</listener-class>
+        <listener-class>org.dcs.remote.osgi.StartupListener</listener-class>
     </listener>
 
     <listener>

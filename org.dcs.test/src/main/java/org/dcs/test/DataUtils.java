@@ -2,6 +2,7 @@ package org.dcs.test;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -25,6 +26,7 @@ public class DataUtils {
           File.separator + DATA_ROOT_DIR_NAME + File.separator + INPUT_DATA_DIR_NAME;
 
 
+  private static String TARGET_TEST_CLASSES_MARKER = "target" + File.separator + "test-classes";
 
 
   public static String getHomeDataRelDirName() {
@@ -66,6 +68,38 @@ public class DataUtils {
 
     return thisPath.substring(0, thisPath.lastIndexOf(TARGET_MARKER) + TARGET_MARKER.length());
   }
+  
+  public static URL getTargetDirectoryUrl(Class testClass) throws MalformedURLException {
+  	return new File(getTargetDirectory(testClass)).toURI().toURL();
+  }
 
+  public static String getTargetClassesDirectory(Class testClass) {
+    URL thisUrl = testClass.getResource(".");
+    File thisDir = new File(thisUrl.getFile());
+    String thisPath = thisDir.getAbsolutePath();
+
+    return thisPath
+            .substring(0, thisPath.lastIndexOf(TARGET_TEST_CLASSES_MARKER) +
+                    TARGET_TEST_CLASSES_MARKER.length())
+            .replaceAll(TARGET_TEST_CLASSES_MARKER, "target" + File.separator + "classes");
+  }
+  
+  public static String getFeatureDescriptorFileUrlString(Class testClass) throws MalformedURLException {
+  	return DataUtils.getTargetDirectoryUrl(testClass) + File.separator  
+  			+ "feature" + File.separator  
+  			+ "feature.xml";
+  }
+  
+  public static String getTestConfigurationFilePath(Class testClass) {
+  	return DataUtils.getTargetDirectory(testClass) + File.separator  
+		 + "test-classes" + File.separator  
+		 + "config.yaml";
+  }
+  
+  public static String getKarafConfigurationFilePath(Class testClass) {
+  	return DataUtils.getTargetDirectory(testClass) + File.separator  
+		 + "test-classes" + File.separator  
+		 + "dcs-karaf-config.yaml";
+  }
 
 }
