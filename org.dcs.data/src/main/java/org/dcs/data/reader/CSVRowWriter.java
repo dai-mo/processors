@@ -18,7 +18,7 @@ public class CSVRowWriter {
 		try {
 			this.csvWriter = new CSVWriter(new FileWriter(dataSourcePath), ',');
 		} catch (IOException ioe) {
-			throw new RESTException(ErrorConstants.DCS105(), ioe);
+			throw new RESTException(ErrorConstants.getErrorResponse("DCS105"), ioe);
 		}	
 	}
 	
@@ -30,7 +30,7 @@ public class CSVRowWriter {
 		try {
 			csvWriter.close();
 		} catch (IOException ioe) {
-			throw new RESTException(ErrorConstants.DCS105(), ioe);
+			throw new RESTException(ErrorConstants.getErrorResponse("DCS105"), ioe);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.dcs.test;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -12,5 +13,11 @@ public class ReflectionUtils {
     Method method = object.getClass().getDeclaredMethod(methodName);
     method.setAccessible(true);
     return method.invoke(object);
+  }
+  
+  public static Object getField(Object object, String fieldName) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {	
+  	Field privateField = object.getClass().getDeclaredField(fieldName);
+  	privateField.setAccessible(true);
+  	return privateField.get(object);
   }
 }

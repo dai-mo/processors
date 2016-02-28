@@ -30,9 +30,9 @@ public class CSVRowIterator implements TableRowIterator {
 			try {
 				csvReader.close();
 			} catch (IOException ioe2) {
-				throw new RESTException(ErrorConstants.DCS104(), ioe2);
+				throw new RESTException(ErrorConstants.getErrorResponse("DCS104"), ioe2);
 			}
-			throw new RESTException(ErrorConstants.DCS104(),ioe1);
+			throw new RESTException(ErrorConstants.getErrorResponse("DCS104"),ioe1);
 		}
 	}
 

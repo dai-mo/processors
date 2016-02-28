@@ -52,7 +52,7 @@ public class DataManagerUtils {
 		} else {
 			if(!dir.mkdir()) {
 				logger.info("Could not create data root directory at " + dir.getAbsolutePath());
-				throw new RESTException(ErrorConstants.DCS103());
+				throw new RESTException(ErrorConstants.getErrorResponse("DCS103"));
 			}
 		}
 		return true;
