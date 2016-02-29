@@ -32,7 +32,7 @@ public class LocalDataAdmin implements DataAdmin {
 			sqlDataSource = new SQLiteDataConnector(dataConfiguration.getDataAdminDbPath());
 			init();
 		} catch (Exception e) {
-			throw new RESTException(ErrorConstants.DCS106(), e);
+			throw new RESTException(ErrorConstants.getErrorResponse("DCS106"), e);
 		} 
 	}
 	
@@ -56,7 +56,7 @@ public class LocalDataAdmin implements DataAdmin {
 			pstmt.setString(3, dataSourceUrl);
 			pstmt.executeUpdate();
 		} catch (SQLException sqle) {
-			throw new RESTException(ErrorConstants.DCS107(), sqle);
+			throw new RESTException(ErrorConstants.getErrorResponse("DCS107"), sqle);
 		}
 		return uuid;
 	}
@@ -80,7 +80,7 @@ public class LocalDataAdmin implements DataAdmin {
 			}
 			return dataSources;
 		} catch (SQLException e) {
-			throw new RESTException(ErrorConstants.DCS107(), e);
+			throw new RESTException(ErrorConstants.getErrorResponse("DCS107"), e);
 		}
 	}
 }

@@ -76,7 +76,7 @@ public class DataApiServiceImplTest extends CoreHomeBaseTest {
       fail("Exception should be thrown here");
     } catch(RESTException dme) {
       ErrorResponse errorResponse = dme.getErrorResponse();
-      assertEquals(ErrorConstants.DCS101(), errorResponse);
+      assertEquals(ErrorConstants.getErrorResponse("DCS101"), errorResponse);
     }
 
   }

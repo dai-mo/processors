@@ -30,7 +30,7 @@ public class ConfigurationFacade {
 	private String dataRootPath;
 
 
-	public ConfigurationFacade() throws Exception {
+	private ConfigurationFacade() throws Exception {
 		loadDataConfiguration();
 	}
 

@@ -60,6 +60,6 @@ public class DataApiIT {
     
     response = given().multiPart(new File(inputFilePath)).when().post("/dcs/api/v0/data");
     response.body().prettyPrint();
-    response.then().body("errorCode", equalTo(ErrorConstants.DCS101().getCode()));
+    response.then().body("errorCode", equalTo(ErrorConstants.getErrorResponse("DCS101").getCode()));
   }
 }

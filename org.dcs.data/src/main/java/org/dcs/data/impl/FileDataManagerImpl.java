@@ -58,7 +58,7 @@ public class FileDataManagerImpl implements FileDataManager {
     
     File dataSourceDir = new File(dataHomeDir.getAbsolutePath() + File.separator + dataSourceName);
     if(dataSourceDir.exists()) {
-      throw new RESTException(ErrorConstants.DCS101());
+      throw new RESTException(ErrorConstants.getErrorResponse("DCS101"));
     }
     dataSourceDir.mkdir();
 

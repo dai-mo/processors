@@ -28,7 +28,7 @@ public class ConfiguratorFacadeTest {
   String defaultDataAdminPath = defaultDataRootPath + File.separator + DataConfiguration.DATA_ADMIN_DIR_NAME;
   String defaultDataAdminDbPath = defaultDataAdminPath + File.separator + DataConfiguration.DATA_ADMIN_DB_NAME;
   
-
+  ConfigurationFacade configurator = ConfigurationFacade.getInstance();
   @Before
   public void testDeleteDataHomeDirContents() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {    
     DataManagerUtils.delete(new File(defaultDataRootPath));
@@ -51,14 +51,14 @@ public class ConfiguratorFacadeTest {
     DataConfiguration config = null;
     try {
       System.setProperty("config", userDefinedConfigFilePath);
-      ConfigurationFacade configurator = new ConfigurationFacade();
+      configurator.loadDataConfiguration();
       config = configurator.getDataConfiguration();
       assertEquals(testDataRootPath,config.getDataRootPath());
       assertEquals(testDataHomePath,config.getDataHomePath());
       assertTrue((new File(testDataHomePath)).exists());
       
       System.clearProperty("config");
-      configurator = new ConfigurationFacade();
+      configurator.loadDataConfiguration();
       config = configurator.getDataConfiguration();
       assertEquals(testDataRootPath,config.getDataRootPath());
       assertEquals(testDataHomePath,config.getDataHomePath());      
@@ -76,7 +76,7 @@ public class ConfiguratorFacadeTest {
     
     try {
       System.setProperty("config", userDefinedConfigFilePath);
-      new ConfigurationFacade();
+      configurator.loadDataConfiguration();;
       fail("An exception should be thrown when loading wrong config file");
     } catch (Exception e) {
     	

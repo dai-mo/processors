@@ -67,7 +67,7 @@ public class FileDataManagerTest extends DataBaseTest {
     	dataManager.load(inputStream, "test.csv");
     	fail("DataManagerException should be thrown here");
     } catch(RESTException dme) {
-    	assertEquals(ErrorConstants.DCS101(), dme.getErrorResponse());
+    	assertEquals(ErrorConstants.getErrorResponse("DCS101"), dme.getErrorResponse());
     }
     
     File dataSourceDir = new File(dataConfiguration.getDataHomePath() + "/test.csv");
