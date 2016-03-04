@@ -7,11 +7,15 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.dcs.api.model.ErrorConstants;
 import org.dcs.api.service.RESTException;
 import org.ops4j.pax.cdi.api.OsgiService;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+import org.ops4j.pax.cdi.api.Properties;
+import org.ops4j.pax.cdi.api.Property;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +25,12 @@ import java.util.List;
  */
 
 
-
+@OsgiServiceProvider
+@Properties({
+    @Property(name = "service.exported.interfaces", value = "*"),
+    @Property(name = "service.exported.configs", value = "org.apache.cxf.ws")
+})
+@Default
 public class DatasourcesManager {
 
   private static final Logger logger = LoggerFactory.getLogger(DatasourcesManager.class);
