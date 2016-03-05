@@ -10,7 +10,7 @@
 
 	<artifactId>org.dcs.web</artifactId>
 	<packaging>war</packaging>
-	<name>org.dcs.web</name>
+	<name>DCS Web</name>
 
 	<properties>
 		<vaadin.version>7.5.10</vaadin.version>

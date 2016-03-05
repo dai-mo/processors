@@ -9,6 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>org.dcs.core</artifactId>
+	<name>DCS Core OSGI Module</name>
 	<packaging>bundle</packaging>
 
 	<properties>
