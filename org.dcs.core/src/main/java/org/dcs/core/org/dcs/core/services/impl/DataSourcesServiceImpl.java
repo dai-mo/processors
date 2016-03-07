@@ -27,6 +27,7 @@ import java.util.List;
 
 
 @OsgiServiceProvider
+@OsgiService
 @Properties({
     @Property(name = "service.exported.interfaces", value = "*"),
     @Property(name = "service.exported.configs", value = "org.apache.cxf.ws")
@@ -55,14 +56,14 @@ public class DataSourcesServiceImpl implements DataSourcesService {
   }
 
   @Override
-  public DataSourcesServiceImpl addDatasource(String sourceName, String uriStr) throws RESTException {
+  public String addDatasource(String sourceName, String uriStr) throws RESTException {
     try (CuratorFramework fwk = CuratorFrameworkFactory.newClient(connectionString, retryPolicy)) {
       StringBuilder path = new StringBuilder(dataSourcesBasePath);
       path.append("/").append(sourceName);
       fwk.start();
       fwk.create().forPath(dataSourcesBasePath, uriStr.getBytes());
       logger.debug(new StringBuilder("Added datasource: ").append(sourceName).toString());
-      return this;
+      return uriStr;
     } catch (Exception e) {
       logger.error(new StringBuilder("Cannot add datasource: ").append(sourceName).toString());
       throw new RESTException(ErrorConstants.getErrorResponse("DCS101"), e);

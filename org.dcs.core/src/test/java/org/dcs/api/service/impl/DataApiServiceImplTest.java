@@ -15,6 +15,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.cdi.api.OsgiService;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,10 +38,11 @@ public class DataApiServiceImplTest extends CoreHomeBaseTest {
     PomEquippedResolveStage resolver = Maven.resolver().loadPomFromFile("pom.xml");
     JavaArchive[] as = resolver.resolve("javax.ws.rs:javax.ws.rs-api").withTransitivity().as(JavaArchive.class);
     JavaArchive javaArchive = CoreBaseTest.createBaseDeployment()
-            .addClass(DataApiService.class)
-            .addClass(DataApiServiceImpl.class)
-            .addClass(DataSourcesServiceImpl.class)
-            .addClass(RESTException.class);
+        .addClass(DataApiService.class)
+        .addClass(ConfigurationAdmin.class)
+        .addClass(DataApiServiceImpl.class)
+        .addClass(DataSourcesServiceImpl.class)
+        .addClass(RESTException.class);
     
     for(JavaArchive archive : as) {
       javaArchive.merge(archive);

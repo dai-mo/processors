@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 @javax.annotation.Generated(value = "class org.dcs.swagger.DCSJavaJersey2ServerCodegen", date = "2016-03-02T15:34:09.482+01:00")
 @OsgiServiceProvider
+@OsgiService
 @Properties({
 		@Property(name = "service.exported.interfaces", value = "*"),
 		@Property(name = "service.exported.configs", value = "org.apache.cxf.ws")
