@@ -1,4 +1,4 @@
-package org.dcs.core.org.dcs.core.services;
+package org.dcs.core.org.dcs.core.services.impl;
 
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -6,6 +6,7 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.dcs.api.model.ErrorConstants;
 import org.dcs.api.service.RESTException;
+import org.dcs.core.org.dcs.core.services.DataSourcesService;
 import org.ops4j.pax.cdi.api.OsgiService;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.ops4j.pax.cdi.api.Properties;
@@ -31,9 +32,9 @@ import java.util.List;
     @Property(name = "service.exported.configs", value = "org.apache.cxf.ws")
 })
 @Default
-public class DatasourcesManager {
+public class DataSourcesServiceImpl implements DataSourcesService {
 
-  private static final Logger logger = LoggerFactory.getLogger(DatasourcesManager.class);
+  private static final Logger logger = LoggerFactory.getLogger(DataSourcesServiceImpl.class);
 
   public static final String ZOOKEEPER_CONFIG_STRING = "zookeeper.hosts";
   public static final String ZOOKEEPER_DATASOURCE_PATH = "zookeeper.datasources";
@@ -45,20 +46,21 @@ public class DatasourcesManager {
 
   private RetryPolicy retryPolicy;
   private String connectionString;
-  private String baseDatasourcesPath;
+  private String dataSourcesBasePath;
 
-  public DatasourcesManager() throws RESTException {
+  public DataSourcesServiceImpl() throws RESTException {
     retryPolicy = new ExponentialBackoffRetry(1000, 3);
     connectionString = (String) configuration().getProperties().get(ZOOKEEPER_CONFIG_STRING);
-    baseDatasourcesPath = (String) configuration().getProperties().get(ZOOKEEPER_DATASOURCE_PATH);
+    dataSourcesBasePath = (String) configuration().getProperties().get(ZOOKEEPER_DATASOURCE_PATH);
   }
 
-  public DatasourcesManager addDatasource(String sourceName, String uriStr) throws RESTException {
+  @Override
+  public DataSourcesServiceImpl addDatasource(String sourceName, String uriStr) throws RESTException {
     try (CuratorFramework fwk = CuratorFrameworkFactory.newClient(connectionString, retryPolicy)) {
-      StringBuilder path = new StringBuilder(baseDatasourcesPath);
+      StringBuilder path = new StringBuilder(dataSourcesBasePath);
       path.append("/").append(sourceName);
       fwk.start();
-      fwk.create().forPath(baseDatasourcesPath, uriStr.getBytes());
+      fwk.create().forPath(dataSourcesBasePath, uriStr.getBytes());
       logger.debug(new StringBuilder("Added datasource: ").append(sourceName).toString());
       return this;
     } catch (Exception e) {
@@ -67,10 +69,11 @@ public class DatasourcesManager {
     }
   }
 
-  public List<String> getDatasources() throws RESTException {
+  @Override
+  public List<String> getDataSources() throws RESTException {
     try ( CuratorFramework fwk = CuratorFrameworkFactory.newClient(connectionString, retryPolicy) )  {
       fwk.start();
-      return fwk.getChildren().forPath(baseDatasourcesPath);
+      return fwk.getChildren().forPath(dataSourcesBasePath);
     } catch (Exception e) {
       throw new RESTException(ErrorConstants.getErrorResponse("DCS101"), e);
     }

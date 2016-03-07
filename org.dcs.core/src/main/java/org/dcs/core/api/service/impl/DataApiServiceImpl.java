@@ -1,49 +1,41 @@
 package org.dcs.core.api.service.impl;
 
-import java.io.InputStream;
-
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
-
-import org.dcs.api.model.DataLoader;
 import org.dcs.api.model.DataSource;
 import org.dcs.api.service.DataApiService;
 import org.dcs.api.service.RESTException;
-import org.dcs.data.FileDataManager;
+import org.dcs.core.org.dcs.core.services.DataSourcesService;
 import org.ops4j.pax.cdi.api.OsgiService;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.ops4j.pax.cdi.api.Properties;
 import org.ops4j.pax.cdi.api.Property;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-26T15:01:10.051+01:00")
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
+
+@javax.annotation.Generated(value = "class org.dcs.swagger.DCSJavaJersey2ServerCodegen", date = "2016-03-02T15:34:09.482+01:00")
 @OsgiServiceProvider
 @Properties({
-	@Property(name = "service.exported.interfaces", value = "*"),
-	@Property(name = "service.exported.configs", value = "org.apache.cxf.ws")
+		@Property(name = "service.exported.interfaces", value = "*"),
+		@Property(name = "service.exported.configs", value = "org.apache.cxf.ws")
 })
 @Default
 public class DataApiServiceImpl implements DataApiService {
-	static final Logger logger = LoggerFactory.getLogger(DataApiServiceImpl.class);
-
 
 	@Inject
 	@OsgiService
-	private FileDataManager dataManager;
+  private DataSourcesService dataSourcesService;
 
 	@Override
-	public DataSource dataGet() throws RESTException {
-		// do some magic!
+	public DataSource dataGet(DataSource filter) throws RESTException {
+		dataSourcesService.getDataSources();
 		return new DataSource();
 	}
 
 	@Override
-	public DataLoader dataPost(InputStream inputStream, String fileName)
-			throws RESTException {
-    DataLoader dataLoader = new DataLoader();
-    dataLoader.setDataSourceId(dataManager.load(inputStream, fileName).toString());
-    return dataLoader;
-
+	public DataSource dataPost(DataSource definition) throws RESTException {
+		// do some magic!
+		return new DataSource();
 	}
+
 }
+
