@@ -4,9 +4,10 @@ import junit.framework.Assert;
 import org.dcs.api.service.DataApiService;
 import org.dcs.api.service.RESTException;
 import org.dcs.core.api.service.impl.DataApiServiceImpl;
-import org.dcs.core.org.dcs.core.services.impl.DataSourcesServiceImpl;
+import org.dcs.core.services.impl.DataSourcesServiceImpl;
 import org.dcs.core.test.CoreBaseTest;
 import org.dcs.core.test.CoreHomeBaseTest;
+import org.dcs.test.mock.MockConfigurationAdmin;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -39,6 +40,7 @@ public class DataApiServiceImplTest extends CoreHomeBaseTest {
     JavaArchive[] as = resolver.resolve("javax.ws.rs:javax.ws.rs-api").withTransitivity().as(JavaArchive.class);
     JavaArchive javaArchive = CoreBaseTest.createBaseDeployment()
         .addClass(DataApiService.class)
+        .addClass(MockConfigurationAdmin.class)
         .addClass(ConfigurationAdmin.class)
         .addClass(DataApiServiceImpl.class)
         .addClass(DataSourcesServiceImpl.class)

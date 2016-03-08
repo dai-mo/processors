@@ -1,4 +1,4 @@
-package org.dcs.core.org.dcs.core.services.impl;
+package org.dcs.core.services.impl;
 
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -6,7 +6,7 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.dcs.api.model.ErrorConstants;
 import org.dcs.api.service.RESTException;
-import org.dcs.core.org.dcs.core.services.DataSourcesService;
+import org.dcs.core.services.DataSourcesService;
 import org.ops4j.pax.cdi.api.OsgiService;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.ops4j.pax.cdi.api.Properties;
@@ -16,6 +16,7 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -49,11 +50,17 @@ public class DataSourcesServiceImpl implements DataSourcesService {
   private String connectionString;
   private String dataSourcesBasePath;
 
-  public DataSourcesServiceImpl() throws RESTException {
-    retryPolicy = new ExponentialBackoffRetry(1000, 3);
+  @PostConstruct
+  private final void init() throws RESTException {
+  	retryPolicy = new ExponentialBackoffRetry(1000, 3);
     connectionString = (String) configuration().getProperties().get(ZOOKEEPER_CONFIG_STRING);
     dataSourcesBasePath = (String) configuration().getProperties().get(ZOOKEEPER_DATASOURCE_PATH);
+//    try {
+//    } catch (RESTException e) {
+//      e.printStackTrace();
+//    }
   }
+
 
   @Override
   public String addDatasource(String sourceName, String uriStr) throws RESTException {

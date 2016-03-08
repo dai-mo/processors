@@ -1,4 +1,4 @@
-package org.dcs.core.org.dcs.core.services;
+package org.dcs.core.services;
 
 import org.dcs.api.service.RESTException;
 
