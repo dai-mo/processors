@@ -9,6 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>org.dcs.core</artifactId>
+	<name>DCS Core OSGI Module</name>
 	<packaging>bundle</packaging>
 
 	<properties>
@@ -123,6 +124,17 @@
 		</plugins>
 	</build>
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+			<version>2.10.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.data</artifactId>
