@@ -15,6 +15,7 @@ import java.util.List;
 @Properties({
     @Property(name = "service.exported.interfaces", value = "*"),
     @Property(name = "service.exported.configs", value = "org.apache.cxf.ws")
+    //@Property(name = "org.apache.cxf.ws.address", value = "/org/dcs/api/service/ModulesApiService")
 })
 public class ModulesApiServiceImpl implements ModulesApiService {
 
