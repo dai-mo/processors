@@ -16,7 +16,6 @@ import org.ops4j.pax.cdi.api.OsgiService;
 public class TestFlowModule implements FlowModule {
 
 	@Inject
-	@OsgiService
 	private TestApiService testService;
 	
   public static final PropertyDescriptor USER_NAME = new PropertyDescriptor.Builder()

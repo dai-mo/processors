@@ -1,13 +1,11 @@
 package org.dcs.core.module.flow;
 
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
-import javax.inject.Inject;
 
-import org.jboss.netty.util.internal.ConcurrentHashMap;
+
 
 public class ModuleFactory {
 

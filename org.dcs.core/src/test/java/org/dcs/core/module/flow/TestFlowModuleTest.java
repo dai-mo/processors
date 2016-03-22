@@ -33,12 +33,6 @@ public class TestFlowModuleTest extends  CoreBaseTest {
 	
   static final Logger logger = LoggerFactory.getLogger(DataApiServiceImplTest.class);
 
-  @Inject
-  @OsgiService
-  private TestApiService testService;
-
-	
-
   @Deployment
   public static JavaArchive createDeployment() {
   	return createBaseDeployment()
