@@ -2,6 +2,8 @@ package org.dcs.core.module.flow;
 
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import org.apache.nifi.components.PropertyValue;
 import org.dcs.api.model.TestResponse;
 import org.dcs.api.service.RESTException;
@@ -15,6 +17,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ops4j.pax.cdi.api.OsgiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +25,9 @@ import org.slf4j.LoggerFactory;
 public class TestFlowModuleTest extends  CoreBaseTest {
 
 	static final Logger logger = LoggerFactory.getLogger(TestFlowModuleTest.class);
+	
+	@Inject	
+	private ModuleFactoryService mFactory;
 
 	@Deployment
 	public static JavaArchive createDeployment() {
@@ -29,13 +35,14 @@ public class TestFlowModuleTest extends  CoreBaseTest {
 				.addClass(TestApiService.class)
 				.addClass(TestApiServiceImpl.class)
 				.addClass(FlowModule.class)
-				.addClass(TestFlowModule.class);
+				.addClass(TestFlowModule.class)
+				.addClass(ModuleFactoryService.class)
+				.addClass(ModuleFactoryServiceImpl.class);
 	}
 
 	@Test
 	public void testHello() {
-
-		ModuleFactory mFactory = new ModuleFactory();
+		
 		UUID moduleUUID = null;
 
 		moduleUUID = mFactory.createFlowModule("org.dcs.core.module.flow.TestFlowModule");
