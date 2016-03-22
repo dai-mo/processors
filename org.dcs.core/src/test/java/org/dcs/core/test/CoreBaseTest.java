@@ -20,9 +20,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
  */
 public class CoreBaseTest {
   
-  protected static DataConfiguration dataConfiguration = ConfigurationFacade.getCurrentDataConfiguration();
-
-
+ 
   public static List<Class<?>> getClassesToAdd() {
     return null;
   }
@@ -30,10 +28,6 @@ public class CoreBaseTest {
 
   public static JavaArchive createBaseDeployment() {
     return ShrinkWrap.create(JavaArchive.class)
-            .addClass(FileDataManager.class)
-            .addClass(FileDataManagerImpl.class)
-            .addClass(ConfigurationFacade.class)
-            .addClass(LocalDataAdmin.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
   }
   

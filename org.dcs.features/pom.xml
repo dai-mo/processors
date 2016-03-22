@@ -33,6 +33,10 @@
 			<artifactId>org.dcs.test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.dcs</groupId>
+			<artifactId>org.dcs.api</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<pluginManagement>
