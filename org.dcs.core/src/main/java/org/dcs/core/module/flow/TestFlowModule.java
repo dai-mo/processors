@@ -30,10 +30,6 @@ public class TestFlowModule implements FlowModule {
       .description("All status updates will be routed to this relationship")
       .build();
 
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub		
-	}
 	
 	@Override
 	public List<PropertyDescriptor> getPropertyDescriptors() {

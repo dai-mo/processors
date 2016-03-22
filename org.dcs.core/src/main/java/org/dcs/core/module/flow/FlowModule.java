@@ -9,8 +9,6 @@ import org.dcs.api.service.RESTException;
 
 public interface FlowModule {
 	
-	public void init();
-	
 	public List<PropertyDescriptor> getPropertyDescriptors();
 	
 	public List<Relationship> getRelationships();

@@ -9,5 +9,9 @@ public class ModuleException extends Exception {
 	public ModuleException(String message, Throwable t) {
 		super(message, t);
 	}
+	
+	public ModuleException(Throwable t) {
+		super(t);
+	}
 
 }
