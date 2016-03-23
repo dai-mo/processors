@@ -1,21 +1,22 @@
 package org.dcs.core.module.flow;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
-import org.apache.nifi.components.PropertyDescriptor;
-import org.apache.nifi.processor.ProcessContext;
-import org.apache.nifi.processor.Relationship;
 import org.dcs.api.service.RESTException;
+import org.osgi.framework.BundleContext;
 
 public interface FlowModule {
 	
-	public List<PropertyDescriptor> getPropertyDescriptors();
+  public void init(BundleContext bundleContext);
+  
+	public Map<String, Properties> getPropertyDescriptors();
 	
-	public List<Relationship> getRelationships();
+	public Map<String, Properties> getRelationships();
 	
 	public void schedule();
 	
-	public Object trigger(final ProcessContext context) throws RESTException ;
+	public Object trigger(Map<String, Properties> properties) throws RESTException ;
 	
 	public void unschedule();
 	

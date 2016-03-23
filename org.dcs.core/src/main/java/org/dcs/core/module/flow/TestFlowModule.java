@@ -1,47 +1,58 @@
 package org.dcs.core.module.flow;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
-import javax.inject.Inject;
-
-import org.apache.nifi.components.PropertyDescriptor;
-import org.apache.nifi.processor.ProcessContext;
-import org.apache.nifi.processor.Relationship;
 import org.dcs.api.model.TestResponse;
+import org.dcs.api.service.FlowModuleConstants;
 import org.dcs.api.service.RESTException;
 import org.dcs.api.service.TestApiService;
-import org.ops4j.pax.cdi.api.OsgiService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 public class TestFlowModule implements FlowModule {
 
-	@Inject
-	private TestApiService testService;
 	
-  public static final PropertyDescriptor USER_NAME = new PropertyDescriptor.Builder()
-      .name("User Name")
-      .description("User To Greet")
-      .required(false)
-      .defaultValue("")
-      .build();
-  
-  public static final Relationship REL_SUCCESS = new Relationship.Builder()
-      .name("success")
-      .description("All status updates will be routed to this relationship")
-      .build();
+	private TestApiService testService;
 
 	
+  public static final Map<String, Properties> properties = new HashMap<>();
+  
+  public static final Map<String, Properties> relationships = new HashMap<>();
+  
+  public static final String USER_NAME_ID = "username";
+  
+  public static final String REL_SUCCESS_ID = "success";
+
+
 	@Override
-	public List<PropertyDescriptor> getPropertyDescriptors() {
-		final List<PropertyDescriptor> descriptors = new ArrayList<>();
-    descriptors.add(USER_NAME);
-    return descriptors;
+	public void init(BundleContext bundleContext) {		
+    ServiceReference reference = bundleContext.getServiceReference(TestApiService.class.getName());
+    testService = (TestApiService) bundleContext.getService(reference);
+    
+		Properties userNameProperties = new Properties();
+		userNameProperties.put(FlowModuleConstants.PROPERTY_NAME, "User Name");
+		userNameProperties.put(FlowModuleConstants.PROPERTY_DESCRIPTION, "User To Greet");
+		userNameProperties.put(FlowModuleConstants.PROPERTY_REQUIRED, false);
+		userNameProperties.put(FlowModuleConstants.PROPERTY_DEFAULT_VALUE, "");
+		
+		properties.put(USER_NAME_ID, userNameProperties);
+		
+		Properties userNameRelationships = new Properties();
+		userNameProperties.put(FlowModuleConstants.PROPERTY_NAME, "success");
+		userNameProperties.put(FlowModuleConstants.PROPERTY_DESCRIPTION, "All status updates will be routed to this relationship");
+		
+		relationships.put(REL_SUCCESS_ID, userNameRelationships);
+	}
+	
+	@Override
+	public Map<String, Properties> getPropertyDescriptors() {
+    return properties;
 	}
 
 	@Override
-	public List<Relationship> getRelationships() {
-    final List<Relationship> relationships = new ArrayList<>();
-    relationships.add(REL_SUCCESS);
+	public Map<String, Properties> getRelationships() {
     return relationships;
 	}
 	
@@ -51,8 +62,8 @@ public class TestFlowModule implements FlowModule {
 	}
 
 	@Override
-	public TestResponse trigger(final ProcessContext context) throws RESTException {
-		return testService.testHelloGet(context.getProperty(USER_NAME).getValue());
+	public TestResponse trigger(Map<String, Properties> properties) throws RESTException {		
+		return testService.testHelloGet(properties.get(USER_NAME_ID).getProperty(FlowModuleConstants.PROPERTY_VALUE));
 	}
 
 	@Override
@@ -78,6 +89,5 @@ public class TestFlowModule implements FlowModule {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }

@@ -33,7 +33,7 @@
 						<Import-Package>
 							*
 						</Import-Package>
-						<!-- <Bundle-Activator>org.dcs.core.Activator</Bundle-Activator> -->
+<!-- 						<Bundle-Activator>org.dcs.core.Activator</Bundle-Activator> -->
 						<Require-Capability>
 							org.ops4j.pax.cdi.extension;
 							filter:="(&amp;(extension=pax-cdi-extension)(version&gt;=0.12.0)(!(version&gt;=1.0.0)))",

@@ -1,20 +1,18 @@
 package org.dcs.core.module.flow;
 
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.inject.Default;
-import javax.enterprise.inject.spi.CDI;
+import javax.inject.Inject;
 
-import org.apache.nifi.components.PropertyDescriptor;
-import org.apache.nifi.processor.ProcessContext;
-import org.apache.nifi.processor.Relationship;
+import org.dcs.api.service.ModuleFactoryService;
 import org.dcs.api.service.RESTException;
-import org.ops4j.pax.cdi.api.OsgiService;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.ops4j.pax.cdi.api.Properties;
 import org.ops4j.pax.cdi.api.Property;
+import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,36 +26,39 @@ public class ModuleFactoryServiceImpl implements ModuleFactoryService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ModuleFactoryServiceImpl.class);
 
-	private ConcurrentHashMap<UUID, FlowModule> flowModuleMap = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<String, FlowModule> flowModuleMap = new ConcurrentHashMap<>();
+
+	@Inject
+	private BundleContext bundleContext;
 
 	/* (non-Javadoc)
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#createFlowModule(java.lang.String)
 	 */
 	@Override
-	public UUID createFlowModule(String className) {
-		UUID randomUUID = UUID.randomUUID();
+	public String createFlowModule(String className) {
+		String randomUUID = UUID.randomUUID().toString();
 
 		try {
-			Class<?> clazz = Class.forName(className);
-			Object obj = CDI.current().select(clazz).get();
+			Class<?> clazz = Class.forName(className);			 			
+			Object obj = clazz.newInstance();
+
 			if(obj instanceof FlowModule ) {
-				flowModuleMap.put(randomUUID, (FlowModule)obj);
+				FlowModule fm = (FlowModule)obj;
+				fm.init(bundleContext);
+				flowModuleMap.put(randomUUID, fm);
 			} else {
 				logger.warn("Given classname " + className + " is not of type FlowModule");
 				return null;
 			}
 			return randomUUID;
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			logger.warn("Error initialising class " + className);
 			return null;
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dcs.core.module.flow.ModuleFactoryService#getModule(java.util.UUID)
-	 */
-	@Override
-	public FlowModule getModule(UUID moduleUUID) {
+
+	public FlowModule getModule(String moduleUUID) {
 		return flowModuleMap.get(moduleUUID);
 	}
 
@@ -66,7 +67,7 @@ public class ModuleFactoryServiceImpl implements ModuleFactoryService {
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#getPropertyDescriptors(java.util.UUID)
 	 */
 	@Override
-	public List<PropertyDescriptor> getPropertyDescriptors(UUID moduleUUID) {
+	public Map<String, java.util.Properties> getPropertyDescriptors(String moduleUUID) {
 		return getModule(moduleUUID).getPropertyDescriptors();
 	}
 
@@ -74,7 +75,7 @@ public class ModuleFactoryServiceImpl implements ModuleFactoryService {
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#getRelationships(java.util.UUID)
 	 */
 	@Override
-	public List<Relationship> getRelationships(UUID moduleUUID) {
+	public Map<String, java.util.Properties> getRelationships(String moduleUUID) {
 		return getModule(moduleUUID).getRelationships();
 	}
 
@@ -82,51 +83,56 @@ public class ModuleFactoryServiceImpl implements ModuleFactoryService {
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#schedule(java.util.UUID)
 	 */
 	@Override
-	public void schedule(UUID moduleUUID) {
+	public boolean schedule(String moduleUUID) {
 		getModule(moduleUUID).schedule();
+		return true;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#trigger(java.util.UUID, org.apache.nifi.processor.ProcessContext)
 	 */
 	@Override
-	public Object trigger(UUID moduleUUID, final ProcessContext context) throws RESTException {		
-		return getModule(moduleUUID).trigger(context);		
+	public Object trigger(String moduleUUID,  Map<String, java.util.Properties> properties) throws RESTException {		
+		return getModule(moduleUUID).trigger(properties);		
 	}
 
 	/* (non-Javadoc)
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#unschedule(java.util.UUID)
 	 */
 	@Override
-	public void unschedule(UUID moduleUUID) {
+	public boolean unschedule(String moduleUUID) {
 		getModule(moduleUUID).unschedule();
+		return true;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#stop(java.util.UUID)
 	 */
 	@Override
-	public void stop(UUID moduleUUID) {
+	public boolean stop(String moduleUUID) {
 		getModule(moduleUUID).stop();
+		return true;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#shutdown(java.util.UUID)
 	 */
 	@Override
-	public void shutdown(UUID moduleUUID) {
+	public boolean shutdown(String moduleUUID) {
 		getModule(moduleUUID).shutdown();
+		return true;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#remove(java.util.UUID)
 	 */
 	@Override
-	public void remove(UUID moduleUUID) {
+	public boolean remove(String moduleUUID) {
 		try {
 			getModule(moduleUUID).remove();
 		} finally {
 			flowModuleMap.remove(moduleUUID);
 		}
+		return true;
 	}
 }
