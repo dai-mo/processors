@@ -123,7 +123,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.api</artifactId>			
+			<artifactId>org.dcs.api</artifactId>		
+			<scope>provided</scope>	
 		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>
@@ -165,6 +166,7 @@
 			<artifactId>org.dcs.test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 

@@ -1,6 +1,21 @@
 package org.dcs.core.osgi;
 
+import static org.junit.Assert.assertNotNull;
+import static org.ops4j.pax.exam.CoreOptions.maven;
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.configureConsole;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.features;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
+
+import java.io.File;
+import java.net.MalformedURLException;
+
+import javax.inject.Inject;
+
 import org.dcs.api.service.DataApiService;
+import org.dcs.api.service.ModuleFactoryService;
+import org.dcs.api.service.TestApiService;
 import org.dcs.core.services.DataSourcesService;
 import org.dcs.data.FileDataManager;
 import org.dcs.data.impl.DataAdmin;
@@ -18,15 +33,6 @@ import org.ops4j.pax.exam.options.MavenUrlReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import java.io.File;
-import java.net.MalformedURLException;
-
-import static org.junit.Assert.assertNotNull;
-import static org.ops4j.pax.exam.CoreOptions.maven;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.*;
-
 @RunWith(PaxExam.class)
 public class CoreBundleLoadOsgiT {
 
@@ -34,7 +40,13 @@ public class CoreBundleLoadOsgiT {
 	
 
 	@Inject
+	private ModuleFactoryService moduleFactoryService;
+	
+	@Inject
   private DataSourcesService dataSourcesService;
+	
+	@Inject
+  private TestApiService testService;
 	
 	@Inject
 	private DataApiService dataApiService;
@@ -66,12 +78,12 @@ public class CoreBundleLoadOsgiT {
 				.versionAsInProject()
 				.classifier("features")
 				.type("xml");
-//		MavenUrlReference orgDcsApiRepo = maven()
-//				.groupId("org.dcs")
-//				.artifactId("org.dcs.api")
-//				.versionAsInProject()
-//				.classifier("features")
-//				.type("xml");
+		MavenUrlReference orgDcsApiRepo = maven()
+				.groupId("org.dcs")
+				.artifactId("org.dcs.api")
+				.versionAsInProject()
+				.classifier("features")
+				.type("xml");
 
 		MavenUrlReference orgDcsCoreRepo = maven()
 				.groupId("org.dcs")
@@ -91,13 +103,17 @@ public class CoreBundleLoadOsgiT {
 				// TODO: The ideal mechanism to deploy would be to just provision
 				//       the .kar files into the deploy directory, but it's not clear
 				//       how to create a maven kar bundle as an option
-//				features(orgDcsApiRepo , "org.dcs.api"),
+        mavenBundle("com.fasterxml.jackson.core","jackson-annotations").versionAsInProject().start(),
+        mavenBundle("javax.servlet","javax.servlet-api").versionAsInProject().start(),
+
+				features(orgDcsApiRepo , "org.dcs.api"),
 				features(orgDcsDataRepo , "org.dcs.data"),   
 				features(orgDcsCoreRepo , "org.dcs.core"),    
+
 				// TODO: Seems that .versionAsInProject() works only if the
 				//       the version is explicitly declared in the pom.
 				//       If it is inherited the method does not work
-//				mavenBundle("org.dcs","org.dcs.api").versionAsInProject().start(),
+				mavenBundle("org.dcs","org.dcs.api").versionAsInProject().start(),
 				mavenBundle("org.dcs","org.dcs.data").versionAsInProject().start(),
 				mavenBundle("org.dcs","org.dcs.core").versionAsInProject(),
 				CoreOptions.systemProperty("config").value(DataUtils.getKarafConfigurationFilePath(this.getClass())),				
@@ -120,5 +136,7 @@ public class CoreBundleLoadOsgiT {
 		assertNotNull(dataAdmin);
 		assertNotNull(dataApiService);
 		assertNotNull(dataSourcesService);
+		assertNotNull(testService);
+		assertNotNull(moduleFactoryService);
 	}
 }

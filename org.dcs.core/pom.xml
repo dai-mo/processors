@@ -33,7 +33,7 @@
 						<Import-Package>
 							*
 						</Import-Package>
-						<!-- <Bundle-Activator>org.dcs.core.Activator</Bundle-Activator> -->
+<!-- 						<Bundle-Activator>org.dcs.core.Activator</Bundle-Activator> -->
 						<Require-Capability>
 							org.ops4j.pax.cdi.extension;
 							filter:="(&amp;(extension=pax-cdi-extension)(version&gt;=0.12.0)(!(version&gt;=1.0.0)))",
@@ -147,8 +147,8 @@
 		<dependency>
 			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
+			<scope>provided</scope>
+			</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.cdi</groupId>
 			<artifactId>pax-cdi-api</artifactId>
@@ -193,6 +193,11 @@
 					<artifactId>slf4j-log4j12</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.nifi</groupId>
+			<artifactId>nifi-api</artifactId>
+			<version>0.5.1</version>
 		</dependency>
 	</dependencies>
 
