@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import javax.inject.Inject;
 
 import org.dcs.api.service.DataApiService;
+import org.dcs.api.service.ModuleFactoryService;
 import org.dcs.api.service.TestApiService;
 import org.dcs.core.services.DataSourcesService;
 import org.dcs.data.FileDataManager;
@@ -38,6 +39,9 @@ public class CoreBundleLoadOsgiT {
 	static final Logger logger = LoggerFactory.getLogger(CoreBundleLoadOsgiT.class);
 	
 
+	@Inject
+	private ModuleFactoryService moduleFactoryService;
+	
 	@Inject
   private DataSourcesService dataSourcesService;
 	
@@ -133,5 +137,6 @@ public class CoreBundleLoadOsgiT {
 		assertNotNull(dataApiService);
 		assertNotNull(dataSourcesService);
 		assertNotNull(testService);
+		assertNotNull(moduleFactoryService);
 	}
 }
