@@ -92,7 +92,7 @@ public class ModuleFactoryServiceImpl implements ModuleFactoryService {
 	 * @see org.dcs.core.module.flow.ModuleFactoryService#trigger(java.util.UUID, org.apache.nifi.processor.ProcessContext)
 	 */
 	@Override
-	public Object trigger(String moduleUUID,  Map<String, java.util.Properties> properties) throws RESTException {		
+	public byte[] trigger(String moduleUUID,  Map<String, java.util.Properties> properties) throws RESTException {		
 		return getModule(moduleUUID).trigger(properties);		
 	}
 

@@ -1,5 +1,6 @@
 package org.dcs.core.module.flow;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -62,8 +63,9 @@ public class TestFlowModule implements FlowModule {
 	}
 
 	@Override
-	public TestResponse trigger(Map<String, Properties> properties) throws RESTException {		
-		return testService.testHelloGet(properties.get(USER_NAME_ID).getProperty(FlowModuleConstants.PROPERTY_VALUE));
+	public byte[] trigger(Map<String, Properties> properties) throws RESTException {		
+		TestResponse response= testService.testHelloGet(properties.get(USER_NAME_ID).getProperty(FlowModuleConstants.PROPERTY_VALUE));
+		return response.getResponse().getBytes(StandardCharsets.UTF_8);
 	}
 
 	@Override

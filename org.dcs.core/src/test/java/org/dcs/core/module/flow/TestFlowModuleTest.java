@@ -1,5 +1,6 @@
 package org.dcs.core.module.flow;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -56,15 +57,15 @@ public class TestFlowModuleTest extends  CoreBaseTest {
 		Assert.assertTrue(module instanceof TestFlowModule);
 
 		String user = "Bob";
-		PropertyValue propertyValue = CoreMockFactory.getMockPropertyValue(user);
+
 		try {
 			Map<String, java.util.Properties> properties = new HashMap<>();
 			Properties userNameProperties = new Properties();
 			userNameProperties.put(FlowModuleConstants.PROPERTY_VALUE, user);
 			properties.put(TestFlowModule.USER_NAME_ID, userNameProperties);
 			
-			TestResponse testResponse = (TestResponse) mFactory.trigger(moduleUUID, properties);
-			Assert.assertEquals("Hello " + user + "! This is DCS", testResponse.getResponse());
+			String testResponse = new String(mFactory.trigger(moduleUUID, properties), StandardCharsets.UTF_8);
+			Assert.assertEquals("Hello " + user + "! This is DCS", testResponse);
 		} catch (RESTException e) {			
 			e.printStackTrace();
 			Assert.fail("Test Flow Module trigger failed");
