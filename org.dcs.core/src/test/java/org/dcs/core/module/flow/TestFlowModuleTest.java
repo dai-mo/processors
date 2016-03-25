@@ -84,12 +84,11 @@ public class TestFlowModuleTest extends  CoreBaseTest {
 
 		
 		try {
-			Map<String, java.util.Properties> properties = new HashMap<>();
-			Properties userNameProperties = new Properties();
-			userNameProperties.put(FlowModuleConstants.PROPERTY_VALUE, user);
-			properties.put(TestFlowModule.USER_NAME_ID, userNameProperties);
 			
-			String testResponse = new String(mFactory.trigger(moduleUUID, properties), StandardCharsets.UTF_8);
+			Properties valueProperties = new Properties();
+			valueProperties.put(TestFlowModule.PROPERTY_USER_NAME_VALUE, user);
+			
+			String testResponse = new String(mFactory.trigger(moduleUUID, valueProperties), StandardCharsets.UTF_8);
 			Assert.assertEquals("Hello " + user + "! This is DCS", testResponse);
 		} catch (RESTException e) {			
 			e.printStackTrace();
