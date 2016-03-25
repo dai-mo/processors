@@ -16,7 +16,7 @@ public interface FlowModule {
 	
 	public void schedule();
 	
-	public byte[] trigger(Map<String, Properties> properties) throws RESTException ;
+	public byte[] trigger(Properties properties) throws RESTException ;
 	
 	public void unschedule();
 	
