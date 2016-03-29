@@ -34,20 +34,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RunWith(PaxExam.class)
-public class CoreBundleLoadOsgiT {
+public class CoreBundleLoadOsgiTest {
 
-	static final Logger logger = LoggerFactory.getLogger(CoreBundleLoadOsgiT.class);
-	
+	static final Logger logger = LoggerFactory.getLogger(CoreBundleLoadOsgiTest.class);
+
 
 	@Inject
 	private ModuleFactoryService moduleFactoryService;
-	
+
 	@Inject
-  private DataSourcesService dataSourcesService;
-	
+	private DataSourcesService dataSourcesService;
+
 	@Inject
-  private TestApiService testService;
-	
+	private TestApiService testService;
+
 	@Inject
 	private DataApiService dataApiService;
 
@@ -103,8 +103,8 @@ public class CoreBundleLoadOsgiT {
 				// TODO: The ideal mechanism to deploy would be to just provision
 				//       the .kar files into the deploy directory, but it's not clear
 				//       how to create a maven kar bundle as an option
-        mavenBundle("com.fasterxml.jackson.core","jackson-annotations").versionAsInProject().start(),
-        mavenBundle("javax.servlet","javax.servlet-api").versionAsInProject().start(),
+				mavenBundle("com.fasterxml.jackson.core","jackson-annotations").versionAsInProject().start(),
+				mavenBundle("javax.servlet","javax.servlet-api").versionAsInProject().start(),
 
 				features(orgDcsApiRepo , "org.dcs.api"),
 				features(orgDcsDataRepo , "org.dcs.data"),   

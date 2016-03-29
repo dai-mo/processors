@@ -1,4 +1,4 @@
-package org.dcs.core.osgi;
+package org.dcs.core.mock;
 
 import java.io.File;
 import java.io.InputStream;
