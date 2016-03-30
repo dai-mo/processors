@@ -8,6 +8,9 @@ object Dependencies {
   lazy val curatorVersion   = "2.10.0"
   lazy val zookeeperVersion = "3.4.7"
   lazy val nifiVersion      = "0.5.1"
+  lazy val examVersion      = "4.8.0"
+  lazy val scalaTestVersion = "2.2.6"
+  lazy val juiVersion       = "0.11"
   
   // Libraries
   val dcsData         = "org.dcs"               % "org.dcs.data"      % dcsVersion
@@ -19,7 +22,12 @@ object Dependencies {
 	val curator         = "org.apache.curator"    % "curator-framework" % curatorVersion
 	val zookeeper       = "org.apache.zookeeper"  % "zookeeper"         % zookeeperVersion
 	val nifi            = "org.apache.nifi"       % "nifi-api"          % nifiVersion
-	val junitInterface  = "com.novocode"          % "junit-interface"   % "0.11"
+	val scalaTest       = "org.scalatest"         %% "scalatest"        % scalaTestVersion 
+	val junitInterface  = "com.novocode"          % "junit-interface"   % juiVersion
+
+
+	
+	
   
 	// Dependencies
   val coreDependencies = Seq(
@@ -27,11 +35,12 @@ object Dependencies {
     dcsApi          % "provided",
     paxCdiApi       % "provided",
     logbackCore     % "provided",
-    logbackClassic  % "provided",
+    logbackClassic  % "provided",    
     curator                       exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api"),
     zookeeper                     exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api") exclude("org.slf4j", "slf4j-log4j12"),
     nifi,
-    dcsTest        % "it,test",
-    junitInterface  % "it,test"
+    dcsTest         % "test",
+    scalaTest       % "test",
+    junitInterface  % "test"
     )  
 }

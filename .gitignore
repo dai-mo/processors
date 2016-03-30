@@ -177,6 +177,6 @@ tramp
 # Misc.
 .cache-main
 .history
-*.cache
 .cache-tests
+*.cache
 

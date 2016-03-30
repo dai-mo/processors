@@ -34,9 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RunWith(PaxExam.class)
-public class CoreBundleLoadOsgiTest {
+public class CoreBundleLoadOsgiT {
 
-	static final Logger logger = LoggerFactory.getLogger(CoreBundleLoadOsgiTest.class);
+	static final Logger logger = LoggerFactory.getLogger(CoreBundleLoadOsgiT.class);
 
 
 	@Inject
@@ -72,25 +72,33 @@ public class CoreBundleLoadOsgiTest {
 				.classifier("features")
 				.type("xml");
 
-		MavenUrlReference orgDcsDataRepo = maven()
+//		MavenUrlReference orgDcsDataRepo = maven()
+//				.groupId("org.dcs")
+//				.artifactId("org.dcs.data")
+//				.versionAsInProject()
+//				.classifier("features")
+//				.type("xml");
+//		MavenUrlReference orgDcsApiRepo = maven()
+//				.groupId("org.dcs")
+//				.artifactId("org.dcs.api")
+//				.versionAsInProject()
+//				.classifier("features")
+//				.type("xml");
+//
+//		MavenUrlReference orgDcsCoreRepo = maven()
+//				.groupId("org.dcs")
+//				.artifactId("org.dcs.core")
+//				.versionAsInProject()
+//				.classifier("features")
+//				.type("xml");
+		
+		MavenUrlReference orgDcsFeaturesRepo = maven()
 				.groupId("org.dcs")
-				.artifactId("org.dcs.data")
+				.artifactId("org.dcs.features")
 				.versionAsInProject()
 				.classifier("features")
 				.type("xml");
-		MavenUrlReference orgDcsApiRepo = maven()
-				.groupId("org.dcs")
-				.artifactId("org.dcs.api")
-				.versionAsInProject()
-				.classifier("features")
-				.type("xml");
-
-		MavenUrlReference orgDcsCoreRepo = maven()
-				.groupId("org.dcs")
-				.artifactId("org.dcs.core")
-				.versionAsInProject()
-				.classifier("features")
-				.type("xml");
+		
 		return new Option[] {
 				// KarafDistributionOption.debugConfiguration("5005", true),
 				karafDistributionConfiguration()
@@ -106,16 +114,18 @@ public class CoreBundleLoadOsgiTest {
 				mavenBundle("com.fasterxml.jackson.core","jackson-annotations").versionAsInProject().start(),
 				mavenBundle("javax.servlet","javax.servlet-api").versionAsInProject().start(),
 
-				features(orgDcsApiRepo , "org.dcs.api"),
-				features(orgDcsDataRepo , "org.dcs.data"),   
-				features(orgDcsCoreRepo , "org.dcs.core"),    
+				features(orgDcsFeaturesRepo , "org.dcs.features"),
+				
+				//features(orgDcsApiRepo , "org.dcs.api"),
+				//features(orgDcsDataRepo , "org.dcs.data"),   
+				//features(orgDcsCoreRepo , "org.dcs.core"),    
 
 				// TODO: Seems that .versionAsInProject() works only if the
 				//       the version is explicitly declared in the pom.
 				//       If it is inherited the method does not work
 				mavenBundle("org.dcs","org.dcs.api").versionAsInProject().start(),
 				mavenBundle("org.dcs","org.dcs.data").versionAsInProject().start(),
-				mavenBundle("org.dcs","org.dcs.core").versionAsInProject(),
+				mavenBundle("org.dcs","org.dcs.core_2.11").versionAsInProject(),
 				CoreOptions.systemProperty("config").value(DataUtils.getKarafConfigurationFilePath(this.getClass())),				
 				new KarafDistributionConfigurationFileReplacementOption("etc/org.dcs.cfg", 
 						new File(DataUtils.getTargetTestClassesDirectory(this.getClass()) + File.separator + "org.dcs.cfg"))
