@@ -37,17 +37,17 @@ import org.slf4j.LoggerFactory;
 public class CoreBundleLoadOsgiT {
 
 	static final Logger logger = LoggerFactory.getLogger(CoreBundleLoadOsgiT.class);
-	
+
 
 	@Inject
 	private ModuleFactoryService moduleFactoryService;
-	
+
 	@Inject
-  private DataSourcesService dataSourcesService;
-	
+	private DataSourcesService dataSourcesService;
+
 	@Inject
-  private TestApiService testService;
-	
+	private TestApiService testService;
+
 	@Inject
 	private DataApiService dataApiService;
 
@@ -71,26 +71,14 @@ public class CoreBundleLoadOsgiT {
 				.version(karafVersion())
 				.classifier("features")
 				.type("xml");
-
-		MavenUrlReference orgDcsDataRepo = maven()
+		
+		MavenUrlReference orgDcsFeaturesRepo = maven()
 				.groupId("org.dcs")
-				.artifactId("org.dcs.data")
+				.artifactId("org.dcs.features")
 				.versionAsInProject()
 				.classifier("features")
 				.type("xml");
-		MavenUrlReference orgDcsApiRepo = maven()
-				.groupId("org.dcs")
-				.artifactId("org.dcs.api")
-				.versionAsInProject()
-				.classifier("features")
-				.type("xml");
-
-		MavenUrlReference orgDcsCoreRepo = maven()
-				.groupId("org.dcs")
-				.artifactId("org.dcs.core")
-				.versionAsInProject()
-				.classifier("features")
-				.type("xml");
+		
 		return new Option[] {
 				// KarafDistributionOption.debugConfiguration("5005", true),
 				karafDistributionConfiguration()
@@ -99,20 +87,10 @@ public class CoreBundleLoadOsgiT {
 				.useDeployFolder(false),
 				keepRuntimeFolder(),
 				configureConsole().ignoreLocalConsole(),
+				
 				features(karafEnterpriseRepo , "pax-cdi", "pax-cdi-weld", "scr", "wrap"),
-				// TODO: The ideal mechanism to deploy would be to just provision
-				//       the .kar files into the deploy directory, but it's not clear
-				//       how to create a maven kar bundle as an option
-        mavenBundle("com.fasterxml.jackson.core","jackson-annotations").versionAsInProject().start(),
-        mavenBundle("javax.servlet","javax.servlet-api").versionAsInProject().start(),
+				features(orgDcsFeaturesRepo , "org.dcs.features"), 
 
-				features(orgDcsApiRepo , "org.dcs.api"),
-				features(orgDcsDataRepo , "org.dcs.data"),   
-				features(orgDcsCoreRepo , "org.dcs.core"),    
-
-				// TODO: Seems that .versionAsInProject() works only if the
-				//       the version is explicitly declared in the pom.
-				//       If it is inherited the method does not work
 				mavenBundle("org.dcs","org.dcs.api").versionAsInProject().start(),
 				mavenBundle("org.dcs","org.dcs.data").versionAsInProject().start(),
 				mavenBundle("org.dcs","org.dcs.core").versionAsInProject(),

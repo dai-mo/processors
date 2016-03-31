@@ -9,10 +9,10 @@
 	<packaging>pom</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 	<modules>
-		<module>org.dcs.servlet.basic</module>
-		<module>org.dcs.servlet.ds</module>		
-		<module>org.dcs.data</module>
-		<module>org.dcs.core</module>
+<!-- 		<module>org.dcs.servlet.basic</module> -->
+<!-- 		<module>org.dcs.servlet.ds</module> -->
+<!-- 		<module>org.dcs.data</module> -->
+<!-- 		<module>org.dcs.core</module> -->
 		<module>org.dcs.features</module>
 		<module>org.dcs.web</module>
 	</modules>
