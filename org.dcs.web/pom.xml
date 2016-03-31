@@ -422,11 +422,6 @@
 
 		<dependency>
 			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.core</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.test</artifactId>
 			<scope>test</scope>
 		</dependency>

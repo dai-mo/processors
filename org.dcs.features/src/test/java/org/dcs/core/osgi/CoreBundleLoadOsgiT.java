@@ -93,7 +93,7 @@ public class CoreBundleLoadOsgiT {
 
 				mavenBundle("org.dcs","org.dcs.api").versionAsInProject().start(),
 				mavenBundle("org.dcs","org.dcs.data").versionAsInProject().start(),
-				mavenBundle("org.dcs","org.dcs.core_2.11").versionAsInProject(),
+				mavenBundle("org.dcs","org.dcs.core").versionAsInProject(),
 				CoreOptions.systemProperty("config").value(DataUtils.getKarafConfigurationFilePath(this.getClass())),				
 				new KarafDistributionConfigurationFileReplacementOption("etc/org.dcs.cfg", 
 						new File(DataUtils.getTargetTestClassesDirectory(this.getClass()) + File.separator + "org.dcs.cfg"))

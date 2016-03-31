@@ -21,7 +21,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.dcs</groupId>
-			<artifactId>org.dcs.core_2.11</artifactId>
+			<artifactId>org.dcs.core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.cdi</groupId>
