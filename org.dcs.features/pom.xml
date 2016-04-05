@@ -37,6 +37,15 @@
 			<groupId>org.dcs</groupId>
 			<artifactId>org.dcs.api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<pluginManagement>
