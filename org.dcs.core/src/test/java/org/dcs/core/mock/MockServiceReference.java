@@ -5,7 +5,7 @@ import java.util.Properties;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 
-public class MockServiceReference implements ServiceReference<Object> {
+public class MockServiceReference<S> implements ServiceReference<S> {
 	
 	public static final String CLASS_NAME_KEY = "className";
 	Properties properties;

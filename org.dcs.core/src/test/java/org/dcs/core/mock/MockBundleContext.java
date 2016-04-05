@@ -24,12 +24,15 @@ import org.osgi.framework.ServiceRegistration;
 @Default
 public class MockBundleContext implements BundleContext {
 
-	private static Map<String, Object> serviceNameObjectMap;
+	private Map<String, Object> serviceNameObjectMap;
 	
-	public static void setServiceNameObjectMap(Map<String, Object> snom) {
-		serviceNameObjectMap = snom;
+//	public static void setServiceNameObjectMap(Map<String, Object> snom) {
+//		serviceNameObjectMap = snom;
+//	}
+	
+	public MockBundleContext(Map<String, Object> snom) {
+		this.serviceNameObjectMap = snom;
 	}
-	
 	@Override
 	public String getProperty(String key) {
 		// TODO Auto-generated method stub
@@ -154,8 +157,9 @@ public class MockBundleContext implements BundleContext {
 
 	@Override
 	public <S> ServiceReference<S> getServiceReference(Class<S> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		MockServiceReference<S> msr = new MockServiceReference();
+		msr.setNameProperty(clazz.getName());
+		return msr;
 	}
 
 	@Override
