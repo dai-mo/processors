@@ -25,6 +25,12 @@
 		<karaf.dir>karaf</karaf.dir>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>nanonet</id>
+			<url>https://jenkins.nanonet/plugin/repository/everything/</url>
+		</repository>
+	</repositories>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

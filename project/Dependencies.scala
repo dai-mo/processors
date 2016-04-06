@@ -1,8 +1,8 @@
 import sbt._
 
 object Dependencies {
-	// Versions
-	lazy val dcsVersion           = "1.0.0-SNAPSHOT"
+	    // Versions
+	    lazy val dcsVersion           = "1.0.0-SNAPSHOT"
 			lazy val paxCdiVersion    = "0.12.0"
 			lazy val cdiApiVersion    = "1.2"
 			lazy val logbackVersion   = "1.1.3"
