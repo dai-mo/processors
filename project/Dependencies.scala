@@ -1,8 +1,8 @@
 import sbt._
 
 object Dependencies {
-	// Versions
-	lazy val dcsVersion           = "1.0.0-SNAPSHOT"
+	    // Versions
+	    lazy val dcsVersion           = "1.0.0-SNAPSHOT"
 			lazy val paxCdiVersion    = "0.12.0"
 			lazy val cdiApiVersion    = "1.2"
 			lazy val logbackVersion   = "1.1.3"
@@ -16,9 +16,10 @@ object Dependencies {
 			lazy val jacksonVersion   = "2.4.5"
 			lazy val jaxRsVersion     = "2.0.1"
 			lazy val sqliteVersion    = "3.8.11.2"
+			lazy val scalaReflectVersion = "2.11.8"
 
 			// Libraries
-			val dcsData         = "org.dcs"                    % "org.dcs.data"       % dcsVersion
+			val dcsData         = "org.dcs"                    % "org.dcs.data"            % dcsVersion
 			val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsVersion
 			val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsVersion        
 			val paxCdiApi       = "org.ops4j.pax.cdi"          % "pax-cdi-api"             % paxCdiVersion
@@ -33,6 +34,7 @@ object Dependencies {
 			val jksonCore       = "com.fasterxml.jackson.core" % "jackson-core"            % jacksonVersion
 			val jaxRs           = "javax.ws.rs"                % "javax.ws.rs-api"         % jaxRsVersion
 			val sqlite          = "org.xerial"                 % "sqlite-jdbc"             % sqliteVersion
+			val scalaReflect    = "org.scala-lang"             % "scala-reflect"           % scalaReflectVersion
 						
 			val scalaTest       = "org.scalatest"         %% "scalatest"        % scalaTestVersion 
 			val junitInterface  = "com.novocode"          % "junit-interface"   % juiVersion
@@ -47,6 +49,7 @@ object Dependencies {
 					curator                       exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api"),
 					zookeeper                     exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api") exclude("org.slf4j", "slf4j-log4j12"),
 					nifi,
+					scalaReflect,
 					
 					dcsTest         % "test",
 					scalaTest       % "test",
