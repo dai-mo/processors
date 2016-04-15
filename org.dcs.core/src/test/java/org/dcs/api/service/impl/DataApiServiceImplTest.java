@@ -36,20 +36,15 @@ public class DataApiServiceImplTest extends CoreHomeBaseTest {
 
   @Deployment
   public static JavaArchive createDeployment() {
-    PomEquippedResolveStage resolver = Maven.resolver().loadPomFromFile("pom.xml");
-    JavaArchive[] as = resolver.resolve("javax.ws.rs:javax.ws.rs-api").withTransitivity().as(JavaArchive.class);
-    JavaArchive javaArchive = CoreBaseTest.createBaseDeployment()
+
+    return CoreBaseTest.createBaseDeployment()
         .addClass(DataApiService.class)
         .addClass(MockConfigurationAdmin.class)
         .addClass(ConfigurationAdmin.class)
         .addClass(DataApiServiceImpl.class)
         .addClass(DataSourcesServiceImpl.class)
         .addClass(RESTException.class);
-    
-    for(JavaArchive archive : as) {
-      javaArchive.merge(archive);
-    }
-    return javaArchive;
+
   }
   
   @Test
