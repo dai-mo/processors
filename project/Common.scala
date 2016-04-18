@@ -12,7 +12,7 @@ object Common {
   lazy val commonSettings = Seq(
     organization := "org.dcs",
     version := dcsVersion,
-    scalaVersion := scVersion,
+    scalaVersion := "2.11.7",
     // FIXME: Not really sure if adding the scala version
     //        in the published artifact name is a good idea
     crossPaths := false,
@@ -25,13 +25,8 @@ object Common {
     //        checksums when deploying artifacts
     checksums in update := Nil,
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint:unchecked"),
-    javacOptions in doc := Seq("-source", "1.8"),
-    publishTo := Some("Artifactory Realm" at nanonetArtifactoryBaseUrl + "/artifactory/libs-snapshot-local/"),
-    credentials += Credentials(Path.userHome / ".jfcredentials"),
-    resolvers ++= Seq(
-      DefaultMavenRepository,
-      localMavenRepository,
-      nanonetMavenRepository))
+    javacOptions in doc := Seq("-source", "1.8")
+    )
 
   def OsgiProject(projectID: String, projectName: String) = (
     Project(projectID, file(projectName)).
