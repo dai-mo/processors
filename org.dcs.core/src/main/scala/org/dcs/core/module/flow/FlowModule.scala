@@ -2,19 +2,19 @@ package org.dcs.core.module.flow
 
 import java.util.Properties
 import org.osgi.framework.BundleContext
-import java.util.Map
+
 
 trait FlowModule {
 
   def init( bundleContext: BundleContext)
   
-	def getPropertyDescriptors(): Map[String, Properties]
+	def getPropertyDescriptors(): Map[String, Map[String, String]]
 	
-	def getRelationships(): Map[String, Properties]
+	def getRelationships(): Map[String, Map[String, String]]
 	
 	def schedule()
 	
-	def trigger(properties: Properties): Array[Byte]
+	def trigger(properties: Map[String, String]): Array[Byte]
 	
 	def unschedule()
 	

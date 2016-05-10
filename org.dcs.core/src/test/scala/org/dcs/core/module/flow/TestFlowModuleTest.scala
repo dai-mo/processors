@@ -43,8 +43,8 @@ class TestFlowModuleTest extends JUnitSpec {
     module shouldBe an[TestFlowModule]
     
     val user = "Bob";
-    val valueProperties: Properties = new Properties();
-    valueProperties.put(TestFlowModule.PROPERTY_USER_NAME_VALUE, user);
+    val valueProperties: Map[String, String] = Map(TestFlowModule.PropertyUserNameValue -> user)
+    
 
     val testResponse: String = 
       new String(mFactory.trigger(moduleUUID, valueProperties), StandardCharsets.UTF_8);
