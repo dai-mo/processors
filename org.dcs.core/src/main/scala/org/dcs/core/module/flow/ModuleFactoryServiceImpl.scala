@@ -15,6 +15,10 @@ import java.util.UUID
 import org.dcs.api.service.RESTException
 import org.dcs.api.model.ErrorConstants
 
+import scala.collection.JavaConverters._
+import java.util.{Map => JavaMap}
+import scala.collection.mutable.{Map => MutableMap}
+
 @OsgiServiceProvider
 @OsgiService
 @Properties(Array(
@@ -53,11 +57,11 @@ class ModuleFactoryServiceImpl extends ModuleFactoryService {
     flowModuleMap.getOrElse(moduleUUID, null)
   }
 
-  override def getPropertyDescriptors(moduleUUID: String): Map[String, Map[String, String]] = {
+  override def getPropertyDescriptors(moduleUUID: String): JavaMap[String, JavaMap[String, String]] = {
     getModule(moduleUUID).getPropertyDescriptors();
   }
 
-  override def getRelationships(moduleUUID: String): Map[String, Map[String, String]] = {
+  override def getRelationships(moduleUUID: String): JavaMap[String, JavaMap[String, String]] = {
     getModule(moduleUUID).getRelationships();
   }
 
@@ -66,7 +70,7 @@ class ModuleFactoryServiceImpl extends ModuleFactoryService {
     true;
   }
 
-  override def trigger(moduleUUID: String, properties: Map[String, String]): Array[Byte] = {
+  override def trigger(moduleUUID: String, properties: JavaMap[String, String]): Array[Byte] = {
     getModule(moduleUUID).trigger(properties);
   }
 
