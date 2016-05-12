@@ -16,6 +16,10 @@ import org.slf4j.LoggerFactory
 import java.util.Properties
 import java.nio.charset.StandardCharsets
 
+import scala.collection.JavaConverters._
+import java.util.{ Map => JavaMap }
+import scala.collection.mutable.{ Map => MutableMap }
+
 @RunWith(classOf[MockitoJUnitRunner])
 class TestFlowModuleTest extends JUnitSpec {
 
@@ -43,8 +47,8 @@ class TestFlowModuleTest extends JUnitSpec {
     module shouldBe an[TestFlowModule]
     
     val user = "Bob";
-    val valueProperties: Properties = new Properties();
-    valueProperties.put(TestFlowModule.PROPERTY_USER_NAME_VALUE, user);
+    val valueProperties = MutableMap(TestFlowModule.PropertyUserNameValue -> user).asJava
+    
 
     val testResponse: String = 
       new String(mFactory.trigger(moduleUUID, valueProperties), StandardCharsets.UTF_8);

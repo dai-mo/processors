@@ -15,6 +15,10 @@ import java.util.UUID
 import org.dcs.api.service.RESTException
 import org.dcs.api.model.ErrorConstants
 
+import scala.collection.JavaConverters._
+import java.util.{Map => JavaMap}
+import scala.collection.mutable.{Map => MutableMap}
+
 @OsgiServiceProvider
 @OsgiService
 @Properties(Array(
@@ -25,7 +29,7 @@ class ModuleFactoryServiceImpl extends ModuleFactoryService {
 
   val logger: Logger = LoggerFactory.getLogger(classOf[ModuleFactoryServiceImpl])
 
-  var flowModuleMap: Map[String, FlowModule] = HashMap();
+  var flowModuleMap: Map[String, FlowModule] = Map()
 
   @Inject
   var bundleContext: BundleContext = _
@@ -53,12 +57,12 @@ class ModuleFactoryServiceImpl extends ModuleFactoryService {
     flowModuleMap.getOrElse(moduleUUID, null)
   }
 
-  override def getPropertyDescriptors(moduleUUID: String): java.util.Map[String, java.util.Properties] = {
+  override def getPropertyDescriptors(moduleUUID: String): JavaMap[String, JavaMap[String, String]] = {
     getModule(moduleUUID).getPropertyDescriptors();
   }
 
-  override def getRelationships(moduleUUID: String): java.util.Map[String, java.util.Properties] = {
-    return getModule(moduleUUID).getRelationships();
+  override def getRelationships(moduleUUID: String): JavaMap[String, JavaMap[String, String]] = {
+    getModule(moduleUUID).getRelationships();
   }
 
   override def schedule(moduleUUID: String): Boolean = {
@@ -66,7 +70,7 @@ class ModuleFactoryServiceImpl extends ModuleFactoryService {
     true;
   }
 
-  override def trigger(moduleUUID: String, properties: java.util.Properties): Array[Byte] = {
+  override def trigger(moduleUUID: String, properties: JavaMap[String, String]): Array[Byte] = {
     getModule(moduleUUID).trigger(properties);
   }
 

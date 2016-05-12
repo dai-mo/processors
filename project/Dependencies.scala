@@ -21,7 +21,7 @@ object Dependencies {
 			// Libraries
 			val dcsData         = "org.dcs"                    % "org.dcs.data"            % dcsVersion
 			val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsVersion
-			val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsVersion        
+			val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsVersion
 			val paxCdiApi       = "org.ops4j.pax.cdi"          % "pax-cdi-api"             % paxCdiVersion
 			val cdiApi          = "javax.enterprise"           % "cdi-api"                 % cdiApiVersion
 			val logbackCore     = "ch.qos.logback"             % "logback-core"            % logbackVersion
@@ -35,44 +35,43 @@ object Dependencies {
 			val jaxRs           = "javax.ws.rs"                % "javax.ws.rs-api"         % jaxRsVersion
 			val sqlite          = "org.xerial"                 % "sqlite-jdbc"             % sqliteVersion
 			val scalaReflect    = "org.scala-lang"             % "scala-reflect"           % scalaReflectVersion
-						
-			val scalaTest       = "org.scalatest"         %% "scalatest"        % scalaTestVersion 
+
+			val scalaTest       = "org.scalatest"         %% "scalatest"        % scalaTestVersion
 			val junitInterface  = "com.novocode"          % "junit-interface"   % juiVersion
 
 			// Dependencies
 			val coreDependencies = Seq(
-					dcsData         % "provided", 
+					dcsData         % "provided",
 					dcsApi          % "provided",
 					paxCdiApi       % "provided",
 					logbackCore     % "provided",
-					logbackClassic  % "provided",    
+					logbackClassic  % "provided",
 					curator                       exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api"),
-					zookeeper                     exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api") exclude("org.slf4j", "slf4j-log4j12"),
-					nifi,
+					zookeeper                     exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api") exclude("org.slf4j", "slf4j-log4j12"),					
 					scalaReflect,
-					
+
 					dcsTest         % "test",
 					scalaTest       % "test",
 					junitInterface  % "test"
-					)  
+					)
 
 			val dataDependencies = Seq(
 			    dcsApi          % "provided",
 					paxCdiApi       % "provided",
 					cdiApi,
 					logbackCore     % "provided",
-					logbackClassic  % "provided",    
+					logbackClassic  % "provided",
 					curator                       exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api"),
 					zookeeper                     exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api") exclude("org.slf4j", "slf4j-log4j12"),
-					nifi,
+					//nifi,
 					opencsv,
 					jksonDatabind,
 					jksonCore,
 					jaxRs,
 					sqlite,
-					
+
 					dcsTest         % "test",
 					//scalaTest       % "test",
 					junitInterface  % "test"
-					)  
+					)
 }
