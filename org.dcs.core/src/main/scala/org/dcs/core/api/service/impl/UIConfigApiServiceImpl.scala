@@ -18,18 +18,11 @@ import javax.inject.Inject
 	new Property(name = "service.exported.configs", value = "org.apache.cxf.ws")))
 @Default
 class UIConfigApiServiceImpl extends UiConfigApiService {
-  val ConfigId = "org.dcs"
-  val NifiUrl = "nifi.url"
-  
-  @Inject
-  @OsgiService
-  var configAdmin: ConfigurationAdmin = _
+
     
-  def uiConfigGet(): UIConfig = {
-    val nifiUrl = configAdmin.getConfiguration(ConfigId).getProperties.get(NifiUrl).asInstanceOf[String]
+  def uiConfigGet(): UIConfig = {    
     val uiConfig = new UIConfig
-    uiConfig.setNifiUrl(nifiUrl)
-    
+        
     uiConfig
   }
 }
