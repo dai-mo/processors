@@ -2,7 +2,7 @@ import sbt._
 
 object Dependencies {
 	    // Versions
-	    lazy val dcsVersion           = "1.0.0-SNAPSHOT"
+	    lazy val dcsVersion       = "1.0.0-SNAPSHOT"
 			lazy val paxCdiVersion    = "0.12.0"
 			lazy val cdiApiVersion    = "1.2"
 			lazy val logbackVersion   = "1.1.3"
@@ -37,6 +37,7 @@ object Dependencies {
 			val sqlite          = "org.xerial"                 % "sqlite-jdbc"             % sqliteVersion
 			val scalaReflect    = "org.scala-lang"             % "scala-reflect"           % scalaReflectVersion
 
+			val dcsRemote       = "org.dcs"               % "org.dcs.remote"            % dcsVersion
 			val scalaTest       = "org.scalatest"         %% "scalatest"        % scalaTestVersion
 			val junitInterface  = "com.novocode"          % "junit-interface"   % juiVersion
 
@@ -51,6 +52,7 @@ object Dependencies {
 					zookeeper                     exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api") exclude("org.slf4j", "slf4j-log4j12"),
 					scalaReflect,
 
+					dcsRemote  			% "test",
 					dcsTest         % "test",
 					scalaTest       % "test",
 					junitInterface  % "test"
