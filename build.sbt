@@ -1,7 +1,7 @@
 import Dependencies._
 import Common._
 
-lazy val root = (project in file(".")).
+lazy val osgi = (project in file(".")).
   settings(commonSettings: _*).
   settings(
     name := "org.dcs.parent"
