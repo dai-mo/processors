@@ -1,9 +1,8 @@
 package org.dcs.core.module.flow
 
-import java.util.Properties
-import org.osgi.framework.BundleContext
-
 import java.util.{Map => JavaMap}
+
+import org.osgi.framework.BundleContext
 
 
 trait FlowModule {

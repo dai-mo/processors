@@ -1,14 +1,9 @@
 package org.dcs.core.api.service.impl
 
-import org.dcs.api.service.UiConfigApiService
-import org.dcs.api.model.UIConfig
-import org.ops4j.pax.cdi.api.OsgiServiceProvider
-import org.ops4j.pax.cdi.api.Properties
-import org.ops4j.pax.cdi.api.Property
 import javax.enterprise.inject.Default
-import org.ops4j.pax.cdi.api.OsgiService
-import org.osgi.service.cm.ConfigurationAdmin
-import javax.inject.Inject
+
+import org.dcs.api.service.{UIConfig, UIConfigApiService}
+import org.ops4j.pax.cdi.api.{OsgiService, OsgiServiceProvider, Properties, Property}
 
 
 @OsgiServiceProvider
@@ -17,12 +12,7 @@ import javax.inject.Inject
 	new Property(name = "service.exported.interfaces", value = "*"),
 	new Property(name = "service.exported.configs", value = "org.apache.cxf.ws")))
 @Default
-class UIConfigApiServiceImpl extends UiConfigApiService {
+class UIConfigApiServiceImpl extends UIConfigApiService {
 
-    
-  def uiConfigGet(): UIConfig = {    
-    val uiConfig = new UIConfig
-        
-    uiConfig
-  }
+  override def config(): UIConfig = UIConfig("http://localhost:8888/nifi")
 }

@@ -53,7 +53,7 @@ class TestFlowModuleTest extends JUnitSpec {
     val testResponse: String = 
       new String(mFactory.trigger(moduleUUID, valueProperties), StandardCharsets.UTF_8);
     
-    testResponse should be("Hello " + user + "! This is DCS");
+    testResponse should be("{\"response\":\"Hello " + user + ", This is DCS!\"}");
 
     mFactory.remove(moduleUUID);
 
