@@ -6,13 +6,12 @@ lazy val osgi = (project in file(".")).
   settings(
     name := "org.dcs.parent"
   ).
-  aggregate(core,data)
+  aggregate(core)
 
-lazy val core = (
+lazy val core =
   OsgiProject("core", "org.dcs.core").
-  dependsOn(data).
   settings(libraryDependencies ++= coreDependencies)
-)
+
 
 lazy val data = (
   OsgiProject("data", "org.dcs.data").

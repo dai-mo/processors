@@ -1,17 +1,13 @@
 package org.dcs.core.module.flow
 
-import org.dcs.api.service.TestApiService
-import java.util.Properties
-import org.osgi.framework.BundleContext
-import org.osgi.framework.ServiceReference
-import org.dcs.api.service.FlowModule
-import java.lang.Boolean
-import org.dcs.api.model.TestResponse
 import java.nio.charset.StandardCharsets
-import scala.collection.JavaConverters._
-import java.util.{ Map => JavaMap }
+import java.util.{Map => JavaMap}
 
-import java.util.HashMap
+import org.dcs.api.service.{FlowModule, TestApiService, TestResponse}
+import org.osgi.framework.{BundleContext, ServiceReference}
+
+import scala.collection.JavaConverters._
+import org.dcs.commons.JsonSerializerImplicits._
 
 object TestFlowModule {
   val PropertyUserNameValue = "User Name";
@@ -74,8 +70,10 @@ class TestFlowModule extends FlowModule {
   }
 
   override def trigger(properties: JavaMap[String, String]): Array[Byte] = {
-    val response: TestResponse = testService.testHelloGet(properties.get(TestFlowModule.PropertyUserNameValue));
-    response.getResponse().getBytes(StandardCharsets.UTF_8);
+    testService.
+      hello(properties.get(TestFlowModule.PropertyUserNameValue)).
+      toJson.
+      getBytes(StandardCharsets.UTF_8)
   }
 
   override def unschedule() {

@@ -1,26 +1,18 @@
 package org.dcs.core.module.flow
 
+import java.util.{UUID, Map => JavaMap}
 import javax.enterprise.inject.Default
-import org.ops4j.pax.cdi.api.OsgiService
-import org.ops4j.pax.cdi.api.OsgiServiceProvider
-import org.ops4j.pax.cdi.api.Properties
-import org.ops4j.pax.cdi.api.Property
-import org.dcs.api.service.ModuleFactoryService
-import org.osgi.framework.BundleContext
-import org.slf4j.LoggerFactory
-import org.slf4j.Logger
-import scala.collection.immutable.HashMap
 import javax.inject.Inject
-import java.util.UUID
-import org.dcs.api.service.RESTException
-import org.dcs.api.model.ErrorConstants
 
-import scala.collection.JavaConverters._
-import java.util.{Map => JavaMap}
+import org.dcs.api.error.{ErrorConstants, RESTException}
+import org.dcs.api.service.ModuleFactoryService
+import org.ops4j.pax.cdi.api.{OsgiService, OsgiServiceProvider, Properties, Property}
+import org.osgi.framework.BundleContext
+import org.slf4j.{Logger, LoggerFactory}
+
 import scala.collection.mutable.{Map => MutableMap}
 
 @OsgiServiceProvider
-@OsgiService
 @Properties(Array(
   new Property(name = "service.exported.interfaces", value = "*"),
   new Property(name = "service.exported.configs", value = "org.apache.cxf.ws")))
@@ -47,7 +39,7 @@ class ModuleFactoryServiceImpl extends ModuleFactoryService {
       }
       case s: String => {
         logger.warn("Given classname " + className + " is not of type FlowModule");
-        throw new RESTException(ErrorConstants.getErrorResponse("DCS001"));
+        throw new RESTException(ErrorConstants.DCS001)
       }
     }
     randomUUID;

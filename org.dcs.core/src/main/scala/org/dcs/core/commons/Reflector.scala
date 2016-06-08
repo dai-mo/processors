@@ -1,9 +1,7 @@
 package org.dcs.core.commons
 
-import scala.reflect.runtime.{ universe => ru }
 import scala.reflect.runtime.universe._
-import org.dcs.api.service.RESTException
-import org.dcs.api.model.ErrorConstants
+import scala.reflect.runtime.{universe => ru}
 
 object Reflector {
 
