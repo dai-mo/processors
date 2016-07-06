@@ -2,7 +2,8 @@ import sbt._
 
 object Dependencies {
 	    // Versions
-	    lazy val dcsVersion           = "1.0.0-SNAPSHOT"
+      lazy val dcsApiVersion    = "0.1.0"
+      lazy val dcsTestVersion   = "0.1.0"
 			lazy val paxCdiVersion    = "0.12.0"
 			lazy val cdiApiVersion    = "1.2"
 			lazy val logbackVersion   = "1.1.3"
@@ -19,9 +20,8 @@ object Dependencies {
 			lazy val scalaReflectVersion = "2.11.7"
 
 			// Libraries
-			val dcsData         = "org.dcs"                    % "org.dcs.data"            % dcsVersion
-			val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsVersion
-			val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsVersion
+			val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsApiVersion
+			val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsTestVersion
 			val paxCdiApi       = "org.ops4j.pax.cdi"          % "pax-cdi-api"             % paxCdiVersion
 			val cdiApi          = "javax.enterprise"           % "cdi-api"                 % cdiApiVersion
 			val logbackCore     = "ch.qos.logback"             % "logback-core"            % logbackVersion
