@@ -18,7 +18,8 @@ object TestProcessor {
     name = UserPropertyName,
     description =  "User To Greet",
     defaultValue =  "World",
-    possibleValues = List(
+    possibleValues = Set(
+      PossibleValue("World", "User World", "User Name of World"),
       PossibleValue("Bob", "User Bob", "User Name of Bob"),
       PossibleValue("Bri", "User Bri", "User Name of Bri")).asJava,
     required = true)
