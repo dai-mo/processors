@@ -45,7 +45,7 @@ class StatefulTestProcessor extends StatefulRemoteProcessor {
   }
 
   override def execute(input: Array[Byte], values: JavaMap[String, String]): TestResponse = {
-    TestResponse(new String(input) + propertyValue(UserProperty, values))
+    TestResponse("id : " + suffix + new String(input) + propertyValue(UserProperty, values))
   }
 
 	override def trigger(input: Array[Byte], properties: JavaMap[String, String]): Array[Byte] = {
