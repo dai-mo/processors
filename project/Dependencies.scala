@@ -63,7 +63,7 @@ object Dependencies {
 
 	val dataDependencies = Seq(
 		dcsApi          % "provided",
-    dcsCommons      % "provided",
+    dcsCommons,
 		paxCdiApi       % "provided",
 		cdiApi,
 		logbackCore     % "provided",
