@@ -1,12 +1,13 @@
-package org.dcs.core
+package org.dcs.data
 
 import org.scalatest._
-import org.scalatest.mock.MockitoSugar
-import org.scalatest.junit.JUnitRunner
-import org.mockito.runners.MockitoJUnitRunner
 import org.scalatest.junit.JUnitSuite
+import org.scalatest.mock.MockitoSugar
 
-abstract class CoreUnitSpec extends FlatSpec
+/**
+  * Created by cmathew on 24.10.16.
+  */
+abstract class DataUnitSpec extends FlatSpec
   with Matchers
   with OptionValues
   with Inside
@@ -18,7 +19,7 @@ abstract class CoreUnitSpec extends FlatSpec
 // part is to run the test as JUnit tests
 // since there is no mechanism to run this
 // as a scala test.
-// ScalaMock could be an option once the 
+// ScalaMock could be an option once the
 // issue https://github.com/paulbutcher/ScalaMock/issues/100
 // is resolved
 abstract class JUnitSpec extends JUnitSuite
