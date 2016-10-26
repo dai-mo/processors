@@ -1,6 +1,7 @@
 package org.dcs.data
 
 import org.scalatest._
+import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.junit.JUnitSuite
 import org.scalatest.mock.MockitoSugar
 
@@ -13,6 +14,7 @@ abstract class DataUnitSpec extends FlatSpec
   with Inside
   with Inspectors
   with MockitoSugar
+  with ScalaFutures
 
 // FIXME: Currently the only way to use the mockito
 // inject mock mechanism to test the CDI
