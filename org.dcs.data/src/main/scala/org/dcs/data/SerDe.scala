@@ -17,16 +17,12 @@ import scala.collection.mutable
   */
 
 trait SerDe[S, SerT, InDeSerT, OutDeSerT] {
-
   def ser(schema: Option[S], deSerObj: InDeSerT): SerT
-
   def deser(wSchema: Option[S], rSchema: Option[S], serObj: SerT): OutDeSerT
 }
 
 trait FileSerDe[S, SerT, InDeSerT, OutDeSerT] {
-
   def ser(schema: Option[S], deSerObj: List[InDeSerT], file: File)
-
   def deser(schema: Option[S], serObj: SerT): List[OutDeSerT]
 
   def genData(dfr: DataFileReader[OutDeSerT]): List[OutDeSerT] = dfr.hasNext match {
@@ -36,12 +32,9 @@ trait FileSerDe[S, SerT, InDeSerT, OutDeSerT] {
 }
 
 trait JsonSerDe[SerT, InDeSerT, OutDeSerT] {
-
   def ser(deSerObj: InDeSerT): SerT
-
   def deser(serObj: SerT): OutDeSerT
 }
-
 
 
 class AvroSpecificFileSerDe[InDeSerT, OutDeSerT] extends FileSerDe[Schema, File, InDeSerT, OutDeSerT]  {

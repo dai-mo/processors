@@ -71,6 +71,10 @@ class TestAvroSerDeSpec extends DataUnitSpec {
 
   "Specific Avro Ser De" should "be valid for missing reader schema field" in {
 
+    // verifies schema resolution for the scenario that ....
+    // if the writer's record contains a field with a name not present
+    // in the reader's record, the writer's value for that field is ignored.
+
     val asbasd = new AvroSpecificByteArraySerDe[UserWithAge, UserWithAge]
 
     val user = new UserWithAge()
@@ -93,6 +97,11 @@ class TestAvroSerDeSpec extends DataUnitSpec {
   }
 
   "Generic Avro Ser De" should "be valid for new field in reader schema" in {
+
+    // verifies schema resolution for the scenario that ....
+    // if the reader's record schema has a field that contains a default value,
+    // and writer's schema does not have a field with the same name,
+    // then the reader should use the default value from its field.
 
     def assertUser(data: GenericRecord): Unit = {
 
@@ -122,7 +131,9 @@ class TestAvroSerDeSpec extends DataUnitSpec {
 
   "Generic Avro Ser De" should "not work for new field in reader schema without default value" in {
 
-
+    // verifies schema resolution for the scenario that ....
+    // if the reader's record schema has a field with no default value,
+    // and writer's schema does not have a field with the same name, an error is signalled.
 
     val agbasd:  AvroGenericByteArraySerDe = new AvroGenericByteArraySerDe
     val schemaForUser: Schema = new Schema.Parser().parse(this.getClass.getResourceAsStream("/avro/user.avsc"))
@@ -141,6 +152,10 @@ class TestAvroSerDeSpec extends DataUnitSpec {
   }
 
   "Generic Avro Ser De" should "be valid for missing filed in reader schema" in {
+
+    // verifies schema resolution for the scenario that ....
+    // if the writer's record contains a field with a name not present
+    // in the reader's record, the writer's value for that field is ignored.
 
     def assertUser(data: GenericRecord): Unit = {
 
