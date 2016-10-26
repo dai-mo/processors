@@ -25,27 +25,29 @@ object Common {
     checksums in update := Nil,
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint:unchecked"),
     javacOptions in doc := Seq("-source", "1.8")
-    )
+  )
 
   lazy val paxCdiCapabilities = "org.ops4j.pax.cdi.extension;" +
-      "filter:=\"(&(extension=pax-cdi-extension)(version>=0.12.0)(!(version>=1.0.0)))\"," +
-      "osgi.extender;" +
-      "filter:=\"(osgi.extender=pax.cdi)\"," +
-      "org.ops4j.pax.cdi.extension;" +
-      "filter:=\"(extension=pax-cdi-extension)\""
+    "filter:=\"(&(extension=pax-cdi-extension)(version>=0.12.0)(!(version>=1.0.0)))\"," +
+    "osgi.extender;" +
+    "filter:=\"(osgi.extender=pax.cdi)\"," +
+    "org.ops4j.pax.cdi.extension;" +
+    "filter:=\"(extension=pax-cdi-extension)\""
 
-  def OsgiProject(projectID: String, projectName: String) = (
+  def OsgiProject(projectID: String, projectName: String) =
     Project(projectID, file(projectName)).
-    enablePlugins(SbtOsgi).
-    configs(IntegrationTest).
-    settings(commonSettings: _*).
-    settings(Defaults.itSettings: _*).
-    settings(
-      name := projectName,
-      OsgiKeys.bundleSymbolicName := projectName,
-      OsgiKeys.exportPackage := Seq(name.value + ".*"),
-      OsgiKeys.importPackage := Seq("*"),
-      OsgiKeys.requireCapability := paxCdiCapabilities,
-      moduleName := name.value).
-      settings(osgiSettings: _*))
+      enablePlugins(SbtOsgi).
+      configs(IntegrationTest).
+      settings(commonSettings: _*).
+      settings(Defaults.itSettings: _*).
+
+
+      settings(
+        name := projectName,
+        OsgiKeys.bundleSymbolicName := projectName,
+        OsgiKeys.exportPackage := Seq(name.value + ".*"),
+        OsgiKeys.importPackage := Seq("*"),
+        OsgiKeys.requireCapability := paxCdiCapabilities,
+        moduleName := name.value).
+      settings(osgiSettings: _*)
 }

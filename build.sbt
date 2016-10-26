@@ -1,6 +1,7 @@
-import Dependencies._
 import Common._
+import Dependencies._
 import com.typesafe.sbt.GitPlugin.autoImport._
+import sbt.Keys._
 import sbtbuildinfo.BuildInfoPlugin.autoImport._
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease._
@@ -12,16 +13,20 @@ lazy val osgi = (project in file(".")).
   settings(
     name := "org.dcs.parent"
   ).
-  aggregate(core)
+  aggregate(core, data)
 
 lazy val core =
   OsgiProject("core", "org.dcs.core").
-  settings(libraryDependencies ++= coreDependencies)
+    settings(libraryDependencies ++= coreDependencies)
 
 
 lazy val data =
   OsgiProject("data", "org.dcs.data").
-  settings(libraryDependencies ++= dataDependencies)
+    settings(libraryDependencies ++= dataDependencies).
+    settings(Seq(unmanagedSourceDirectories in Compile += baseDirectory.value / "generated" / "src" / "main" / "java",
+      unmanagedSourceDirectories in Test += baseDirectory.value / "generated" / "src" / "test" / "java"))
+
+
 
 // ------- Versioning , Release Section --------
 

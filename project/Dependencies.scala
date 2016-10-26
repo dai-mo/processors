@@ -18,32 +18,27 @@ object Dependencies {
 	lazy val jacksonVersion   		= "2.4.5"
 	lazy val jaxRsVersion     		= "2.0.1"
 	lazy val sqliteVersion    		= "3.8.11.2"
+	lazy val avroVersion 					= "1.8.1"
 	lazy val scalaReflectVersion 	= "2.11.7"
   lazy val guavaVersion         = "18.0"
 
 
 	// Libraries
 	val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsApiVersion
-  val dcsCommons      = "org.dcs"                          % "org.dcs.commons"                    % dcsCommonsVersion
+  val dcsCommons      = "org.dcs"                    % "org.dcs.commons"         % dcsCommonsVersion
 
-  val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsTestVersion
 	val paxCdiApi       = "org.ops4j.pax.cdi"          % "pax-cdi-api"             % paxCdiVersion
 	val cdiApi          = "javax.enterprise"           % "cdi-api"                 % cdiApiVersion
 	val logbackCore     = "ch.qos.logback"             % "logback-core"            % logbackVersion
 	val logbackClassic  =	"ch.qos.logback"             % "logback-classic"         % logbackVersion
-	val curator         = "org.apache.curator"         % "curator-framework"       % curatorVersion
-	val zookeeper       = "org.apache.zookeeper"       % "zookeeper"               % zookeeperVersion
-	val nifi            = "org.apache.nifi"            % "nifi-api"                % nifiVersion
-	val opencsv         = "com.opencsv"                % "opencsv"                 % openCsvVersion
-	val jksonDatabind   = "com.fasterxml.jackson.core" % "jackson-databind"        % jacksonVersion
-	val jksonCore       = "com.fasterxml.jackson.core" % "jackson-core"            % jacksonVersion
-	val jaxRs           = "javax.ws.rs"                % "javax.ws.rs-api"         % jaxRsVersion
-	val sqlite          = "org.xerial"                 % "sqlite-jdbc"             % sqliteVersion
+
+  val avro            = "org.apache.avro"            % "avro"                    % avroVersion
 	val scalaReflect    = "org.scala-lang"             % "scala-reflect"           % scalaReflectVersion
   val guava           = "com.google.guava"           % "guava"                   % guavaVersion
 
-	val scalaTest       = "org.scalatest"              %% "scalatest"        % scalaTestVersion
-	val junitInterface  = "com.novocode"               % "junit-interface"   % juiVersion
+	val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsTestVersion
+	val scalaTest       = "org.scalatest"              %% "scalatest"              % scalaTestVersion
+	val junitInterface  = "com.novocode"               % "junit-interface"   			 % juiVersion
 
 	// Dependencies
 	val coreDependencies = Seq(
@@ -53,7 +48,7 @@ object Dependencies {
 		logbackCore     % "provided",
 		logbackClassic  % "provided",
 		cdiApi,
-		scalaReflect,
+		//scalaReflect,
     guava,
 
 		dcsTest         % "test",
@@ -63,22 +58,11 @@ object Dependencies {
 
 	val dataDependencies = Seq(
 		dcsApi          % "provided",
-    dcsCommons,
-		paxCdiApi       % "provided",
-		cdiApi,
-		logbackCore     % "provided",
-		logbackClassic  % "provided",
-		curator                       exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api"),
-		zookeeper                     exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-api") exclude("org.slf4j", "slf4j-log4j12"),
-		//nifi,
-		opencsv,
-		jksonDatabind,
-		jksonCore,
-		jaxRs,
-		sqlite,
+		dcsCommons      % "provided",
+		avro,
 
 		dcsTest         % "test",
-		//scalaTest       % "test",
+		scalaTest       % "test",
 		junitInterface  % "test"
 	)
 }

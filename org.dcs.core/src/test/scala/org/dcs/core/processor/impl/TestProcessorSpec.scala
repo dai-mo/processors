@@ -1,11 +1,11 @@
 package org.dcs.core.processor.impl
 
-import org.dcs.core.BaseUnitSpec
+import org.dcs.core.CoreUnitSpec
 import org.dcs.core.processor.TestProcessor
 
 import scala.collection.JavaConverters._
 
-class TestProcessorSpec extends BaseUnitSpec {
+class TestProcessorSpec extends CoreUnitSpec {
 
 	"The Test Api Service" should "return correct response for valid input" in {
 		val testProcessor = new TestProcessor();
@@ -28,7 +28,5 @@ class TestProcessorSpec extends BaseUnitSpec {
 				execute("Hello ".getBytes(), null).
 				response
 		}
-
-
 	}
 }
