@@ -5,7 +5,7 @@ import java.util.{UUID, List => JavaList, Map => JavaMap, Set => JavaSet}
 import com.google.common.net.MediaType
 import org.dcs.api.processor._
 import org.dcs.api.service.TestResponse
-import org.dcs.commons.JsonSerializerImplicits._
+import org.dcs.commons.serde.JsonSerializerImplicits._
 
 import scala.collection.JavaConverters._
 
