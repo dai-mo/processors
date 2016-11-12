@@ -3,8 +3,10 @@ package org.dcs.core.processor
 import java.util.{List => JavaList, Map => JavaMap, Set => JavaSet}
 
 import com.google.common.net.MediaType
+import org.apache.avro.Schema
 import org.dcs.api.processor._
 import org.dcs.api.service.TestResponse
+import org.dcs.commons.error.ErrorResponse
 import org.dcs.commons.serde.JsonSerializerImplicits._
 
 import scala.collection.JavaConverters._
@@ -32,13 +34,10 @@ class TestProcessor extends RemoteProcessor  {
 
   import org.dcs.core.processor.TestProcessor._
 
-  override def execute(input: Array[Byte], values: JavaMap[String, String]): TestResponse = {
-    TestResponse(new String(input) + propertyValue(UserProperty, values))
+  override def execute(input: Array[Byte], values: JavaMap[String, String]): List[Either[ErrorResponse, TestResponse]] = {
+    List(Right(TestResponse(new String(input) + propertyValue(UserProperty, values))))
   }
 
-	override def trigger(input: Array[Byte], properties: JavaMap[String, String]): Array[Byte] = {
-    execute(input, properties).toJson.getBytes()
-	}
 
   override def properties(): JavaList[RemoteProperty] = {
     List(UserProperty).asJava
@@ -61,4 +60,6 @@ class TestProcessor extends RemoteProcessor  {
     MetaData(description =  "Greeting Processor",
       tags = List("Greeting").asJava)
   }
+
+  override def schema: Option[Schema] = None
 }

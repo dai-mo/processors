@@ -3,8 +3,10 @@ package org.dcs.core.processor
 import java.util.{UUID, List => JavaList, Map => JavaMap, Set => JavaSet}
 
 import com.google.common.net.MediaType
+import org.apache.avro.Schema
 import org.dcs.api.processor._
 import org.dcs.api.service.TestResponse
+import org.dcs.commons.error.ErrorResponse
 import org.dcs.commons.serde.JsonSerializerImplicits._
 
 import scala.collection.JavaConverters._
@@ -44,13 +46,10 @@ class StatefulTestProcessor extends StatefulRemoteProcessor {
     Set(success).asJava
   }
 
-  override def execute(input: Array[Byte], values: JavaMap[String, String]): TestResponse = {
-    TestResponse("id : " + suffix + new String(input) + propertyValue(UserProperty, values))
+  override def execute(input: Array[Byte], values: JavaMap[String, String]): List[Either[ErrorResponse, TestResponse]] = {
+    List(Right(TestResponse("id : " + suffix + new String(input) + propertyValue(UserProperty, values))))
   }
 
-	override def trigger(input: Array[Byte], properties: JavaMap[String, String]): Array[Byte] = {
-    execute(input, properties).toJson.getBytes()
-	}
 
   override def configuration: Configuration = {
     Configuration(inputMimeType = MediaType.PLAIN_TEXT_UTF_8.`type`(),
@@ -67,4 +66,6 @@ class StatefulTestProcessor extends StatefulRemoteProcessor {
   override def initState(): Unit = {
     suffix = UUID.randomUUID().toString
   }
+
+  override def schema: Option[Schema] = None
 }

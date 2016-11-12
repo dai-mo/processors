@@ -8,25 +8,25 @@ import scala.collection.JavaConverters._
 class TestProcessorSpec extends CoreUnitSpec {
 
 	"The Test Api Service" should "return correct response for valid input" in {
-		val testProcessor = new TestProcessor();
-		val user = "Bob";
+		val testProcessor = new TestProcessor()
+		val user = "Bob"
 		def userGreeting(user:String) = "Hello " + user
 		def defaultGreeting() = "Hello World"
 		assertResult(userGreeting(user)) {
 			testProcessor.
-				execute("Hello ".getBytes(), Map(TestProcessor.UserPropertyName -> user).asJava).
-				response
+				execute("Hello ".getBytes(), Map(TestProcessor.UserPropertyName -> user).asJava)
+				.head.right.get.response
 		}
 		assertResult(defaultGreeting()) {
 			testProcessor.
-				execute("Hello ".getBytes(), Map[String, String]().asJava).
-				response
+				execute("Hello ".getBytes(), Map[String, String]().asJava)
+				.head.right.get.response
 		}
 
 		assertResult(defaultGreeting()) {
 			testProcessor.
-				execute("Hello ".getBytes(), null).
-				response
+				execute("Hello ".getBytes(), null)
+				.head.right.get.response
 		}
 	}
 }
