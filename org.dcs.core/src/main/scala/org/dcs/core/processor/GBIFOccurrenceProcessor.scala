@@ -7,14 +7,11 @@ import org.apache.avro.Schema
 import org.apache.avro.data.Json
 import org.dcs.api.processor._
 import org.dcs.commons.error.{ErrorConstants, ErrorResponse}
-import org.dcs.commons.ws.{ApiConfig, JsonPlayWSClient}
-import play.api.http.MimeTypes
-import play.api.libs.json.JsArray
-import play.api.libs.ws.WSResponse
+import org.dcs.commons.ws.{ApiConfig, JerseyRestClient}
 
+import scala.collection.JavaConverters._
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import scala.collection.JavaConverters._
 
 object GBIFOccurrenceProcessor {
 
@@ -37,7 +34,7 @@ object GBIFOccurrenceProcessor {
   * Created by cmathew on 09.11.16.
   */
 class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
-  with JsonPlayWSClient
+  with JerseyRestClient
   with ApiConfig {
 
   import GBIFOccurrenceProcessor._
@@ -57,24 +54,25 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
   override def execute(input: Array[Byte], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, Object]] = {
     val species = propertyValue(SpeciesNameProperty, propertyValues)
 
-    val json = Await.result(
+    val json: util.LinkedHashMap[String, AnyRef] = Json.parseJson(Await.result(
       getAsEither(path = "/search",
-        headers = List(("Content-Type", MimeTypes.JSON)),
         queryParams = List(
           ("scientificName", species),
           ("offset", offset.toString),
           ("limit", limit.toString))
-      ), 20.seconds).right.get.json
-    offset = (json \ "offset").get.validate[Int].get
-    endOfRecords = (json \ "endOfRecords").get.validate[Boolean].get
-    val count = (json \ "count").get.validate[Int].get
+      ), 20.seconds).right.get.readEntity(classOf[String])).asInstanceOf[util.LinkedHashMap[String, AnyRef]]
+    offset = json.get("offset").asInstanceOf[Int]
+    endOfRecords = json.get("endOfRecords").asInstanceOf[Boolean]
+    val count = json.get("count").asInstanceOf[Int]
+
+
     if(count > 200000)
       List(Left(ErrorResponse(ErrorConstants.GlobalFlowErrorCode,"Invalid Request", 400, "Occurrence record count exceeds download limit (200000)")))
     else if(endOfRecords)
       List(Left(ErrorResponse(ErrorConstants.GlobalFlowErrorCode,"Invalid Request", 400, "End of stream")))
     else
-      (json \ "results").get.validate[JsArray].get.value.map { value =>
-        Right(value.toString())
+      json.get("results").asInstanceOf[util.List[util.LinkedHashMap[String, AnyRef]]].asScala.map { value =>
+        Right(value)
       }.toList
   }
 
