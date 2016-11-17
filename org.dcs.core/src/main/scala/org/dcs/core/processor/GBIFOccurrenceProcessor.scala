@@ -5,8 +5,10 @@ import java.util
 import com.google.common.net.MediaType
 import org.apache.avro.Schema
 import org.apache.avro.data.Json
+import org.apache.avro.generic.GenericData
 import org.dcs.api.processor._
 import org.dcs.commons.error.{ErrorConstants, ErrorResponse}
+import org.dcs.commons.serde.AvroSchemaStore
 import org.dcs.commons.ws.{ApiConfig, JerseyRestClient}
 
 import scala.collection.JavaConverters._
@@ -39,10 +41,10 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
 
   import GBIFOccurrenceProcessor._
 
-  val limit = 10
+  val limit = 200
   var offset = 0
   var endOfRecords = false
-
+  var noOfApiCalls = 0;
 
 
   override def initState(): Unit = {
@@ -50,6 +52,7 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
     endOfRecords = false
 
   }
+
 
   override def execute(input: Array[Byte], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, Object]] = {
     val species = propertyValue(SpeciesNameProperty, propertyValues)
@@ -60,20 +63,27 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
           ("scientificName", species),
           ("offset", offset.toString),
           ("limit", limit.toString))
+
       ), 20.seconds).right.get.readEntity(classOf[String])).asInstanceOf[util.LinkedHashMap[String, AnyRef]]
     offset = json.get("offset").asInstanceOf[Int]
     endOfRecords = json.get("endOfRecords").asInstanceOf[Boolean]
     val count = json.get("count").asInstanceOf[Int]
 
+    noOfApiCalls = noOfApiCalls + 1
 
     if(count > 200000)
       List(Left(ErrorResponse(ErrorConstants.GlobalFlowErrorCode,"Invalid Request", 400, "Occurrence record count exceeds download limit (200000)")))
-    else if(endOfRecords)
-      List(Left(ErrorResponse(ErrorConstants.GlobalFlowErrorCode,"Invalid Request", 400, "End of stream")))
+    else if(endOfRecords || noOfApiCalls > 2)
+      List()
     else
-      json.get("results").asInstanceOf[util.List[util.LinkedHashMap[String, AnyRef]]].asScala.map { value =>
-        Right(value)
-      }.toList
+      json.get("results").asInstanceOf[util.List[util.LinkedHashMap[String, AnyRef]]].asScala.map { value => {
+        val gbifOccurrence = new GenericData.Record(AvroSchemaStore.get(schemaId().get).get)
+        gbifOccurrence.put("scientificName", value.get("scientificName"))
+        gbifOccurrence.put("decimalLongitude", value.get("decimalLongitude"))
+        gbifOccurrence.put("decimalLatitude", value.get("decimalLatitude"))
+        gbifOccurrence.put("institutionCode", value.get("institutionCode"))
+        Right(gbifOccurrence)
+      }}.toList
   }
 
 
@@ -101,5 +111,5 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
   override def error(status: Int, message: String): ErrorResponse =
     ErrorResponse(ErrorConstants.GlobalFlowErrorCode, message, status)
 
-  override def schema: Option[Schema] = None
+  override def schemaId: Option[String] = Some(this.getClass.getName())
 }

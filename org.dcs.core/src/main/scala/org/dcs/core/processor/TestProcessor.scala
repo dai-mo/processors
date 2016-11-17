@@ -61,5 +61,5 @@ class TestProcessor extends RemoteProcessor  {
       tags = List("Greeting").asJava)
   }
 
-  override def schema: Option[Schema] = None
+  override def schemaId: Option[String] = None
 }
