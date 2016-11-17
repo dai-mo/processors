@@ -67,5 +67,5 @@ class StatefulTestProcessor extends StatefulRemoteProcessor {
     suffix = UUID.randomUUID().toString
   }
 
-  override def schema: Option[Schema] = None
+  override def schemaId: Option[String] = None
 }
