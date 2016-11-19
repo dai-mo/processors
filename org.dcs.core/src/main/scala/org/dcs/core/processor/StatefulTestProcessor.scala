@@ -4,9 +4,11 @@ import java.util.{UUID, List => JavaList, Map => JavaMap, Set => JavaSet}
 
 import com.google.common.net.MediaType
 import org.apache.avro.Schema
+import org.apache.avro.generic.{GenericData, GenericRecord}
 import org.dcs.api.processor._
 import org.dcs.api.service.TestResponse
 import org.dcs.commons.error.ErrorResponse
+import org.dcs.commons.serde.AvroSchemaStore
 import org.dcs.commons.serde.JsonSerializerImplicits._
 
 import scala.collection.JavaConverters._
@@ -46,14 +48,16 @@ class StatefulTestProcessor extends StatefulRemoteProcessor {
     Set(success).asJava
   }
 
-  override def execute(input: Array[Byte], values: JavaMap[String, String]): List[Either[ErrorResponse, TestResponse]] = {
-    List(Right(TestResponse("id : " + suffix + new String(input) + propertyValue(UserProperty, values))))
+  override def execute(record: Option[GenericRecord], values: JavaMap[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
+    val testResponse = new GenericData.Record(AvroSchemaStore.get(schemaId).get)
+    testResponse.put("response", "id : " + suffix + record.get.get("request").toString + propertyValue(UserProperty, values))
+    List(Right(testResponse))
   }
 
 
   override def configuration: Configuration = {
-    Configuration(inputMimeType = MediaType.PLAIN_TEXT_UTF_8.`type`(),
-      outputMimeType = MediaType.JSON_UTF_8.`type`(),
+    Configuration(inputMimeType = MediaType.OCTET_STREAM.toString,
+      outputMimeType = MediaType.OCTET_STREAM.toString,
       processorClassName =  this.getClass.getName,
       inputRequirementType = InputRequirementType.InputRequired)
   }
@@ -67,5 +71,5 @@ class StatefulTestProcessor extends StatefulRemoteProcessor {
     suffix = UUID.randomUUID().toString
   }
 
-  override def schemaId: Option[String] = None
+  override def schemaId: String = "org.dcs.core.processor.TestResponseProcessor"
 }

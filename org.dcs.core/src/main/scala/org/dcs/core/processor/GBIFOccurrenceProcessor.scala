@@ -1,11 +1,11 @@
 package org.dcs.core.processor
 
 import java.util
+import javax.activation.MimeType
 
 import com.google.common.net.MediaType
-import org.apache.avro.Schema
 import org.apache.avro.data.Json
-import org.apache.avro.generic.GenericData
+import org.apache.avro.generic.{GenericData, GenericRecord}
 import org.dcs.api.processor._
 import org.dcs.commons.error.{ErrorConstants, ErrorResponse}
 import org.dcs.commons.serde.AvroSchemaStore
@@ -50,11 +50,9 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
   override def initState(): Unit = {
     offset = 0
     endOfRecords = false
-
   }
 
-
-  override def execute(input: Array[Byte], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, Object]] = {
+  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
     val species = propertyValue(SpeciesNameProperty, propertyValues)
 
     val json: util.LinkedHashMap[String, AnyRef] = Json.parseJson(Await.result(
@@ -77,7 +75,7 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
       List()
     else
       json.get("results").asInstanceOf[util.List[util.LinkedHashMap[String, AnyRef]]].asScala.map { value => {
-        val gbifOccurrence = new GenericData.Record(AvroSchemaStore.get(schemaId().get).get)
+        val gbifOccurrence = new GenericData.Record(AvroSchemaStore.get(schemaId).get)
         gbifOccurrence.put("scientificName", value.get("scientificName"))
         gbifOccurrence.put("decimalLongitude", value.get("decimalLongitude"))
         gbifOccurrence.put("decimalLatitude", value.get("decimalLatitude"))
@@ -88,13 +86,11 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
 
 
   override def relationships(): util.Set[RemoteRelationship] = {
-    val success = RemoteRelationship(RelationshipType.SucessRelationship,
-      "All status updates will be routed to this relationship")
-    Set(success).asJava
+    Set(RelationshipType.success, RelationshipType.failure).asJava
   }
   override def configuration: Configuration = {
-    Configuration(inputMimeType = MediaType.PLAIN_TEXT_UTF_8.`type`(),
-      outputMimeType = MediaType.JSON_UTF_8.`type`(),
+    Configuration(inputMimeType = MediaType.OCTET_STREAM.toString,
+      outputMimeType = MediaType.OCTET_STREAM.toString,
       processorClassName =  this.getClass.getName,
       inputRequirementType = InputRequirementType.InputForbidden)
   }
@@ -111,5 +107,5 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
   override def error(status: Int, message: String): ErrorResponse =
     ErrorResponse(ErrorConstants.GlobalFlowErrorCode, message, status)
 
-  override def schemaId: Option[String] = Some(this.getClass.getName())
+  override def schemaId: String = this.getClass.getName()
 }

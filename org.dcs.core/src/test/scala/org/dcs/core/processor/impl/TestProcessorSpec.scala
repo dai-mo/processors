@@ -1,5 +1,7 @@
 package org.dcs.core.processor.impl
 
+import org.apache.avro.generic.{GenericData, GenericRecord}
+import org.dcs.commons.serde.AvroSchemaStore
 import org.dcs.core.CoreUnitSpec
 import org.dcs.core.processor.TestProcessor
 
@@ -12,21 +14,24 @@ class TestProcessorSpec extends CoreUnitSpec {
 		val user = "Bob"
 		def userGreeting(user:String) = "Hello " + user
 		def defaultGreeting() = "Hello World"
+
+		val record = Some(new GenericData.Record(AvroSchemaStore.get("org.dcs.core.processor.TestRequestProcessor").get))
+		record.get.put("request", "Hello ")
 		assertResult(userGreeting(user)) {
 			testProcessor.
-				execute("Hello ".getBytes(), Map(TestProcessor.UserPropertyName -> user).asJava)
-				.head.right.get.response
+				execute(record, Map(TestProcessor.UserPropertyName -> user).asJava)
+				.head.right.get.get("response").asInstanceOf[String]
 		}
 		assertResult(defaultGreeting()) {
 			testProcessor.
-				execute("Hello ".getBytes(), Map[String, String]().asJava)
-				.head.right.get.response
+				execute(record, Map[String, String]().asJava)
+				.head.right.get.get("response").asInstanceOf[String]
 		}
 
 		assertResult(defaultGreeting()) {
 			testProcessor.
-				execute("Hello ".getBytes(), null)
-				.head.right.get.response
+				execute(record, null)
+				.head.right.get.get("response").asInstanceOf[String]
 		}
 	}
 }

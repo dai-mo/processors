@@ -19,8 +19,8 @@ class GBIFOccurrenceProcessorSpec extends CoreUnitSpec {
       val response = processor
         .trigger("".getBytes,
           Map(GBIFOccurrenceProcessor.SpeciesNamePropertyKey -> "Loxodonta africana").asJava)
-      response.foreach { result =>
-        validate(result.deSerToGenericRecord(schema, schema))
+      response.grouped(2).foreach { result =>
+        validate(result(1).deSerToGenericRecord(schema, schema))
       }
     }
 
