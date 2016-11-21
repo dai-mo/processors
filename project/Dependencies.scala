@@ -14,7 +14,7 @@ object Dependencies {
 	lazy val examVersion      		 = "4.8.0"
 	lazy val scalaTestVersion 		 = "2.2.6"
 	lazy val juiVersion       		 = "0.11"
-	lazy val openCsvVersion   		 = "3.6"
+	lazy val openCsvVersion   		 = "3.8"
 	lazy val jacksonVersion   		 = "2.4.5"
 	lazy val jaxRsVersion     		 = "2.0.1"
 	lazy val sqliteVersion    		 = "3.8.11.2"
@@ -39,6 +39,7 @@ object Dependencies {
   val datastaxDriver  = "com.datastax.cassandra"     % "cassandra-driver-core"   % dataStaxDriverVersion
 	val scalaReflect    = "org.scala-lang"             % "scala-reflect"           % scalaReflectVersion
   val guava           = "com.google.guava"           % "guava"                   % guavaVersion
+	val openCsv         = "com.opencsv"                % "opencsv"                 % openCsvVersion
 
 	val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsTestVersion
 	val scalaTest       = "org.scalatest"              %% "scalatest"              % scalaTestVersion
@@ -52,6 +53,7 @@ object Dependencies {
 		paxCdiApi       % "provided",
 		logbackCore     % "provided",
 		logbackClassic  % "provided",
+		openCsv,
 		cdiApi,
 		//scalaReflect,
     guava,

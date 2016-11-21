@@ -1,7 +1,6 @@
 package org.dcs.core.processor
 
 import java.util
-import javax.activation.MimeType
 
 import com.google.common.net.MediaType
 import org.apache.avro.data.Json
@@ -23,7 +22,6 @@ object GBIFOccurrenceProcessor {
   val SpeciesNameProperty = RemoteProperty(displayName = "Species Name",
     name = SpeciesNamePropertyKey,
     description =  "Species Name to search for",
-    defaultValue =  "",
     required = true)
 
   def apply(): GBIFOccurrenceProcessor = {
