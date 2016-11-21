@@ -59,7 +59,7 @@ class LatLongValidationProcessor extends RemoteProcessor {
     Configuration(inputMimeType = MediaType.OCTET_STREAM.toString,
       outputMimeType = MediaType.OCTET_STREAM.toString,
       processorClassName =  this.getClass.getName,
-      inputRequirementType = InputRequirementType.InputForbidden)
+      inputRequirementType = InputRequirementType.InputRequired)
   }
 
   override def metadata(): MetaData =
