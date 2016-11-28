@@ -66,4 +66,6 @@ class TestProcessor extends RemoteProcessor  {
   }
 
   override def schemaId: String = "org.dcs.core.processor.TestResponseProcessor"
+
+  override def processorType(): String = RemoteProcessor.WorkerProcessorType
 }

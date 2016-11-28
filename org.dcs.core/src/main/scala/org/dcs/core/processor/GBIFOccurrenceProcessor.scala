@@ -42,7 +42,7 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
   val limit = 200
   var offset = 0
   var endOfRecords = false
-  var noOfApiCalls = 0;
+  var noOfApiCalls = 0
 
 
   override def initState(): Unit = {
@@ -69,7 +69,7 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
 
     if(count > 200000)
       List(Left(ErrorResponse(ErrorConstants.GlobalFlowErrorCode,"Invalid Request", 400, "Occurrence record count exceeds download limit (200000)")))
-    else if(endOfRecords || noOfApiCalls > 2)
+    else if(endOfRecords || noOfApiCalls > 1)
       List()
     else
       json.get("results").asInstanceOf[util.List[util.LinkedHashMap[String, AnyRef]]].asScala.map { value => {
@@ -106,4 +106,6 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
     ErrorResponse(ErrorConstants.GlobalFlowErrorCode, message, status)
 
   override def schemaId: String = this.getClass.getName()
+
+  override def processorType(): String = RemoteProcessor.DataIngestionProcessorType
 }

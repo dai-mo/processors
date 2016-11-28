@@ -81,5 +81,7 @@ class FilterProcessor extends RemoteProcessor {
     List(FilterTermProperty, FilterProperty).asJava
 
   override def schemaId: String = null
+
+  override def processorType(): String = RemoteProcessor.WorkerProcessorType
 }
 

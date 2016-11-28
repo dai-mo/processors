@@ -11,6 +11,7 @@ import com.google.common.net.MediaType
 import com.opencsv.CSVWriter
 import org.apache.avro.generic.GenericRecord
 import org.dcs.api.processor._
+import org.dcs.api.service.ProcessorType
 import org.dcs.commons.error.ErrorResponse
 
 import scala.collection.JavaConverters._
@@ -105,5 +106,6 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor {
 
   override def schemaId: String = null
 
+  override def processorType(): String = RemoteProcessor.SinkProcessorType
 }
 

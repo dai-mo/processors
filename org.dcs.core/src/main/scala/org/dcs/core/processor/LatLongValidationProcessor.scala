@@ -69,5 +69,7 @@ class LatLongValidationProcessor extends RemoteProcessor {
   override def properties(): util.List[RemoteProperty] = new util.ArrayList[RemoteProperty]()
 
   override def schemaId: String = null
+
+  override def processorType(): String = RemoteProcessor.WorkerProcessorType
 }
 
