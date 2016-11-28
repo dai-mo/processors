@@ -72,4 +72,6 @@ class StatefulTestProcessor extends StatefulRemoteProcessor {
   }
 
   override def schemaId: String = "org.dcs.core.processor.TestResponseProcessor"
+
+  override def processorType(): String = RemoteProcessor.WorkerProcessorType
 }
