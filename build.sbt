@@ -8,6 +8,35 @@ import sbtrelease._
 
 val projectName = "org.dcs.parent"
 
+lazy val core =
+  OsgiProject("core", "org.dcs.core").
+    settings(libraryDependencies ++= coreDependencies)
+
+val defaultDatabaseLib = "slick-postgres"
+// The target database can be provided when building the 'repo' project
+// by using the system property option '-Ddatabase=<target>'.
+// Possible targets include postgres, cassandra
+lazy val databaseLib = sys.props.getOrElse("databaseLib", default = defaultDatabaseLib)
+
+lazy val dataProjectName = "org.dcs.data"
+lazy val dataProjectID   = "data"
+
+lazy val data =
+  OsgiProject(dataProjectID, dataProjectName).
+    settings(
+      name := dataProjectName,
+      moduleName := dataProjectName + "." + databaseLib,
+      libraryDependencies ++= dataDependencies(databaseLib),
+      unmanagedSourceDirectories in Compile ++= sourceDirs(baseDirectory.value, databaseLib),
+      artifactName := { (sv: ScalaVersion, module: ModuleID, artifact: Artifact) =>
+        artifact.name + "." + databaseLib + "-" + module.revision + classifier(artifact.classifier) + "." + artifact.extension
+      },
+      slickPostgres := slickPostgresCodeGenTask.value
+    )
+
+
+def classifier(cl: Option[String]): String = if(cl.isDefined) "-" + cl.get else  ""
+
 lazy val osgi = (project in file(".")).
   settings(commonSettings: _*).
   settings(
@@ -15,16 +44,32 @@ lazy val osgi = (project in file(".")).
   ).
   aggregate(core, data)
 
-lazy val core =
-  OsgiProject("core", "org.dcs.core").
-    settings(libraryDependencies ++= coreDependencies)
+
+lazy val slick = config("slick") describedAs "Sbt configuration for slick commands"
+lazy val slickPostgres = TaskKey[Seq[File]]("gen-postgres").in(slick)
+
+lazy val slickPostgresCodeGenTask = (baseDirectory, dependencyClasspath in Compile, runner in Compile, streams) map { (dir, cp, r, s) =>
+  val outputDir = (dir / "src" / "slick" / "scala" / "org" / "dcs" / "data" / "postgres").getPath
+  val username = sys.props.get("dbUser")
+  val password = sys.props.get("dbPassword")
+  if(username.isEmpty || password.isEmpty) throw new IllegalArgumentException("One of the system properties dbUser or dbPassword is not set")
+  val host = sys.props.getOrElse("dbHost", "dcs-postgres")
+  val port = sys.props.getOrElse("dbPort", "5432")
+  val database = sys.props.getOrElse("dbName", "dcs")
+
+  val url = "jdbc:postgresql://" + host + ":" + port + "/" + database
+  val jdbcDriver = "org.postgresql.Driver"
+  val slickDriver = "slick.driver.PostgresDriver"
+  val pkg = "org.dcs.data.postgres"
+  toError(r.run("slick.codegen.SourceCodeGenerator",
+    cp.files,
+    Array(slickDriver, jdbcDriver, url, outputDir, pkg, username.get, password.get),
+    s.log))
+  val fname = outputDir +  "/Tables.scala"
+  Seq(file(fname))
+}
 
 
-lazy val data =
-  OsgiProject("data", "org.dcs.data").
-    settings(libraryDependencies ++= dataDependencies).
-    settings(Seq(unmanagedSourceDirectories in Compile += baseDirectory.value / "generated" / "src" / "main" / "java",
-      unmanagedSourceDirectories in Test += baseDirectory.value / "generated" / "src" / "test" / "java"))
 
 
 

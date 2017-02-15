@@ -50,4 +50,13 @@ object Common {
         OsgiKeys.requireCapability := paxCdiCapabilities,
         moduleName := name.value).
       settings(osgiSettings: _*)
+
+  def sourceDirs(baseDirectory: File, databaseLib: String): Seq[File] = databaseLib match {
+      case "quill-cassandra" =>  Seq(baseDirectory / "src" / "quill" / "scala", baseDirectory / "src" / "cassandra" / "scala")
+      case "quill-postgres" =>  Seq(baseDirectory / "src" / "quill" / "scala", baseDirectory / "src" / "postgres" / "scala")
+      case _ if databaseLib startsWith "slick"  =>  Seq(baseDirectory / "src" / "slick" / "scala")
+      case _ => throw new IllegalStateException("Target DB lib " + databaseLib + " is not recognised. \n" +
+        "Should be one of quill-cassandra , quill-postgres, slick")
+    }
+
 }
