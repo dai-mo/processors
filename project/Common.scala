@@ -34,7 +34,7 @@ object Common {
     "org.ops4j.pax.cdi.extension;" +
     "filter:=\"(extension=pax-cdi-extension)\""
 
-  def OsgiProject(projectID: String, projectName: String) =
+  def OsgiProject(projectID: String, projectName: String, exportPackages: Seq[String] = Nil) =
     Project(projectID, file(projectName)).
       enablePlugins(SbtOsgi).
       configs(IntegrationTest).
@@ -45,9 +45,10 @@ object Common {
       settings(
         name := projectName,
         OsgiKeys.bundleSymbolicName := projectName,
-        OsgiKeys.exportPackage := Seq(name.value + ".*"),
+        OsgiKeys.exportPackage := Seq(name.value + ".*") ++ exportPackages ,
         OsgiKeys.importPackage := Seq("*"),
         OsgiKeys.requireCapability := paxCdiCapabilities,
         moduleName := name.value).
       settings(osgiSettings: _*)
+
 }

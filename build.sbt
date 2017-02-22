@@ -1,5 +1,6 @@
 import Common._
 import Dependencies._
+import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.sbt.GitPlugin.autoImport._
 import sbt.Keys._
 import sbtbuildinfo.BuildInfoPlugin.autoImport._
@@ -8,6 +9,63 @@ import sbtrelease._
 
 val projectName = "org.dcs.parent"
 
+lazy val core =
+  OsgiProject("core", "org.dcs.core").
+    settings(libraryDependencies ++= coreDependencies).
+    dependsOn(data)
+
+
+lazy val dataProjectName = "org.dcs.data"
+lazy val dataProjectID   = "data"
+
+
+lazy val slick = config("slick") describedAs "Sbt configuration for slick commands"
+lazy val slickPostgres = TaskKey[Seq[File]]("codegen").in(slick)
+
+lazy val data =
+  OsgiProject(dataProjectID, dataProjectName, Seq("slick.jdbc.hikaricp")).
+    settings(
+      name := dataProjectName,
+      moduleName := dataProjectName,
+      libraryDependencies ++= dataDependencies,
+      slickPostgres := {
+        if(sys.props.get("config.file").isEmpty)
+          throw new IllegalArgumentException("config.file vm argument is not set")
+        val outputDir = (baseDirectory.value / "src" / "main" / "scala" ).getPath
+
+        val conf: Config = ConfigFactory.load()
+        val db: Config = conf.getConfig("postgres")
+
+        val username = Option(db.getString("user"))
+        val password = Option(db.getString("password"))
+        if(username.isEmpty || password.isEmpty) throw
+          new IllegalArgumentException("One of the system properties dbUser or dbPassword is not set")
+
+        val url = db.getString("url")
+        val jdbcDriver = "org.postgresql.Driver"
+        val slickDriver = "slick.driver.PostgresDriver"
+        val pkg = "org.dcs.data.slick"
+        toError((runner in Compile).value.run("slick.codegen.SourceCodeGenerator",
+          (dependencyClasspath in Compile).value.files,
+          Array(slickDriver, jdbcDriver, url, outputDir, pkg, username.get, password.get),
+          streams.value.log))
+
+        val fname = outputDir +  "/Tables.scala"
+        Seq(file(fname))
+      }
+    ).
+    // FIXME: This should be removed once the
+    //        slick-hikaricp osgi manifest issue,
+    //        https://github.com/slick/slick/issues/1694
+    //        is resolved
+    settings(
+      OsgiKeys.embeddedJars := (Keys.externalDependencyClasspath in Compile).value map (_.data) filter (
+        _.getName startsWith "slick-hikaricp")
+    )
+
+
+def classifier(cl: Option[String]): String = if(cl.isDefined) "-" + cl.get else  ""
+
 lazy val osgi = (project in file(".")).
   settings(commonSettings: _*).
   settings(
@@ -15,16 +73,11 @@ lazy val osgi = (project in file(".")).
   ).
   aggregate(core, data)
 
-lazy val core =
-  OsgiProject("core", "org.dcs.core").
-    settings(libraryDependencies ++= coreDependencies)
 
 
-lazy val data =
-  OsgiProject("data", "org.dcs.data").
-    settings(libraryDependencies ++= dataDependencies).
-    settings(Seq(unmanagedSourceDirectories in Compile += baseDirectory.value / "generated" / "src" / "main" / "java",
-      unmanagedSourceDirectories in Test += baseDirectory.value / "generated" / "src" / "test" / "java"))
+
+
+
 
 
 
