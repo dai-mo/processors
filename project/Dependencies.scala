@@ -4,6 +4,7 @@ object Dependencies {
 	// Versions
 	lazy val dcsApiVersion    		 = "0.3.0-SNAPSHOT"
 	lazy val dcsCommonsVersion     = "0.2.0-SNAPSHOT"
+	lazy val dcsDataVersion        = "0.2.0-SNAPSHOT"
 	lazy val dcsTestVersion   		 = "0.1.0"
 	lazy val paxCdiVersion    		 = "0.12.0"
 	lazy val cdiApiVersion    		 = "1.2"
@@ -27,11 +28,17 @@ object Dependencies {
 	lazy val dataStaxDriverVersion = "3.1.0"
 	lazy val postgresDriverVersion = "9.4.1208"
   lazy val slickVersion          = "3.1.1"
+  // FIXME: Currently we have duplicate entries for
+  //        typesafeConfig in here and in the
+  //        project/build.sbt used for the build itself
+	lazy val typesafeConfigVersion = "1.3.1"
+  lazy val flywayVersion         = "4.0.3"
 
 
 	// Libraries
 	val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsApiVersion
   val dcsCommons      = "org.dcs"                    % "org.dcs.commons"         % dcsCommonsVersion
+	val dcsData         = "org.dcs"                    % "org.dcs.data"            % dcsDataVersion
 
 	val paxCdiApi       = "org.ops4j.pax.cdi"          % "pax-cdi-api"             % paxCdiVersion
 	val cdiApi          = "javax.enterprise"           % "cdi-api"                 % cdiApiVersion
@@ -50,16 +57,19 @@ object Dependencies {
   val slick           = "com.typesafe.slick"         %% "slick"                  % slickVersion
   val slickHikariCP   = "com.typesafe.slick"         %% "slick-hikaricp"         % slickVersion
   val slickCodeGen    = "com.typesafe.slick"         %% "slick-codegen"          % slickVersion
-
+  val flyway          = "org.flywaydb"               % "flyway-core"             % flywayVersion
+  val typesafeConfig  = "com.typesafe"               % "config"                  % typesafeConfigVersion
 
 	val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsTestVersion
 	val scalaTest       = "org.scalatest"              %% "scalatest"              % scalaTestVersion
 	val junitInterface  = "com.novocode"               % "junit-interface"   			 % juiVersion
 
 	// Dependencies
-	val coreDependencies = Seq(
+	val coreDependencies: Seq[ModuleID] = Seq(
 		dcsApi          % "provided",
     dcsCommons      % "provided",
+    dcsData         % "provided",
+
 		avro            % "provided",
 		paxCdiApi       % "provided",
 		logbackCore     % "provided",
@@ -73,21 +83,27 @@ object Dependencies {
 		junitInterface  % "test"
 	)
 
-	def dataDependencies(databaseLib: String): Seq[ModuleID] = Seq(
+	def dataDependencies: Seq[ModuleID] = Seq(
 		dcsApi          % "provided",
 		dcsCommons      % "provided",
+		typesafeConfig,
+    slick,
+    slickHikariCP   % "provided",
+    // FIXME: This should be removed once the
+    //        slick-hikaricp osgi manifest issue,
+    //        https://github.com/slick/slick/issues/1694
+    //        is resolved
+    "com.zaxxer" % "HikariCP-java6" % "2.3.7",
+    slickCodeGen,
+    postgresDriver,
+    flyway,
+		logbackCore     % "provided",
+		logbackClassic  % "provided",
 
 		dcsTest         % "test",
 		scalaTest       % "test",
 		junitInterface  % "test"
-	) ++ quillDependecies(databaseLib)
-
-	def quillDependecies(databaseLib: String): Seq[ModuleID] = databaseLib match {
-		case "quill-cassandra" => Seq(quillCassandra, datastaxDriver)
-		case "quill-postgres" => Seq(quillJdbc, postgresDriver)
-    case "slick-postgres" => Seq(slick, slickHikariCP, slickCodeGen, postgresDriver)
-    case _ => throw new IllegalStateException("Target DB lib " + databaseLib + " is not recognised. \n" +
-      "Should be one of quill-cassandra , quill-postgres, slick-postgres")
-	}
+	)
 
 }
+

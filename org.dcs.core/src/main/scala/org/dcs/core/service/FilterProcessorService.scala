@@ -1,9 +1,4 @@
 package org.dcs.core.service
-
-/**
-  * Created by cmathew on 19.11.16.
-  */
-
 import javax.enterprise.inject.Default
 
 import org.dcs.api.processor.RemoteProcessor

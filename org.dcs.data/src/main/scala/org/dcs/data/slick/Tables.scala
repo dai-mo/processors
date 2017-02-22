@@ -1,4 +1,4 @@
-package org.dcs.data.postgres
+package org.dcs.data.slick
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object Tables extends {

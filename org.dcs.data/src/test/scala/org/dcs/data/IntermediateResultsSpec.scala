@@ -9,14 +9,22 @@ import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
 import org.dcs.api.processor.RemoteProcessor
 import org.dcs.commons.serde.AvroImplicits._
 import org.dcs.commons.serde.AvroSchemaStore
+import org.dcs.data.slick.SlickPostgresIntermediateResults
+import org.scalatest.Ignore
+
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+import scala.collection.JavaConverters._
 
 /**
   * Created by cmathew on 02.02.17.
   */
-class IntermediateResultsSpec extends IntermediateResultsBehaviour {
+@Ignore
+class SlickPostgresIntermediateResultsSpec extends SlickPostgresIntermediateResultsBehaviour {
   val FirstName = "Obi"
   val MiddleName = "Wan"
   val LastName = "Kenobi"
+
 
   val bytes: Array[Byte] = {
     val schemaForUser: Schema = new Schema.Parser().parse(this.getClass.getResourceAsStream("/avro/user.avsc"))
@@ -65,7 +73,9 @@ class IntermediateResultsSpec extends IntermediateResultsBehaviour {
 
     AvroSchemaStore.add("user")
 
-    IntermediateResults.purge()
+    DbMigration.migratePostgres()
+
+    SlickPostgresIntermediateResults.purge()
 
     val fdc1 = generateContent()
     Thread.sleep(1000)
@@ -84,24 +94,24 @@ class IntermediateResultsSpec extends IntermediateResultsBehaviour {
     val componentId2 = UUID.randomUUID().toString
     val fdp4 = generateProvenance(4, componentId2, fdc4.id)
 
-    IntermediateResults.createContent(fdc1)
-    IntermediateResults.createProvenance(fdp1)
+    Await.result(SlickPostgresIntermediateResults.createContent(fdc1), Duration.Inf)
+    Await.result(SlickPostgresIntermediateResults.createProvenance(fdp1), Duration.Inf)
 
-    IntermediateResults.createContent(fdc2)
-    IntermediateResults.createProvenance(fdp2)
+    Await.result(SlickPostgresIntermediateResults.createContent(fdc2), Duration.Inf)
+    Await.result(SlickPostgresIntermediateResults.createProvenance(fdp2), Duration.Inf)
 
-    IntermediateResults.createContent(fdc3)
-    IntermediateResults.createProvenance(fdp3)
+    Await.result(SlickPostgresIntermediateResults.createContent(fdc3), Duration.Inf)
+    Await.result(SlickPostgresIntermediateResults.createProvenance(fdp3), Duration.Inf)
 
-    IntermediateResults.createContent(fdc4)
-    IntermediateResults.createProvenance(fdp4)
+    Await.result(SlickPostgresIntermediateResults.createContent(fdc4), Duration.Inf)
+    Await.result(SlickPostgresIntermediateResults.createProvenance(fdp4), Duration.Inf)
 
-    var provenanceQueryResults = IntermediateResults.listProvenanceByComponentId(componentId1, 2)
+    var provenanceQueryResults = Await.result(SlickPostgresIntermediateResults.listProvenanceByComponentId(componentId1, 2), Duration.Inf).asScala
     assert(provenanceQueryResults.size == 2)
     assert(provenanceQueryResults.head.timestamp.getTime >  provenanceQueryResults.tail.head.timestamp.getTime)
 
-    IntermediateResults.deleteProvenanceByComponentId(componentId1)
-    provenanceQueryResults = IntermediateResults.listProvenanceByComponentId(componentId2, 1)
+    Await.result(SlickPostgresIntermediateResults.deleteProvenanceByComponentId(componentId1), Duration.Inf)
+    provenanceQueryResults = Await.result(SlickPostgresIntermediateResults.listProvenanceByComponentId(componentId2, 1), Duration.Inf).asScala
     assert(provenanceQueryResults.size == 1)
     assert(provenanceQueryResults.head.id == fdc4.id)
 
@@ -109,6 +119,6 @@ class IntermediateResultsSpec extends IntermediateResultsBehaviour {
 
 }
 
-trait IntermediateResultsBehaviour extends DataUnitSpec {
+trait SlickPostgresIntermediateResultsBehaviour extends DataUnitSpec {
 
 }
