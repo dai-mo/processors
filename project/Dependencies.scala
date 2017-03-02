@@ -13,7 +13,7 @@ object Dependencies {
 	lazy val zookeeperVersion 		 = "3.4.7"
 	lazy val nifiVersion      		 = "0.5.1"
 	lazy val examVersion      		 = "4.8.0"
-	lazy val scalaTestVersion 		 = "2.2.6"
+	lazy val scalaTestVersion 		 = "3.0.0"
 	lazy val juiVersion       		 = "0.11"
 	lazy val openCsvVersion   		 = "3.8"
 	lazy val jacksonVersion   		 = "2.4.5"

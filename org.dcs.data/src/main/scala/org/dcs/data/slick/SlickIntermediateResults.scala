@@ -2,7 +2,6 @@ package org.dcs.data.slick
 
 
 import java.sql.Timestamp
-import java.util
 import java.util.{List => JavaList}
 
 import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
@@ -12,7 +11,6 @@ import org.dcs.data.IntermediateResultsAdapter
 import slick.driver.JdbcDriver
 
 import scala.collection.JavaConverters._
-import scala.collection.immutable.ListMap
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -32,6 +30,24 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     _logQueries = value
   }
 
+  private def uniqueForId[T](seq: Seq[T], id : String): Option[T] = {
+    if(seq.size > 1)
+      throw new IllegalStateException("More than one content record for given id " + id)
+    seq.headOption
+  }
+
+  private def getContentQuery(contentId : Rep[String]) = {
+    Tables.FlowDataContent.filter(_.id === contentId)
+  }
+
+  private lazy val getContentQueryCompiled = Compiled(getContentQuery _)
+
+  override def getContent(contentId : String): Future[Option[Tables.FlowDataContentRow]] = {
+    val contentAction = getContentQueryCompiled(contentId).result
+    db.run(contentAction).map(uniqueForId(_, contentId))
+  }
+
+
   override def createContent(fdc: FlowDataContent): Future[Unit] = {
     val contentRow = Tables.FlowDataContentRow(fdc.id,
       Option(fdc.claimCount),
@@ -44,6 +60,49 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
 
     db.run(createContentAction)
   }
+
+  private def claimaintCountQuery(contentId : Rep[String]) = {
+    Tables.FlowDataContent.filter(_.id === contentId).map(_.claimCount)
+  }
+
+  private lazy val claimaintCountQueryCompiled = Compiled(claimaintCountQuery _)
+
+  private def updateClaimaintCount(contentId : String, updateBy: Int): Future[Option[Int]] = {
+
+    var updatedClaimCount: Option[Int] = None
+    val incrementClaimaintCountAction = getContentQueryCompiled(contentId).result.
+      flatMap(content => {
+        updatedClaimCount = Some(content.headOption.get.claimCount.get + updateBy)
+        claimaintCountQueryCompiled(contentId).update(updatedClaimCount)
+      })
+
+    db.run(incrementClaimaintCountAction).
+      map {
+        case 0 => None
+        case _ => updatedClaimCount
+      }
+  }
+
+  override def incrementClaimaintCount(contentId : String): Future[Option[Int]] = updateClaimaintCount(contentId, 1)
+  override def decrementClaimaintCount(contentId : String): Future[Option[Int]] = updateClaimaintCount(contentId, -1)
+
+
+  override def getClaimantCount(contentId: String): Future[Option[Int]] = {
+    db.run(claimaintCountQueryCompiled(contentId).result).
+      map(uniqueForId(_, contentId).get)
+  }
+
+  override def getContentSize: Future[Int] = {
+    db.run(Tables.FlowDataContent.length.result)
+  }
+
+  override def deleteContent(contentId: String): Future[Int] = {
+    db.run(getContentQueryCompiled(contentId).delete)
+  }
+
+  override def purgeContent(): Future[Int] = db.run(Tables.FlowDataContent.delete)
+
+
 
   override def createProvenance(fdp: FlowDataProvenance): Future[Unit] = {
     val provenanceRow = Tables.FlowDataProvenanceRow(fdp.id,
@@ -88,12 +147,13 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
       .sortBy(_._5.desc).take(maxResults)
   }
 
-  val provenanceByComponentIdQueryCompiled = Compiled(provenanceByComponentIdQuery _)
+  lazy val provenanceByComponentIdQueryCompiled = Compiled(provenanceByComponentIdQuery _)
 
-  override def listProvenanceByComponentId(cid: String, maxResults: Int): Future[util.List[Provenance]] = {
+  override def listProvenanceByComponentId(cid: String, maxResults: Int): Future[List[Provenance]] = {
     import org.dcs.api.data.FlowData._
 
     val provenanceByComponentIdAction = provenanceByComponentIdQueryCompiled(cid, maxResults).result
+
     (for (provList <- db.run(provenanceByComponentIdAction) ) yield provList.map(prov => {
       // FIXME: The avro deserialisation should finally move to the client side,
       //        with the schema store exposed as a service
@@ -104,7 +164,11 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
         else
           updatedSchema.get
       Provenance(prov._1, prov._2, prov._3, prov._4.getOrElse(Array[Byte]()), "", schema, prov._5.get)
-    })).map(_.toList.asJava)
+    })).map(_.toList)
+  }
+
+  override def getProvenanceSize: Future[Int] = {
+    db.run(Tables.FlowDataProvenance.length.result)
   }
 
   override def deleteProvenanceByComponentId(cid: String): Future[Int] = {
@@ -119,11 +183,13 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     db.run(deleteProvenanceAction)
   }
 
+
+  override def purgeProvenance(): Future[Int] = db.run(Tables.FlowDataProvenance.delete)
+
   override def purge(): Future[Int] = {
     val purgeFdcAction = Tables.FlowDataContent.delete
     val purgeFdpAction = Tables.FlowDataProvenance.delete
     db.run((purgeFdcAction andThen purgeFdpAction).transactionally)
-
   }
 }
 
