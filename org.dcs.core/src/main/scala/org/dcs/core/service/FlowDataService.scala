@@ -28,7 +28,7 @@ class FlowDataService extends IFlowDataService {
 
 
   def provenanceByComponentId(componentId: String, maxResults: Int): util.List[Provenance] = {
-    Await.result(SlickPostgresIntermediateResults.listProvenanceByComponentId(componentId, maxResults), Duration.Inf).asJava
+    Await.result(SlickPostgresIntermediateResults.getProvenanceByComponentId(componentId, maxResults), Duration.Inf).asJava
   }
 
 }

@@ -28,6 +28,9 @@ object Dependencies {
 	lazy val dataStaxDriverVersion = "3.1.0"
 	lazy val postgresDriverVersion = "9.4.1208"
   lazy val slickVersion          = "3.1.1"
+	lazy val shapelessVersion      = "2.3.1"
+	lazy val slicklessVersion      = "0.3.0"
+
   // FIXME: Currently we have duplicate entries for
   //        typesafeConfig in here and in the
   //        project/build.sbt used for the build itself
@@ -57,6 +60,8 @@ object Dependencies {
   val slick           = "com.typesafe.slick"         %% "slick"                  % slickVersion
   val slickHikariCP   = "com.typesafe.slick"         %% "slick-hikaricp"         % slickVersion
   val slickCodeGen    = "com.typesafe.slick"         %% "slick-codegen"          % slickVersion
+	val shapeless       = "com.chuusai"                %% "shapeless"              % shapelessVersion
+	val slickless       = "io.underscore"              %% "slickless"              % slicklessVersion
   val flyway          = "org.flywaydb"               % "flyway-core"             % flywayVersion
   val typesafeConfig  = "com.typesafe"               % "config"                  % typesafeConfigVersion
 
@@ -95,6 +100,8 @@ object Dependencies {
     //        is resolved
     "com.zaxxer" % "HikariCP-java6" % "2.3.7",
     slickCodeGen,
+		shapeless,
+		slickless,
     postgresDriver,
     flyway,
 		logbackCore     % "provided",

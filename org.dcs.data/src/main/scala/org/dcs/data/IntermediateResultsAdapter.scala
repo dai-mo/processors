@@ -2,7 +2,7 @@ package org.dcs.data
 
 import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
 import org.dcs.api.service.Provenance
-import org.dcs.data.slick.Tables
+import org.dcs.data.slick.{BigTables, Tables}
 
 import scala.concurrent.Future
 
@@ -22,7 +22,14 @@ trait IntermediateResultsAdapter {
 
 
   def createProvenance(fdp: FlowDataProvenance): Future[Unit]
-  def listProvenanceByComponentId(cid: String, maxResults: Int): Future[List[Provenance]]
+  def getProvenanceByComponentId(cid: String, maxResults: Int): Future[List[Provenance]]
+  def getProvenanceEventsByEventId(eventId: Long, maxResults: Int): Future[List[BigTables.BigFlowDataProvenanceRow]]
+  def getProvenanceEventByEventId(eventId: Long): Future[Option[BigTables.BigFlowDataProvenanceRow]]
+  def getProvenanceEventById(id: String): Future[Option[BigTables.BigFlowDataProvenanceRow]]
+  def getProvenanceEventsByEventType(eventType: String): Future[List[BigTables.BigFlowDataProvenanceRow]]
+  def getProvenanceEventsByFlowFileUuid(flowFileUuid: String): Future[List[BigTables.BigFlowDataProvenanceRow]]
+  def getProvenanceEventsByComponentId(componentId: String): Future[List[BigTables.BigFlowDataProvenanceRow]]
+  def getProvenanceEventsByRelationship(relationship: String): Future[List[BigTables.BigFlowDataProvenanceRow]]
   def getProvenanceSize: Future[Int]
   def deleteProvenanceByComponentId(cid: String): Future[Int]
   def purgeProvenance(): Future[Int]

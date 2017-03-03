@@ -10,9 +10,10 @@ import org.dcs.api.service.Provenance
 import org.dcs.data.IntermediateResultsAdapter
 import slick.driver.JdbcDriver
 
-import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+
+
 
 
 /**
@@ -105,8 +106,8 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
 
 
   override def createProvenance(fdp: FlowDataProvenance): Future[Unit] = {
-    val provenanceRow = Tables.FlowDataProvenanceRow(fdp.id,
-      fdp.eventId.toLong,
+    val provenanceRow = BigTables.BigFlowDataProvenanceRow(fdp.id,
+      1,
       Option(fdp.eventTime),
       Option(fdp.flowFileEntryDate),
       Option(fdp.lineageStartEntryDate),
@@ -138,7 +139,7 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     db.run(createProvenance)
   }
 
-  private def provenanceByComponentIdQuery(cid: Rep[String], maxResults: ConstColumn[Long]) = {
+  private def getProvenanceByComponentIdQuery(cid: Rep[String], maxResults: ConstColumn[Long]) = {
     (for {
       provenance <- Tables.FlowDataProvenance if provenance.componentId === cid
       content <- Tables.FlowDataContent if provenance.contentClaimIdentifier === content.id
@@ -147,12 +148,12 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
       .sortBy(_._5.desc).take(maxResults)
   }
 
-  lazy val provenanceByComponentIdQueryCompiled = Compiled(provenanceByComponentIdQuery _)
+  private lazy val getProvenanceByComponentIdQueryCompiled = Compiled(getProvenanceByComponentIdQuery _)
 
-  override def listProvenanceByComponentId(cid: String, maxResults: Int): Future[List[Provenance]] = {
+  override def getProvenanceByComponentId(cid: String, maxResults: Int): Future[List[Provenance]] = {
     import org.dcs.api.data.FlowData._
 
-    val provenanceByComponentIdAction = provenanceByComponentIdQueryCompiled(cid, maxResults).result
+    val provenanceByComponentIdAction = getProvenanceByComponentIdQueryCompiled(cid, maxResults).result
 
     (for (provList <- db.run(provenanceByComponentIdAction) ) yield provList.map(prov => {
       // FIXME: The avro deserialisation should finally move to the client side,
@@ -167,9 +168,52 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     })).map(_.toList)
   }
 
+  private def getProvenanceEventsByEventIdQuery(eventId: Rep[Long], maxResults: ConstColumn[Long]) = {
+    Tables.FlowDataProvenance.filter(fdp =>
+      fdp.eventId >= eventId && fdp.eventId < (eventId + maxResults))
+  }
+
+  private lazy val getProvenanceEventsByEventIdQueryCompiled = Compiled(getProvenanceEventsByEventIdQuery _)
+
+  override def getProvenanceEventsByEventId(eventId: Long, maxResults: Int): Future[List[BigTables.BigFlowDataProvenanceRow]] = {
+    db.run(getProvenanceEventsByEventIdQueryCompiled(eventId, maxResults).result).map(_.toList)
+  }
+
+  private def getProvenanceEventByEventIdQuery(eventId: Rep[Long]) = {
+    Tables.FlowDataProvenance.filter(fdp =>fdp.eventId === eventId)
+  }
+
+  private lazy val getProvenanceEventByEventIdQueryCompiled = Compiled(getProvenanceEventByEventIdQuery _)
+
+  override def getProvenanceEventByEventId(eventId: Long): Future[Option[BigTables.BigFlowDataProvenanceRow]] = {
+    db.run(getProvenanceEventByEventIdQueryCompiled(eventId).result).map(uniqueForId(_, eventId.toString))
+  }
+
+  private def getProvenanceEventByIdQuery(id: Rep[String]) = {
+    Tables.FlowDataProvenance.filter(fdp => fdp.id === id)
+  }
+
+  private lazy val getProvenanceEventByIdQueryCompiled = Compiled(getProvenanceEventByIdQuery _)
+
+  override def getProvenanceEventById(id: String): Future[Option[BigTables.BigFlowDataProvenanceRow]] = {
+    db.run(getProvenanceEventByIdQueryCompiled(id).result).map(uniqueForId(_, id))
+  }
+
   override def getProvenanceSize: Future[Int] = {
     db.run(Tables.FlowDataProvenance.length.result)
   }
+
+  override def getProvenanceEventsByEventType(eventType: String): Future[List[BigTables.BigFlowDataProvenanceRow]] =
+    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.eventType === eventType).result).map(_.toList)
+
+  override def getProvenanceEventsByFlowFileUuid(flowFileUuid: String): Future[List[BigTables.BigFlowDataProvenanceRow]] =
+    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.flowFileUuid === flowFileUuid).result).map(_.toList)
+
+  override def getProvenanceEventsByComponentId(componentId: String): Future[List[BigTables.BigFlowDataProvenanceRow]] =
+    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.componentId === componentId).result).map(_.toList)
+
+  override def getProvenanceEventsByRelationship(relationship: String): Future[List[BigTables.BigFlowDataProvenanceRow]] =
+    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.relationship === relationship).result).map(_.toList)
 
   override def deleteProvenanceByComponentId(cid: String): Future[Int] = {
     // FIXME: Deleting each content by id is not optimal
