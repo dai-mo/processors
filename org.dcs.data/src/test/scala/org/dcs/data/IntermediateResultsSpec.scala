@@ -1,5 +1,6 @@
 package org.dcs.data
 
+import java.sql.Timestamp
 import java.time.Instant
 import java.util.{Date, UUID}
 
@@ -9,7 +10,7 @@ import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
 import org.dcs.api.processor.RemoteProcessor
 import org.dcs.commons.serde.AvroImplicits._
 import org.dcs.commons.serde.AvroSchemaStore
-import org.dcs.data.slick.SlickPostgresIntermediateResults
+import org.dcs.data.slick.{SlickPostgresIntermediateResults, Tables}
 import org.scalatest.{Assertion, Ignore}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -65,8 +66,11 @@ trait SlickPostgresIntermediateResultsBehaviour extends AsyncDataUnitSpec {
     user.serToBytes(Some(schemaForUser))
   }
 
-  def generateContent(): FlowDataContent =
-    FlowDataContent(UUID.randomUUID().toString, -1, Date.from(Instant.now()), bytes)
+  def generateContent(): Tables.FlowDataContentRow =
+    Tables.FlowDataContentRow(UUID.randomUUID().toString,
+      Some(-1),
+      Some(Timestamp.from(Instant.now())),
+      Some(bytes))
 
   def createContent(ira: IntermediateResultsAdapter): Future[Unit] = {
     ira.createContent(generateContent())

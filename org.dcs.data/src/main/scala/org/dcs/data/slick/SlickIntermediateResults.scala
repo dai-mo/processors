@@ -49,17 +49,22 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
   }
 
 
-  override def createContent(fdc: FlowDataContent): Future[Unit] = {
-    val contentRow = Tables.FlowDataContentRow(fdc.id,
-      Option(fdc.claimCount),
-      Option(new Timestamp(fdc.timestamp.getTime)),
-      Option(fdc.data))
-
+  override def createContent(fdc: Tables.FlowDataContentRow): Future[Unit] = {
     val createContentAction = DBIO.seq(
-      Tables.FlowDataContent += contentRow
+      Tables.FlowDataContent += fdc
     )
 
     db.run(createContentAction)
+  }
+
+  private def contentDataQuery(contentId : Rep[String]) = {
+    Tables.FlowDataContent.filter(_.id === contentId).map(_.data)
+  }
+
+  private lazy val contentDataQueryCompiled = Compiled(contentDataQuery _)
+
+  override def updateDataContent(contentId : String, data: Array[Byte]): Future[Int] = {
+    db.run(contentDataQueryCompiled(contentId).update(Option(data)))
   }
 
   private def claimaintCountQuery(contentId : Rep[String]) = {
@@ -104,39 +109,19 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
   override def purgeContent(): Future[Int] = db.run(Tables.FlowDataContent.delete)
 
 
-
-  override def createProvenance(fdp: FlowDataProvenance): Future[Unit] = {
-    val provenanceRow = BigTables.BigFlowDataProvenanceRow(fdp.id,
-      1,
-      Option(fdp.eventTime),
-      Option(fdp.flowFileEntryDate),
-      Option(fdp.lineageStartEntryDate),
-      Option(fdp.fileSize),
-      Option(fdp.previousFileSize),
-      Option(fdp.eventDuration),
-      Option(fdp.eventType),
-      Option(fdp.attributes),
-      Option(fdp.previousAttributes),
-      Option(fdp.updatedAttributes),
-      Option(fdp.componentId),
-      Option(fdp.componentType),
-      Option(fdp.transitUri),
-      Option(fdp.sourceSystemFlowFileIdentifier),
-      Option(fdp.flowFileUuid),
-      Option(fdp.parentUuids),
-      Option(fdp.childUuids),
-      Option(fdp.alternateIdentifierUri),
-      Option(fdp.details),
-      Option(fdp.relationship),
-      Option(fdp.sourceQueueIdentifier),
-      Option(fdp.contentClaimIdentifier),
-      Option(fdp.previousContentClaimIdentifier))
-
-    val createProvenance = DBIO.seq(
-      Tables.FlowDataProvenance += provenanceRow
-    )
-
+  override def createProvenance(fdp: BigTables.BigFlowDataProvenanceRow): Future[Unit] = {
+    val createProvenance = DBIO.seq(Tables.FlowDataProvenance += fdp)
     db.run(createProvenance)
+  }
+
+  private def getProvenanceEventsQuery(maxResults: ConstColumn[Long]) = {
+    Tables.FlowDataProvenance.take(maxResults)
+  }
+
+  private lazy val getProvenanceEventsQueryCompiled = Compiled(getProvenanceEventsQuery _)
+
+  override def getProvenanceEvents(maxResults: Long): Future[List[BigTables.BigFlowDataProvenanceRow]] = {
+    db.run(getProvenanceEventsQueryCompiled(maxResults).result).map(_.toList)
   }
 
   private def getProvenanceByComponentIdQuery(cid: Rep[String], maxResults: ConstColumn[Long]) = {
@@ -167,6 +152,8 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
       Provenance(prov._1, prov._2, prov._3, prov._4.getOrElse(Array[Byte]()), "", schema, prov._5.get)
     })).map(_.toList)
   }
+
+
 
   private def getProvenanceEventsByEventIdQuery(eventId: Rep[Long], maxResults: ConstColumn[Long]) = {
     Tables.FlowDataProvenance.filter(fdp =>
@@ -203,17 +190,17 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     db.run(Tables.FlowDataProvenance.length.result)
   }
 
-  override def getProvenanceEventsByEventType(eventType: String): Future[List[BigTables.BigFlowDataProvenanceRow]] =
-    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.eventType === eventType).result).map(_.toList)
+  override def getProvenanceEventsByEventType(eventType: String, maxResults: Long = 1000): Future[List[BigTables.BigFlowDataProvenanceRow]] =
+    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.eventType === eventType).take(maxResults).result).map(_.toList)
 
-  override def getProvenanceEventsByFlowFileUuid(flowFileUuid: String): Future[List[BigTables.BigFlowDataProvenanceRow]] =
-    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.flowFileUuid === flowFileUuid).result).map(_.toList)
+  override def getProvenanceEventsByFlowFileUuid(flowFileUuid: String, maxResults: Long = 1000): Future[List[BigTables.BigFlowDataProvenanceRow]] =
+    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.flowFileUuid === flowFileUuid).take(maxResults).result).map(_.toList)
 
-  override def getProvenanceEventsByComponentId(componentId: String): Future[List[BigTables.BigFlowDataProvenanceRow]] =
-    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.componentId === componentId).result).map(_.toList)
+  override def getProvenanceEventsByComponentId(componentId: String, maxResults: Long = 1000): Future[List[BigTables.BigFlowDataProvenanceRow]] =
+    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.componentId === componentId).take(maxResults).result).map(_.toList)
 
-  override def getProvenanceEventsByRelationship(relationship: String): Future[List[BigTables.BigFlowDataProvenanceRow]] =
-    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.relationship === relationship).result).map(_.toList)
+  override def getProvenanceEventsByRelationship(relationship: String, maxResults: Long = 1000): Future[List[BigTables.BigFlowDataProvenanceRow]] =
+    db.run(Tables.FlowDataProvenance.filter(fdp => fdp.relationship === relationship).take(maxResults).result).map(_.toList)
 
   override def deleteProvenanceByComponentId(cid: String): Future[Int] = {
     // FIXME: Deleting each content by id is not optimal
@@ -227,6 +214,9 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     db.run(deleteProvenanceAction)
   }
 
+  override def getProvenanceMaxEventId(): Future[Option[Long]] = {
+    db.run(Tables.FlowDataProvenance.map(_.eventId).max.result)
+  }
 
   override def purgeProvenance(): Future[Int] = db.run(Tables.FlowDataProvenance.delete)
 
