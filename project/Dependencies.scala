@@ -2,6 +2,7 @@ import sbt._
 
 object Dependencies {
 	// Versions
+	lazy val scVersion             = "2.11.7"
 	lazy val dcsApiVersion    		 = "0.3.0-SNAPSHOT"
 	lazy val dcsCommonsVersion     = "0.2.0-SNAPSHOT"
 	lazy val dcsDataVersion        = "0.2.0-SNAPSHOT"
@@ -21,7 +22,6 @@ object Dependencies {
 	lazy val sqliteVersion    		 = "3.8.11.2"
 	lazy val avroVersion 					 = "1.8.1"
 	lazy val quillCassandraVersion = "1.0.0"
-	lazy val scalaReflectVersion 	 = "2.11.7"
   lazy val guavaVersion          = "18.0"
 	lazy val quillVersion          = "1.0.0"
 	lazy val quillJdbcVersion      = "1.0.1"
@@ -39,6 +39,7 @@ object Dependencies {
 
 
 	// Libraries
+
 	val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsApiVersion
   val dcsCommons      = "org.dcs"                    % "org.dcs.commons"         % dcsCommonsVersion
 	val dcsData         = "org.dcs"                    % "org.dcs.data"            % dcsDataVersion
@@ -49,7 +50,6 @@ object Dependencies {
 	val logbackClassic  =	"ch.qos.logback"             % "logback-classic"         % logbackVersion
 
   val avro            = "org.apache.avro"            % "avro"                    % avroVersion
-	val scalaReflect    = "org.scala-lang"             % "scala-reflect"           % scalaReflectVersion
   val guava           = "com.google.guava"           % "guava"                   % guavaVersion
 	val openCsv         = "com.opencsv"                % "opencsv"                 % openCsvVersion
 
@@ -60,8 +60,6 @@ object Dependencies {
   val slick           = "com.typesafe.slick"         %% "slick"                  % slickVersion
   val slickHikariCP   = "com.typesafe.slick"         %% "slick-hikaricp"         % slickVersion
   val slickCodeGen    = "com.typesafe.slick"         %% "slick-codegen"          % slickVersion
-	val shapeless       = "com.chuusai"                %% "shapeless"              % shapelessVersion
-	val slickless       = "io.underscore"              %% "slickless"              % slicklessVersion
   val flyway          = "org.flywaydb"               % "flyway-core"             % flywayVersion
   val typesafeConfig  = "com.typesafe"               % "config"                  % typesafeConfigVersion
 
@@ -93,15 +91,14 @@ object Dependencies {
 		dcsCommons      % "provided",
 		typesafeConfig,
     slick,
-    slickHikariCP   % "provided",
-    // FIXME: This should be removed once the
+    // FIXME: This should be updated once the
     //        slick-hikaricp osgi manifest issue,
     //        https://github.com/slick/slick/issues/1694
     //        is resolved
+		slickHikariCP   % "provided",
     "com.zaxxer" % "HikariCP-java6" % "2.3.7",
+
     slickCodeGen,
-		shapeless,
-		slickless,
     postgresDriver,
     flyway,
 		logbackCore     % "provided",

@@ -225,6 +225,10 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     val purgeFdpAction = Tables.FlowDataProvenance.delete
     db.run((purgeFdcAction andThen purgeFdpAction).transactionally)
   }
+
+  override def closeDbConnection(): Unit = {
+    db.close()
+  }
 }
 
 

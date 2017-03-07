@@ -1,6 +1,5 @@
 package org.dcs.data
 
-import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
 import org.dcs.api.service.Provenance
 import org.dcs.data.slick.{BigTables, Tables}
 
@@ -38,4 +37,5 @@ trait IntermediateResultsAdapter {
   def purgeProvenance(): Future[Int]
 
   def purge(): Future[Int]
+  def closeDbConnection(): Unit
 }

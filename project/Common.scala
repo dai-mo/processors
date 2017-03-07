@@ -11,7 +11,7 @@ import Global._
 object Common {
   lazy val commonSettings = Seq(
     organization := "org.dcs",
-    scalaVersion := "2.11.7",
+    scalaVersion := scVersion,
     // FIXME: Not really sure if adding the scala version
     //        in the published artifact name is a good idea
     crossPaths := false,

@@ -10,7 +10,7 @@ import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
 import org.dcs.api.processor.RemoteProcessor
 import org.dcs.commons.serde.AvroImplicits._
 import org.dcs.commons.serde.AvroSchemaStore
-import org.dcs.data.slick.{SlickPostgresIntermediateResults, Tables}
+import org.dcs.data.slick.{BigTables, SlickPostgresIntermediateResults, Tables}
 import org.scalatest.{Assertion, Ignore}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -19,7 +19,7 @@ import scala.concurrent.{Await, Future}
 /**
   * Created by cmathew on 02.02.17.
   */
-@Ignore
+//@Ignore
 class SlickPostgresIntermediateResultsSpec extends SlickPostgresIntermediateResultsBehaviour {
 
 
@@ -38,7 +38,7 @@ class SlickPostgresIntermediateResultsSpec extends SlickPostgresIntermediateResu
   }
 
   "Content claim count" should "increment / decrement correctly" in {
-   incDecContentClaimCount(SlickPostgresIntermediateResults)
+    incDecContentClaimCount(SlickPostgresIntermediateResults)
   }
 
   "Content" should "be deleted correctly" in {
@@ -77,33 +77,33 @@ trait SlickPostgresIntermediateResultsBehaviour extends AsyncDataUnitSpec {
   }
 
   def generateProvenance(componentId: String,
-                         contentClaimId: String): FlowDataProvenance = {
+                         contentClaimId: String): BigTables.BigFlowDataProvenanceRow = {
     val now = Date.from(Instant.now()).getTime.toDouble
-    FlowDataProvenance(UUID.randomUUID().toString,
+    BigTables.BigFlowDataProvenanceRow(UUID.randomUUID().toString,
       1,
-      now,
-      now,
-      now,
-      bytes.size,
-      0,
-      1,
-      "CONTENT_MODIFIED",
-      RemoteProcessor.SchemaIdKey + ":user",
-      "",
-      "",
-      componentId,
-      "PROCESSOR",
-      "",
-      "",
-      UUID.randomUUID().toString,
-      "",
-      "",
-      "",
-      "",
-      "success",
-      UUID.randomUUID().toString,
-      contentClaimId,
-      UUID.randomUUID().toString)
+      Option(now),
+      Option(now),
+      Option(now),
+      Option(bytes.size),
+      Option(0),
+      Option(1),
+      Option("CONTENT_MODIFIED"),
+      Option(RemoteProcessor.SchemaIdKey + ":user"),
+      Option(""),
+      Option(""),
+      Option(componentId),
+      Option("PROCESSOR"),
+      Option(""),
+      Option(""),
+      Option(UUID.randomUUID().toString),
+      Option(""),
+      Option(""),
+      Option(""),
+      Option(""),
+      Option("success"),
+      Option(UUID.randomUUID().toString),
+      Option(contentClaimId),
+      Option(UUID.randomUUID().toString))
   }
 
 
@@ -234,7 +234,7 @@ trait SlickPostgresIntermediateResultsBehaviour extends AsyncDataUnitSpec {
     val fdp4 = generateProvenance(componentId2, fdc4.id)
 
     ira.createContent(fdc1).
-      flatMap(unit => ira.createProvenance(fdp1)).
+      flatMap(unit => ira.createProvenance( fdp1)).
       flatMap(unit => ira.createContent(fdc2)).
       flatMap(unit => ira.createProvenance(fdp2)).
       flatMap(unit => ira.createContent(fdc3)).
@@ -258,15 +258,15 @@ trait SlickPostgresIntermediateResultsBehaviour extends AsyncDataUnitSpec {
         assert(prov.isDefined)
         assert(prov.get.id == fdp2.id)
       }).
-      flatMap(as => ira.getProvenanceEventsByEventType("CONTENT_MODIFIED")).
+      flatMap(as => ira.getProvenanceEventsByEventType("CONTENT_MODIFIED", 4)).
       flatMap(provs => {
         assert(provs.size == 4)
       }).
-      flatMap(as => ira.getProvenanceEventsByFlowFileUuid(fdp1.flowFileUuid)).
+      flatMap(as => ira.getProvenanceEventsByFlowFileUuid(fdp1.flowFileUuid.get, 4)).
       flatMap(provs => assert(provs.size == 1)).
-      flatMap(as => ira.getProvenanceEventsByComponentId(componentId1)).
+      flatMap(as => ira.getProvenanceEventsByComponentId(componentId1, 4)).
       flatMap(provs => assert(provs.size == 3)).
-      flatMap(as => ira.getProvenanceEventsByRelationship("success")).
+      flatMap(as => ira.getProvenanceEventsByRelationship("success", 4)).
       flatMap(provs => assert(provs.size == 4))
   }
 

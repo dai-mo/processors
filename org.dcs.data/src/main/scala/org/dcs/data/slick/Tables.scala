@@ -63,11 +63,9 @@ trait Tables {
   }
   /** Table description of table flow_data_provenance. Objects of this class serve as prototypes for rows in queries. */
   class FlowDataProvenance(_tableTag: Tag) extends Table[BigTables.BigFlowDataProvenanceRow](_tableTag, "flow_data_provenance") {
-    import shapeless.Generic
-    import shapeless.HNil
-    import slickless._
 
-    def * = (id :: eventId :: eventTime :: flowFileEntryDate :: lineageStartEntryDate :: fileSize :: previousFileSize :: eventDuration :: eventType :: attributes :: previousAttributes :: updatedAttributes :: componentId :: componentType :: transitUri :: sourceSystemFlowFileIdentifier :: flowFileUuid :: parentUuids :: childUuids :: alternateIdentifierUri :: details :: relationship :: sourceQueueIdentifier :: contentClaimIdentifier :: previousContentClaimIdentifier :: HNil).mappedWith(Generic[BigTables.BigFlowDataProvenanceRow])
+
+    def * = id :: eventId :: eventTime :: flowFileEntryDate :: lineageStartEntryDate :: fileSize :: previousFileSize :: eventDuration :: eventType :: attributes :: previousAttributes :: updatedAttributes :: componentId :: componentType :: transitUri :: sourceSystemFlowFileIdentifier :: flowFileUuid :: parentUuids :: childUuids :: alternateIdentifierUri :: details :: relationship :: sourceQueueIdentifier :: contentClaimIdentifier :: previousContentClaimIdentifier :: HNil <> (BigTables.BigFlowDataProvenanceRow.apply, BigTables.BigFlowDataProvenanceRow.unapply)
 
     /** Database column id SqlType(varchar), PrimaryKey */
     val id: Rep[String] = column[String]("id", O.PrimaryKey)
