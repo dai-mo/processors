@@ -19,7 +19,7 @@ import scala.concurrent.{Await, Future}
 /**
   * Created by cmathew on 02.02.17.
   */
-//@Ignore
+@Ignore
 class SlickPostgresIntermediateResultsSpec extends SlickPostgresIntermediateResultsBehaviour {
 
 
