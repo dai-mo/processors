@@ -1,4 +1,5 @@
 package org.dcs.data.slick
+
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object Tables extends {
@@ -61,8 +62,10 @@ trait Tables {
     <<[String] :: <<[Long] :: <<?[Double] :: <<?[Double] :: <<?[Double] :: <<?[Double] :: <<?[Double] :: <<?[Double] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: HNil
   }
   /** Table description of table flow_data_provenance. Objects of this class serve as prototypes for rows in queries. */
-  class FlowDataProvenance(_tableTag: Tag) extends Table[FlowDataProvenanceRow](_tableTag, "flow_data_provenance") {
-    def * = id :: eventId :: eventTime :: flowFileEntryDate :: lineageStartEntryDate :: fileSize :: previousFileSize :: eventDuration :: eventType :: attributes :: previousAttributes :: updatedAttributes :: componentId :: componentType :: transitUri :: sourceSystemFlowFileIdentifier :: flowFileUuid :: parentUuids :: childUuids :: alternateIdentifierUri :: details :: relationship :: sourceQueueIdentifier :: contentClaimIdentifier :: previousContentClaimIdentifier :: HNil
+  class FlowDataProvenance(_tableTag: Tag) extends Table[BigTables.BigFlowDataProvenanceRow](_tableTag, "flow_data_provenance") {
+
+
+    def * = id :: eventId :: eventTime :: flowFileEntryDate :: lineageStartEntryDate :: fileSize :: previousFileSize :: eventDuration :: eventType :: attributes :: previousAttributes :: updatedAttributes :: componentId :: componentType :: transitUri :: sourceSystemFlowFileIdentifier :: flowFileUuid :: parentUuids :: childUuids :: alternateIdentifierUri :: details :: relationship :: sourceQueueIdentifier :: contentClaimIdentifier :: previousContentClaimIdentifier :: HNil <> (BigTables.BigFlowDataProvenanceRow.apply, BigTables.BigFlowDataProvenanceRow.unapply)
 
     /** Database column id SqlType(varchar), PrimaryKey */
     val id: Rep[String] = column[String]("id", O.PrimaryKey)

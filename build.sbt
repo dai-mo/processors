@@ -59,8 +59,8 @@ lazy val data =
     //        https://github.com/slick/slick/issues/1694
     //        is resolved
     settings(
-      OsgiKeys.embeddedJars := (Keys.externalDependencyClasspath in Compile).value map (_.data) filter (
-        _.getName startsWith "slick-hikaricp")
+      OsgiKeys.embeddedJars := (Keys.externalDependencyClasspath in Compile).value map (_.data) filter (a =>
+        a.getName.startsWith("slick-hikaricp"))
     )
 
 

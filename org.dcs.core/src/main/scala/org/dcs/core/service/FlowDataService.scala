@@ -11,6 +11,8 @@ import org.ops4j.pax.cdi.api.{OsgiServiceProvider, Properties, Property}
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
+import scala.collection.JavaConverters._
+
 
 /**
   * Created by cmathew on 20.02.17.
@@ -26,7 +28,7 @@ class FlowDataService extends IFlowDataService {
 
 
   def provenanceByComponentId(componentId: String, maxResults: Int): util.List[Provenance] = {
-    Await.result(SlickPostgresIntermediateResults.listProvenanceByComponentId(componentId, maxResults), Duration.Inf)
+    Await.result(SlickPostgresIntermediateResults.getProvenanceByComponentId(componentId, maxResults), Duration.Inf).asJava
   }
 
 }
