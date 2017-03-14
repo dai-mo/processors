@@ -5,7 +5,6 @@ object Dependencies {
 	lazy val scVersion             = "2.11.7"
 	lazy val dcsApiVersion    		 = "0.3.0"
 	lazy val dcsCommonsVersion     = "0.2.0"
-	lazy val dcsDataVersion        = "0.2.0"
 	lazy val dcsTestVersion   		 = "0.1.0"
 	lazy val paxCdiVersion    		 = "0.12.0"
 	lazy val cdiApiVersion    		 = "1.2"
@@ -41,8 +40,7 @@ object Dependencies {
 	// Libraries
 
 	val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsApiVersion
-  val dcsCommons      = "org.dcs"                    % "org.dcs.commons"         % dcsCommonsVersion
-	val dcsData         = "org.dcs"                    % "org.dcs.data"            % dcsDataVersion
+  val dcsCommons      = "org.dcs"                    % "org.dcs.commons"         % dcsCommonsVersion	
 
 	val paxCdiApi       = "org.ops4j.pax.cdi"          % "pax-cdi-api"             % paxCdiVersion
 	val cdiApi          = "javax.enterprise"           % "cdi-api"                 % cdiApiVersion
@@ -71,7 +69,6 @@ object Dependencies {
 	val coreDependencies: Seq[ModuleID] = Seq(
 		dcsApi          % "provided",
     dcsCommons      % "provided",
-    dcsData         % "provided",
 
 		avro            % "provided",
 		paxCdiApi       % "provided",
