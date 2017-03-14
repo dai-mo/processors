@@ -13,9 +13,10 @@ import scala.collection.JavaConverters._
   */
 class GBIFOccurrenceProcessorSpec extends CoreUnitSpec {
 
-  val schema = AvroSchemaStore.get("org.dcs.core.processor.GBIFOccurrenceProcessor")
+
     "The GBIF Occurrence Processor" should "return valid response" in {
       val processor = new GBIFOccurrenceProcessor()
+      val schema = AvroSchemaStore.get(processor.schemaId)
       val response = processor
         .trigger("".getBytes,
           Map(GBIFOccurrenceProcessor.SpeciesNamePropertyKey -> "Loxodonta africana").asJava)

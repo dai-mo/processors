@@ -2,7 +2,6 @@ package org.dcs.core.processor
 
 import java.util
 
-import com.google.common.net.MediaType
 import org.apache.avro.data.Json
 import org.apache.avro.generic.{GenericData, GenericRecord}
 import org.dcs.api.processor._
@@ -35,7 +34,8 @@ object GBIFOccurrenceProcessor {
   */
 class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
   with JerseyRestClient
-  with ApiConfig {
+  with ApiConfig
+  with Ingestion {
 
   import GBIFOccurrenceProcessor._
 
@@ -83,29 +83,22 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
   }
 
 
-  override def relationships(): util.Set[RemoteRelationship] = {
-    Set(RelationshipType.success, RelationshipType.failure).asJava
+  override def _relationships(): Set[RemoteRelationship] = {
+    Set(RelationshipType.SUCCESS, RelationshipType.FAILURE)
   }
-  override def configuration: Configuration = {
-    Configuration(inputMimeType = MediaType.OCTET_STREAM.toString,
-      outputMimeType = MediaType.OCTET_STREAM.toString,
-      processorClassName =  this.getClass.getName,
-      inputRequirementType = InputRequirementType.InputForbidden)
-  }
+
 
   override def metadata(): MetaData =
     MetaData(description =  "GBIF Occurrence Processor",
       tags = List("GBIF", "Occurrence", "Species").asJava)
 
-  override def properties(): util.List[RemoteProperty] =
-    List(SpeciesNameProperty).asJava
 
   override def baseUrl(): String = "http://api.gbif.org/" + ApiVersion + "/occurrence"
 
   override def error(status: Int, message: String): ErrorResponse =
     ErrorResponse(ErrorConstants.GlobalFlowErrorCode, message, status)
 
-  override def schemaId: String = this.getClass.getName()
+  override def _properties(): List[RemoteProperty] = List(SpeciesNameProperty)
 
-  override def processorType(): String = RemoteProcessor.DataIngestionProcessorType
+  override def className: String = this.getClass.getName
 }

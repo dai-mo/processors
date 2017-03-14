@@ -48,7 +48,7 @@ object Dependencies {
 	val logbackClassic  =	"ch.qos.logback"             % "logback-classic"         % logbackVersion
 
   val avro            = "org.apache.avro"            % "avro"                    % avroVersion
-  val guava           = "com.google.guava"           % "guava"                   % guavaVersion
+	val guava           = "com.google.guava"           % "guava"                   % guavaVersion
 	val openCsv         = "com.opencsv"                % "opencsv"                 % openCsvVersion
 
 	val quillCassandra  = "io.getquill"                %% "quill-cassandra"        % quillVersion

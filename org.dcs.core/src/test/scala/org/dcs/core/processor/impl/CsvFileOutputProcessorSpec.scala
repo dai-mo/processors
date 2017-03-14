@@ -13,7 +13,7 @@ import scala.collection.JavaConverters._
   */
 class CsvFileOutputProcessorSpec extends CoreUnitSpec {
 
-  val schema = AvroSchemaStore.get("org.dcs.core.processor.TestResponseProcessor")
+  val schema = AvroSchemaStore.get("org.dcs.core.processor.TestProcessor")
   val file: File = new File("target/csv-out.csv")
   file.delete()
 

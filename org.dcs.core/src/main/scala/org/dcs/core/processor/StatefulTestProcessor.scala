@@ -1,15 +1,12 @@
 package org.dcs.core.processor
 
-import java.util.{UUID, List => JavaList, Map => JavaMap, Set => JavaSet}
+import java.util.{UUID, Map => JavaMap }
 
 import com.google.common.net.MediaType
-import org.apache.avro.Schema
 import org.apache.avro.generic.{GenericData, GenericRecord}
 import org.dcs.api.processor._
-import org.dcs.api.service.TestResponse
 import org.dcs.commons.error.ErrorResponse
 import org.dcs.commons.serde.AvroSchemaStore
-import org.dcs.commons.serde.JsonSerializerImplicits._
 
 import scala.collection.JavaConverters._
 
@@ -32,20 +29,21 @@ object StatefulTestProcessor {
 }
 
 
-class StatefulTestProcessor extends StatefulRemoteProcessor {
+class StatefulTestProcessor extends StatefulRemoteProcessor
+  with Worker {
 
   import StatefulTestProcessor._
 
   var suffix: String = ""
 
-	override def properties(): JavaList[RemoteProperty] = {
-		List(UserProperty).asJava
+	override def _properties(): List[RemoteProperty] = {
+		List(UserProperty)
 	}
 
-  override def relationships(): JavaSet[RemoteRelationship] = {
+  override def _relationships(): Set[RemoteRelationship] = {
     val success = RemoteRelationship(RelationshipType.SucessRelationship,
       "All status updates will be routed to this relationship")
-    Set(success).asJava
+    Set(success)
   }
 
   override def execute(record: Option[GenericRecord], values: JavaMap[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
@@ -71,7 +69,5 @@ class StatefulTestProcessor extends StatefulRemoteProcessor {
     suffix = UUID.randomUUID().toString
   }
 
-  override def schemaId: String = "org.dcs.core.processor.TestResponseProcessor"
-
-  override def processorType(): String = RemoteProcessor.WorkerProcessorType
+  override def className: String = this.getClass.getName
 }

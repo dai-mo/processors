@@ -7,7 +7,6 @@ package org.dcs.core.processor
 
 import java.util
 
-import com.google.common.net.MediaType
 import org.apache.avro.generic.GenericRecord
 import org.dcs.api.processor._
 import org.dcs.commons.error.ErrorResponse
@@ -37,7 +36,8 @@ object FilterProcessor {
 /**
   * Created by cmathew on 09.11.16.
   */
-class FilterProcessor extends RemoteProcessor {
+class FilterProcessor extends RemoteProcessor
+  with Worker {
 
   import FilterProcessor._
 
@@ -63,25 +63,16 @@ class FilterProcessor extends RemoteProcessor {
   }
 
 
-  override def relationships(): util.Set[RemoteRelationship] = {
-    Set(RelationshipType.success, RelationshipType.failure).asJava
-  }
-  override def configuration: Configuration = {
-    Configuration(inputMimeType = MediaType.OCTET_STREAM.toString,
-      outputMimeType = MediaType.OCTET_STREAM.toString,
-      processorClassName =  this.getClass.getName,
-      inputRequirementType = InputRequirementType.InputRequired)
+  override def _relationships(): Set[RemoteRelationship] = {
+    Set(RelationshipType.SUCCESS, RelationshipType.FAILURE)
   }
 
   override def metadata(): MetaData =
     MetaData(description =  "Filter Processor",
       tags = List("filter").asJava)
 
-  override def properties(): util.List[RemoteProperty] =
-    List(FilterTermProperty, FilterProperty).asJava
+  override def _properties(): List[RemoteProperty] = List(FilterTermProperty, FilterProperty)
 
-  override def schemaId: String = null
-
-  override def processorType(): String = RemoteProcessor.WorkerProcessorType
+  override def className: String = this.getClass.getName
 }
 

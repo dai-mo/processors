@@ -5,7 +5,7 @@ import java.sql.Timestamp
 import java.util.{List => JavaList}
 
 import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
-import org.dcs.api.processor.RemoteProcessor
+import org.dcs.api.processor.{CoreProperties, RemoteProcessor}
 import org.dcs.api.service.Provenance
 import org.dcs.data.IntermediateResultsAdapter
 import slick.driver.JdbcDriver
@@ -141,12 +141,10 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     val provenanceByComponentIdAction = getProvenanceByComponentIdQueryCompiled(cid, maxResults).result
 
     (for (provList <- db.run(provenanceByComponentIdAction) ) yield provList.map(prov => {
-      // FIXME: The avro deserialisation should finally move to the client side,
-      //        with the schema store exposed as a service
-      val updatedSchema = stringToMap(prov._7.getOrElse("")).get(RemoteProcessor.SchemaIdKey)
+      val updatedSchema = stringToMap(prov._7.getOrElse("")).get(CoreProperties.SchemaIdKey)
       val schema: String =
         if(updatedSchema.isEmpty)
-          stringToMap(prov._6.getOrElse("")).getOrElse(RemoteProcessor.SchemaIdKey, "")
+          stringToMap(prov._6.getOrElse("")).getOrElse(CoreProperties.SchemaIdKey, "")
         else
           updatedSchema.get
       Provenance(prov._1, prov._2, prov._3, prov._4.getOrElse(Array[Byte]()), "", schema, prov._5.get)
