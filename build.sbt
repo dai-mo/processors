@@ -71,7 +71,7 @@ lazy val osgi = (project in file(".")).
   settings(
     name := "org.dcs.parent"
   ).
-  aggregate(core, data)
+  aggregate(dat, core)
 
 
 
@@ -124,4 +124,3 @@ releaseVersion := {
 }
 
 releaseVersionBump := sbtrelease.Version.Bump.Minor
-
