@@ -71,7 +71,7 @@ lazy val osgi = (project in file(".")).
   settings(
     name := "org.dcs.parent"
   ).
-  aggregate(dat, core)
+  aggregate(data, core)
 
 
 
