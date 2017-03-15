@@ -25,7 +25,7 @@ object Dependencies {
 	lazy val quillVersion          = "1.0.0"
 	lazy val quillJdbcVersion      = "1.0.1"
 	lazy val dataStaxDriverVersion = "3.1.0"
-	lazy val postgresDriverVersion = "9.4.1208"
+	lazy val postgresDriverVersion = "9.4.1212"
   lazy val slickVersion          = "3.1.1"
 	lazy val shapelessVersion      = "2.3.1"
 	lazy val slicklessVersion      = "0.3.0"
