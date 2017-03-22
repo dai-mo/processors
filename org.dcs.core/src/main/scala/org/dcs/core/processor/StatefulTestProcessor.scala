@@ -69,5 +69,6 @@ class StatefulTestProcessor extends StatefulRemoteProcessor
     suffix = UUID.randomUUID().toString
   }
 
-  override def className: String = this.getClass.getName
+  override def schemaId: String = "org.dcs.core.processor.TestResponse"
+
 }

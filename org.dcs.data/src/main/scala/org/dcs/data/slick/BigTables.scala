@@ -1,6 +1,8 @@
 package org.dcs.data.slick
 
+import org.dcs.api.data.FlowData
 import slick.collection.heterogeneous.{HList, HNil}
+import org.dcs.api.processor.Attributes
 
 /**
   * Created by cmathew on 03.03.17.
@@ -20,10 +22,8 @@ trait BigTables {
   // Scala’s tuple size limit'
   // This implies that the code generation will not produce case classes
   // for tables that have more than 22 fields, but an HList
-  // The slickless (https://github.com/underscoreio/slickless) officially
-  // recognised by slick (https://github.com/slick/slick.github.com/pull/24)
-  // can be used to map the HList to a case class
-  // This is done by,
+
+  // The workaround for this can be acheived by,
   // 1. Declaring the case classes in this trait with prefix 'Big'
   // 2. Adding the mapping code to the generated table class, e.g.
   //    class FlowDataProvenance(_tableTag: Tag) extends Table[BigTables.BigFlowDataProvenanceRow](_tableTag, "flow_data_provenance") {

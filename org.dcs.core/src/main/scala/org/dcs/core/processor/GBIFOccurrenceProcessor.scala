@@ -100,5 +100,4 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
 
   override def _properties(): List[RemoteProperty] = List(SpeciesNameProperty)
 
-  override def className: String = this.getClass.getName
 }

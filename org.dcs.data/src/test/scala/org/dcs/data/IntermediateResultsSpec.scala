@@ -88,7 +88,7 @@ trait SlickPostgresIntermediateResultsBehaviour extends AsyncDataUnitSpec {
       Option(0),
       Option(1),
       Option("CONTENT_MODIFIED"),
-      Option(CoreProperties.SchemaIdKey + ":user"),
+      Option(""),
       Option(""),
       Option(""),
       Option(componentId),

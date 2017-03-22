@@ -13,20 +13,16 @@ import scala.collection.JavaConverters._
   */
 class GBIFOccurrenceProcessorSpec extends CoreUnitSpec {
 
-
     "The GBIF Occurrence Processor" should "return valid response" in {
       val processor = new GBIFOccurrenceProcessor()
       val schema = AvroSchemaStore.get(processor.schemaId)
       val response = processor
-        .trigger("".getBytes,
+        .execute(None,
           Map(GBIFOccurrenceProcessor.SpeciesNamePropertyKey -> "Loxodonta africana").asJava)
-      response.grouped(3).foreach { result =>
-        validate(result(2).deSerToGenericRecord(schema, schema))
+      response.foreach { result =>
+        val record = result.right.get
+        assert(record.get("scientificName").toString.startsWith("Loxodonta"))
       }
     }
 
-
-    def validate(record: GenericRecord) {
-      assert(record.get("scientificName").toString.startsWith("Loxodonta"))
-    }
 }

@@ -12,6 +12,8 @@ import scala.collection.JavaConverters._
 
 
 object TestProcessor {
+
+
   val UserPropertyName = "user"
   val UserProperty = RemoteProperty(displayName = "User",
     name = UserPropertyName,
@@ -33,6 +35,8 @@ class TestProcessor extends RemoteProcessor
   with Worker {
 
   import org.dcs.core.processor.TestProcessor._
+
+  AvroSchemaStore.add("org.dcs.core.processor.TestRequest")
 
   override def execute(record: Option[GenericRecord], values: JavaMap[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
     val testResponse = new GenericData.Record(AvroSchemaStore.get(schemaId).get)
@@ -63,5 +67,6 @@ class TestProcessor extends RemoteProcessor
       tags = List("Greeting").asJava)
   }
 
-  override def className: String = this.getClass.getName
+  override def schemaId: String = "org.dcs.core.processor.TestResponse"
+
 }

@@ -13,6 +13,7 @@ import org.dcs.api.processor._
 import org.dcs.commons.error.ErrorResponse
 
 import scala.collection.JavaConverters._
+import scala.util.control.NonFatal
 
 object CSVFileOutputProcessor {
 
@@ -52,23 +53,24 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor
   }
 
   override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
-    var fileBaseUrl = propertyValue(FileBaseUrlProperty, propertyValues)
-    if(!fileBaseUrl.isEmpty)
-      fileBaseUrl = fileBaseUrl + File.separator
+      var fileBaseUrl = propertyValue(FileBaseUrlProperty, propertyValues)
+      if (!fileBaseUrl.isEmpty)
+        fileBaseUrl = fileBaseUrl + File.separator
 
-    val fileName = propertyValue(FileNameProperty, propertyValues)
+      val fileName = propertyValue(FileNameProperty, propertyValues)
 
-    if(writer == null) {
-      writer = new CSVWriter(new FileWriter(fileBaseUrl + fileName + ".csv"))
-      headers = record.get.getSchema.getFields.asScala.map(field => field.name()).toList
-      writer.writeNext(headers.toArray)
-    }
+      if (writer == null) {
+        writer = new CSVWriter(new FileWriter(fileBaseUrl + fileName + ".csv"))
+        headers = record.get.getSchema.getFields.asScala.map(field => field.name()).toList
+        writer.writeNext(headers.toArray)
+      }
 
-    if(writer != null) {
-      val row = headers.indices.toList.map(record.get.get(_).toString)
-      writer.writeNext(row.toArray)
-      writer.flush()
-    }
+      if (writer != null) {
+        val row = headers.indices.toList.map(key => Option(record.get.get(key)).getOrElse("").toString)
+        writer.writeNext(row.toArray)
+        writer.flush()
+      }
+
 
     List(Right(record.get))
   }
@@ -97,6 +99,5 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor
     true
   }
 
-  override def className: String = this.getClass.getName
 }
 

@@ -14,6 +14,9 @@ import scala.collection.JavaConverters._
 
 object LatLongValidationProcessor {
 
+  val LatitudeKey = "decimalLatitude"
+  val LongitudeKey = "decimalLongitude"
+
   def apply(): LatLongValidationProcessor = {
     new LatLongValidationProcessor()
   }
@@ -26,10 +29,13 @@ object LatLongValidationProcessor {
 class LatLongValidationProcessor extends RemoteProcessor
   with Worker {
 
+  import LatLongValidationProcessor._
+
   override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
     var invalid = false
-    val decimalLatitude  = record.getAsDouble("decimalLatitude")
-    val decimalLongitude = record.getAsDouble("decimalLongitude")
+    val decimalLatitude  = record.getAsDouble(LatitudeKey)
+    val decimalLongitude = record.getAsDouble(LongitudeKey)
+
 
     if(decimalLatitude.isEmpty || decimalLongitude.isEmpty)
       invalid = true
@@ -59,6 +65,6 @@ class LatLongValidationProcessor extends RemoteProcessor
 
   override def _properties(): List[RemoteProperty] = Nil
 
-  override def className: String = this.getClass.getName
+  def fields: List[String] = List(LatitudeKey, LongitudeKey)
 }
 

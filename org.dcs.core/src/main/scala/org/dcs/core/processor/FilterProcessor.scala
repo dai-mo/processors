@@ -73,6 +73,5 @@ class FilterProcessor extends RemoteProcessor
 
   override def _properties(): List[RemoteProperty] = List(FilterTermProperty, FilterProperty)
 
-  override def className: String = this.getClass.getName
 }
 
