@@ -7,7 +7,7 @@ import java.util.{Date, UUID}
 import org.apache.avro.Schema
 import org.apache.avro.generic.GenericData
 import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
-import org.dcs.api.processor.RemoteProcessor
+import org.dcs.api.processor.{CoreProperties, RemoteProcessor}
 import org.dcs.commons.serde.AvroImplicits._
 import org.dcs.commons.serde.AvroSchemaStore
 import org.dcs.data.slick.{BigTables, SlickPostgresIntermediateResults, Tables}
@@ -88,7 +88,7 @@ trait SlickPostgresIntermediateResultsBehaviour extends AsyncDataUnitSpec {
       Option(0),
       Option(1),
       Option("CONTENT_MODIFIED"),
-      Option(RemoteProcessor.SchemaIdKey + ":user"),
+      Option(""),
       Option(""),
       Option(""),
       Option(componentId),

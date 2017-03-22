@@ -1,10 +1,8 @@
 package org.dcs.core
 
 import org.scalatest._
-import org.scalatest.mock.MockitoSugar
-import org.scalatest.junit.JUnitRunner
-import org.mockito.runners.MockitoJUnitRunner
 import org.scalatest.junit.JUnitSuite
+import org.scalatest.mockito.MockitoSugar
 
 abstract class CoreUnitSpec extends FlatSpec
   with Matchers

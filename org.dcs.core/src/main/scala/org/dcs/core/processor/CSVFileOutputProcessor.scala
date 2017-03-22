@@ -7,14 +7,13 @@ package org.dcs.core.processor
 import java.io.{File, FileWriter}
 import java.util
 
-import com.google.common.net.MediaType
 import com.opencsv.CSVWriter
 import org.apache.avro.generic.GenericRecord
 import org.dcs.api.processor._
-import org.dcs.api.service.ProcessorType
 import org.dcs.commons.error.ErrorResponse
 
 import scala.collection.JavaConverters._
+import scala.util.control.NonFatal
 
 object CSVFileOutputProcessor {
 
@@ -40,7 +39,8 @@ object CSVFileOutputProcessor {
 /**
   * Created by cmathew on 09.11.16.
   */
-class CSVFileOutputProcessor extends StatefulRemoteProcessor {
+class CSVFileOutputProcessor extends StatefulRemoteProcessor
+  with Sink {
 
   import CSVFileOutputProcessor._
 
@@ -53,44 +53,39 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor {
   }
 
   override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
-    var fileBaseUrl = propertyValue(FileBaseUrlProperty, propertyValues)
-    if(!fileBaseUrl.isEmpty)
-      fileBaseUrl = fileBaseUrl + File.separator
+      var fileBaseUrl = propertyValue(FileBaseUrlProperty, propertyValues)
+      if (!fileBaseUrl.isEmpty)
+        fileBaseUrl = fileBaseUrl + File.separator
 
-    val fileName = propertyValue(FileNameProperty, propertyValues)
+      val fileName = propertyValue(FileNameProperty, propertyValues)
 
-    if(writer == null) {
-      writer = new CSVWriter(new FileWriter(fileBaseUrl + fileName + ".csv"))
-      headers = record.get.getSchema.getFields.asScala.map(field => field.name()).toList
-      writer.writeNext(headers.toArray)
-    }
+      if (writer == null) {
+        writer = new CSVWriter(new FileWriter(fileBaseUrl + fileName + ".csv"))
+        headers = record.get.getSchema.getFields.asScala.map(field => field.name()).toList
+        writer.writeNext(headers.toArray)
+      }
 
-    if(writer != null) {
-      val row = headers.indices.toList.map(record.get.get(_).toString)
-      writer.writeNext(row.toArray)
-      writer.flush()
-    }
+      if (writer != null) {
+        val row = headers.indices.toList.map(key => Option(record.get.get(key)).getOrElse("").toString)
+        writer.writeNext(row.toArray)
+        writer.flush()
+      }
+
 
     List(Right(record.get))
   }
 
 
-  override def relationships(): util.Set[RemoteRelationship] = {
-    Set(RelationshipType.success, RelationshipType.failure).asJava
+  override def _relationships(): Set[RemoteRelationship] = {
+    Set(RelationshipType.SUCCESS, RelationshipType.SUCCESS)
   }
-  override def configuration: Configuration = {
-    Configuration(inputMimeType = MediaType.OCTET_STREAM.toString,
-      outputMimeType = MediaType.OCTET_STREAM.toString,
-      processorClassName =  this.getClass.getName,
-      inputRequirementType = InputRequirementType.InputForbidden)
-  }
+
 
   override def metadata(): MetaData =
     MetaData(description =  "CSV File Output",
       tags = List("csv", "file", "writer").asJava)
 
-  override def properties(): util.List[RemoteProperty] =
-    List(FileNameProperty).asJava
+  override def _properties():List[RemoteProperty] = List(FileNameProperty)
 
   override def onShutdown(properties: util.List[RemoteProperty]): Boolean = {
     if(writer != null)
@@ -104,8 +99,5 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor {
     true
   }
 
-  override def schemaId: String = null
-
-  override def processorType(): String = RemoteProcessor.SinkProcessorType
 }
 

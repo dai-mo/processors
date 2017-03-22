@@ -3,8 +3,8 @@ import sbt._
 object Dependencies {
 	// Versions
 	lazy val scVersion             = "2.11.7"
-	lazy val dcsApiVersion    		 = "0.3.0"
-	lazy val dcsCommonsVersion     = "0.2.0"
+	lazy val dcsApiVersion    		 = "0.4.0-SNAPSHOT"
+	lazy val dcsCommonsVersion     = "0.3.0-SNAPSHOT"
 	lazy val dcsTestVersion   		 = "0.1.0"
 	lazy val paxCdiVersion    		 = "0.12.0"
 	lazy val cdiApiVersion    		 = "1.2"
@@ -48,7 +48,7 @@ object Dependencies {
 	val logbackClassic  =	"ch.qos.logback"             % "logback-classic"         % logbackVersion
 
   val avro            = "org.apache.avro"            % "avro"                    % avroVersion
-  val guava           = "com.google.guava"           % "guava"                   % guavaVersion
+	val guava           = "com.google.guava"           % "guava"                   % guavaVersion
 	val openCsv         = "com.opencsv"                % "opencsv"                 % openCsvVersion
 
 	val quillCassandra  = "io.getquill"                %% "quill-cassandra"        % quillVersion

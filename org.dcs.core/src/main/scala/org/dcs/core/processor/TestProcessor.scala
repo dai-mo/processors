@@ -1,20 +1,19 @@
 package org.dcs.core.processor
 
-import java.util.{List => JavaList, Map => JavaMap, Set => JavaSet}
+import java.util.{Map => JavaMap}
 
 import com.google.common.net.MediaType
-import org.apache.avro.Schema
 import org.apache.avro.generic.{GenericData, GenericRecord}
 import org.dcs.api.processor._
-import org.dcs.api.service.TestResponse
 import org.dcs.commons.error.ErrorResponse
 import org.dcs.commons.serde.AvroSchemaStore
-import org.dcs.commons.serde.JsonSerializerImplicits._
 
 import scala.collection.JavaConverters._
 
 
 object TestProcessor {
+
+
   val UserPropertyName = "user"
   val UserProperty = RemoteProperty(displayName = "User",
     name = UserPropertyName,
@@ -32,9 +31,12 @@ object TestProcessor {
 }
 
 
-class TestProcessor extends RemoteProcessor  {
+class TestProcessor extends RemoteProcessor
+  with Worker {
 
   import org.dcs.core.processor.TestProcessor._
+
+  AvroSchemaStore.add("org.dcs.core.processor.TestRequest")
 
   override def execute(record: Option[GenericRecord], values: JavaMap[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
     val testResponse = new GenericData.Record(AvroSchemaStore.get(schemaId).get)
@@ -43,14 +45,14 @@ class TestProcessor extends RemoteProcessor  {
   }
 
 
-  override def properties(): JavaList[RemoteProperty] = {
-    List(UserProperty).asJava
+  override def _properties(): List[RemoteProperty] = {
+    List(UserProperty)
   }
 
-  override def relationships(): JavaSet[RemoteRelationship] = {
+  override def _relationships(): Set[RemoteRelationship] = {
     val success = RemoteRelationship(RelationshipType.SucessRelationship,
       "All status updates will be routed to this relationship")
-    Set(success).asJava
+    Set(success)
   }
 
   override def configuration: Configuration = {
@@ -65,7 +67,6 @@ class TestProcessor extends RemoteProcessor  {
       tags = List("Greeting").asJava)
   }
 
-  override def schemaId: String = "org.dcs.core.processor.TestResponseProcessor"
+  override def schemaId: String = "org.dcs.core.processor.TestResponse"
 
-  override def processorType(): String = RemoteProcessor.WorkerProcessorType
 }

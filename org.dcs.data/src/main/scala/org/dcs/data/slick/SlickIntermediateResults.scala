@@ -1,11 +1,9 @@
 package org.dcs.data.slick
 
 
-import java.sql.Timestamp
 import java.util.{List => JavaList}
 
-import org.dcs.api.data.{FlowDataContent, FlowDataProvenance}
-import org.dcs.api.processor.RemoteProcessor
+import org.dcs.api.processor.RelationshipType
 import org.dcs.api.service.Provenance
 import org.dcs.data.IntermediateResultsAdapter
 import slick.driver.JdbcDriver
@@ -108,7 +106,8 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
 
   override def purgeContent(): Future[Int] = db.run(Tables.FlowDataContent.delete)
 
-
+  // FIXME : Add method for bulk insert
+  //         http://stackoverflow.com/questions/35001493/slick-3-0-bulk-insert-or-update
   override def createProvenance(fdp: BigTables.BigFlowDataProvenanceRow): Future[Unit] = {
     val createProvenance = DBIO.seq(Tables.FlowDataProvenance += fdp)
     db.run(createProvenance)
@@ -126,30 +125,21 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
 
   private def getProvenanceByComponentIdQuery(cid: Rep[String], maxResults: ConstColumn[Long]) = {
     (for {
-      provenance <- Tables.FlowDataProvenance if provenance.componentId === cid
+      provenance <- Tables.FlowDataProvenance if provenance.componentId === cid && provenance.eventType =!= "DROP"
       content <- Tables.FlowDataContent if provenance.contentClaimIdentifier === content.id
 
-    } yield (content.id, "", "", content.data, content.timestamp, provenance.attributes, provenance.updatedAttributes))
+    } yield (content.id, "", "", content.data, content.timestamp, provenance.relationship))
       .sortBy(_._5.desc).take(maxResults)
   }
 
   private lazy val getProvenanceByComponentIdQueryCompiled = Compiled(getProvenanceByComponentIdQuery _)
 
   override def getProvenanceByComponentId(cid: String, maxResults: Int): Future[List[Provenance]] = {
-    import org.dcs.api.data.FlowData._
 
     val provenanceByComponentIdAction = getProvenanceByComponentIdQueryCompiled(cid, maxResults).result
 
     (for (provList <- db.run(provenanceByComponentIdAction) ) yield provList.map(prov => {
-      // FIXME: The avro deserialisation should finally move to the client side,
-      //        with the schema store exposed as a service
-      val updatedSchema = stringToMap(prov._7.getOrElse("")).get(RemoteProcessor.SchemaIdKey)
-      val schema: String =
-        if(updatedSchema.isEmpty)
-          stringToMap(prov._6.getOrElse("")).getOrElse(RemoteProcessor.SchemaIdKey, "")
-        else
-          updatedSchema.get
-      Provenance(prov._1, prov._2, prov._3, prov._4.getOrElse(Array[Byte]()), "", schema, prov._5.get)
+      Provenance(prov._1, prov._2, prov._3, prov._4.getOrElse(Array[Byte]()), "", prov._5.get, prov._6.getOrElse(RelationshipType.UnknownRelationship))
     })).map(_.toList)
   }
 
