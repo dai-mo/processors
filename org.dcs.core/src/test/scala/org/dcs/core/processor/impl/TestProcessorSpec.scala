@@ -2,13 +2,13 @@ package org.dcs.core.processor.impl
 
 import org.apache.avro.generic.{GenericData, GenericRecord}
 import org.dcs.commons.serde.AvroSchemaStore
-import org.dcs.core.CoreUnitSpec
+import org.dcs.core.CoreUnitFlatSpec
 import org.dcs.core.processor.TestProcessor
 
 import scala.collection.JavaConverters._
 import org.dcs.api.processor.CoreProperties._
 
-class TestProcessorSpec extends CoreUnitSpec {
+class TestProcessorSpec extends CoreUnitFlatSpec {
 
 	"The Test Api Service" should "return correct response for valid input" in {
     val testRequestSchemaId = "org.dcs.core.processor.TestRequest"

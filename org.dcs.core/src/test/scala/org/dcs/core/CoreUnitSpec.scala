@@ -4,8 +4,7 @@ import org.scalatest._
 import org.scalatest.junit.JUnitSuite
 import org.scalatest.mockito.MockitoSugar
 
-abstract class CoreUnitSpec extends FlatSpec
-  with Matchers
+trait CoreUnitSpec extends Matchers
   with OptionValues
   with Inside
   with Inspectors
@@ -25,3 +24,9 @@ abstract class JUnitSpec extends JUnitSuite
   with Inside
   with Inspectors
   with MockitoSugar
+
+abstract class CoreUnitFlatSpec extends FlatSpec
+  with CoreUnitSpec
+
+abstract class CoreUnitWordSpec extends WordSpec
+  with CoreUnitSpec
