@@ -4,7 +4,7 @@ import java.io.File
 
 import org.apache.avro.generic.GenericData
 import org.dcs.commons.serde.AvroSchemaStore
-import org.dcs.core.CoreUnitSpec
+import org.dcs.core.CoreUnitFlatSpec
 import org.dcs.core.processor.CSVFileOutputProcessor
 import org.dcs.api.processor.CoreProperties._
 
@@ -12,7 +12,7 @@ import scala.collection.JavaConverters._
 /**
   * Created by cmathew on 20.11.16.
   */
-class CsvFileOutputProcessorSpec extends CoreUnitSpec {
+class CsvFileOutputProcessorSpec extends CoreUnitFlatSpec {
 
   val testResponseSchemaId = "org.dcs.core.processor.TestResponse"
 
