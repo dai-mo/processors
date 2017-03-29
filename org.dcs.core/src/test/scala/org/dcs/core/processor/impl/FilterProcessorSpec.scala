@@ -46,21 +46,20 @@ class FilterProcessorSpec extends CoreUnitWordSpec
 
     "return valid response for filtered output" in {
 
-      val response = processor
+      assert(processor
         .execute(Some(person),
           Map(ReadSchemaIdKey -> schemaId, FieldActionsKey -> fieldActions).asJava)
-      assert(response.head.right.get == person)
+       .head.right.get == person)
 
     }
 
     val invalidFieldActions = List(Action("$.first_name", FilterProcessor.ContainsCmd, "Luke")).toJson
 
     "return valid response for non-filtered output" in {
-
-      val response = processor
+      assert(processor
         .execute(Some(person),
-          Map(ReadSchemaIdKey -> schemaId, FieldActionsKey -> fieldActions).asJava)
-      assert(response.head.isLeft)
+          Map(ReadSchemaIdKey -> schemaId, FieldActionsKey -> invalidFieldActions).asJava)
+      .head.right.get == null)
 
     }
   }

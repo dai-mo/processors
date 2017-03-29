@@ -15,18 +15,6 @@ import scala.collection.JavaConverters._
 
 object FilterProcessor {
 
-//  val FilterTermPropertyKey = "filter-term"
-//  val FilterTermProperty = RemoteProperty(displayName = "Term to filter",
-//    name = FilterTermPropertyKey,
-//    description =  "Term to filter",
-//    required = true)
-//
-//  val FilterPropertyKey = "filter"
-//  val FilterProperty = RemoteProperty(displayName = "Filter to match",
-//    name = FilterPropertyKey,
-//    description =  "Filter to match",
-//    required = true)
-
   def apply(): FilterProcessor = {
     new FilterProcessor()
   }
@@ -46,19 +34,6 @@ class FilterProcessor extends RemoteProcessor
   import FilterProcessor._
 
   override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
-//    var invalid = true
-
-//    val term = propertyValue(FilterTermProperty, propertyValues)
-//    val filter = propertyValue(FilterProperty, propertyValues)
-//
-//    val value  = record.get.get(term)
-//
-//    if(value != null) {
-//      val valueAsString = value.toString
-//      if(valueAsString.contains(filter))
-//        invalid = false
-//    } else
-//      invalid = false
 
     val isValid: Boolean = actions(propertyValues).map(a => a.cmd match {
       case ContainsCmd => a.fromJsonPath(record).value.asString.exists(s => s.contains(a.args))

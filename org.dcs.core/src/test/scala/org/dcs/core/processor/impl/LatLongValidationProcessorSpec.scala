@@ -24,31 +24,29 @@ class LatLongValidationProcessorSpec  extends CoreUnitWordSpec
 
 
     "return valid response for valid lat / longs" in {
-      val in = new GenericData.Record(schema.get)
-      in.put("latitude", 50.0)
-      in.put("longitude", 50.0)
+      assert {
+        val in = new GenericData.Record(schema.get)
+        in.put("latitude", 50.0)
+        in.put("longitude", 50.0)
 
-      val response = processor
-        .execute(Some(in),
-          Map(ReadSchemaIdKey -> defaultSchemaId, FieldsToMapKey -> mappings).asJava)
-      response.foreach { result =>
-        val out = result.right.get
-        assert(out.get("latitude").asInstanceOf[Double] == 50)
-        assert(out.get("longitude").asInstanceOf[Double] == 50)
+        val response = processor
+          .execute(Some(in),
+            Map(ReadSchemaIdKey -> defaultSchemaId, FieldsToMapKey -> mappings).asJava)
+        val out = response.head.right.get
+        out.get("latitude").asInstanceOf[Double] == 50 &&
+          out.get("longitude").asInstanceOf[Double] == 50
       }
     }
 
     "return invalid response for invalid lat / longs" in {
-      val in = new GenericData.Record(schema.get)
+      assert { val in = new GenericData.Record(schema.get)
       in.put("latitude", -100.0)
       in.put("longitude", 190.0)
 
       val response = processor
         .execute(Some(in),
           Map(ReadSchemaIdKey -> defaultSchemaId, FieldsToMapKey -> mappings).asJava)
-      response.foreach { result =>
-        assert(Option(result.right.get).isEmpty)
-
+        Option(response.head.right.get).isEmpty
       }
     }
   }
