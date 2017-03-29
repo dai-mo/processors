@@ -1,0 +1,67 @@
+package org.dcs.core.processor.impl
+
+import org.apache.avro.generic.GenericData
+import org.dcs.api.processor.Action
+import org.dcs.api.processor.CoreProperties._
+import org.dcs.commons.serde.AvroSchemaStore
+import org.dcs.commons.serde.JsonSerializerImplicits._
+import org.dcs.core.processor.FilterProcessor
+import org.dcs.core.{BaseProcessorUnitSpec, CoreUnitWordSpec}
+
+import scala.collection.JavaConverters._
+
+/**
+  * Created by cmathew on 27.03.17.
+  */
+class FilterProcessorSpec extends CoreUnitWordSpec
+  with BaseProcessorUnitSpec {
+
+  val schemaId = "org.dcs.core.processor.Filter"
+  addSchemaToStore(schemaId)
+
+  "The Filter Processor" should  {
+    val processor = new FilterProcessor()
+    val schema = AvroSchemaStore.get(schemaId)
+
+    val fieldActions = List(Action("$.first_name", FilterProcessor.ContainsCmd, "Ob")).toJson
+
+    val FirstNameKey = "first_name"
+    val FirstName = "Obi"
+
+    val MiddleNameKey = "middle_name"
+    val MiddleName = "Wan"
+
+    val LastNameKey = "last_name"
+    val LastName = "Kenobi"
+
+    val AgeKey = "age"
+    val Age = 9999
+
+
+    val person = new GenericData.Record(schema.get)
+    person.put(FirstNameKey, FirstName)
+    person.put(MiddleNameKey, MiddleName)
+    person.put(LastNameKey, LastName)
+    person.put(AgeKey, Age)
+
+    "return valid response for filtered output" in {
+
+      val response = processor
+        .execute(Some(person),
+          Map(ReadSchemaIdKey -> schemaId, FieldActionsKey -> fieldActions).asJava)
+      assert(response.head.right.get == person)
+
+    }
+
+    val invalidFieldActions = List(Action("$.first_name", FilterProcessor.ContainsCmd, "Luke")).toJson
+
+    "return valid response for non-filtered output" in {
+
+      val response = processor
+        .execute(Some(person),
+          Map(ReadSchemaIdKey -> schemaId, FieldActionsKey -> fieldActions).asJava)
+      assert(response.head.isLeft)
+
+    }
+  }
+}
