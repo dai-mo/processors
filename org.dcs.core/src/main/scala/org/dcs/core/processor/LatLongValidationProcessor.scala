@@ -12,6 +12,8 @@ import org.dcs.commons.error.ErrorResponse
 
 import scala.collection.JavaConverters._
 
+import org.dcs.api.processor.RelationshipType._
+
 object LatLongValidationProcessor {
 
   val LatitudeKey = "latitude"
@@ -20,7 +22,6 @@ object LatLongValidationProcessor {
   def apply(): LatLongValidationProcessor = {
     new LatLongValidationProcessor()
   }
-
 }
 
 /**
@@ -31,7 +32,7 @@ class LatLongValidationProcessor extends Worker
 
   import LatLongValidationProcessor._
 
-  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
+  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, (String, GenericRecord)]] = {
     var invalid = false
     val m = record.mappings(propertyValues)
     val decimalLatitude  = m.get(LatitudeKey).asDouble
@@ -48,21 +49,20 @@ class LatLongValidationProcessor extends Worker
         invalid = true
     }
     if(invalid)
-      List(Right(null))
+      List(Right((Invalid.id, record.get)))
     else
-      List(Right(record.get))
+      List(Right((Valid.id, record.get)))
   }
 
 
   override def _relationships(): Set[RemoteRelationship] = {
-    val invalid = RemoteRelationship("INVALID_LAT_LONG",
-      "All status updates will be routed to this relationship")
-    Set(RelationshipType.SUCCESS, RelationshipType.FAILURE)
+
+    Set(Valid, Invalid)
   }
 
   override def metadata(): MetaData =
     MetaData(description =  "Lat/Long Validation Processor",
-      tags = List("latitude", "longitude", "validation").asJava)
+      tags = List("latitude", "longitude", "validation"))
 
   override def _properties(): List[RemoteProperty] = Nil
 

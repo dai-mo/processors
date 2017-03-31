@@ -28,18 +28,18 @@ class TestProcessorSpec extends CoreUnitFlatSpec {
 			testProcessor.
 				execute(record,
           Map(TestProcessor.UserPropertyName -> user, ReadSchemaIdKey -> testRequestSchemaId).asJava)
-				.head.right.get.get("response").asInstanceOf[String]
+				.head.right.get._2.get("response").asInstanceOf[String]
 		}
 		assertResult(defaultGreeting()) {
 			testProcessor.
 				execute(record, Map(ReadSchemaIdKey -> testRequestSchemaId).asJava)
-				.head.right.get.get("response").asInstanceOf[String]
+				.head.right.get._2.get("response").asInstanceOf[String]
 		}
 
 		assertResult(defaultGreeting()) {
 			testProcessor.
 				execute(record, Map(ReadSchemaIdKey -> testRequestSchemaId).asJava)
-				.head.right.get.get("response").asInstanceOf[String]
+				.head.right.get._2.get("response").asInstanceOf[String]
 		}
 	}
 }

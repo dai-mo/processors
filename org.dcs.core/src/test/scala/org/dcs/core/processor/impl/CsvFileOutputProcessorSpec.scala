@@ -24,6 +24,7 @@ class CsvFileOutputProcessorSpec extends CoreUnitFlatSpec {
     val processor = new CSVFileOutputProcessor()
     val record = new GenericData.Record(AvroSchemaStore.get(testResponseSchemaId).get)
     record.put("response", "res1")
+    record.put("response", "res2")
 
     processor.
       execute(Some(record),
@@ -35,7 +36,7 @@ class CsvFileOutputProcessorSpec extends CoreUnitFlatSpec {
         Map(CSVFileOutputProcessor.FileNamePropertyKey -> "csv-out",
           CSVFileOutputProcessor.FileBaseUrlPropertyKey -> "target",
           ReadSchemaIdKey -> testResponseSchemaId).asJava)
-    record.put("response", "res2")
+
 
     processor.onShutdown(null)
     file.delete()

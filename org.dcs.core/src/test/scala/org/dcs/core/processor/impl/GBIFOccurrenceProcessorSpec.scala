@@ -21,7 +21,7 @@ class GBIFOccurrenceProcessorSpec extends CoreUnitFlatSpec {
           Map(GBIFOccurrenceProcessor.SpeciesNamePropertyKey -> "Loxodonta africana").asJava)
       response.foreach { result =>
         val record = result.right.get
-        assert(record.get("scientificName").toString.startsWith("Loxodonta"))
+        assert(record._2.get("scientificName").toString.startsWith("Loxodonta"))
       }
     }
 

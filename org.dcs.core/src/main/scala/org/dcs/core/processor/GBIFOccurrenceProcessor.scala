@@ -13,6 +13,8 @@ import scala.collection.JavaConverters._
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
+import org.dcs.api.processor.RelationshipType._
+
 object GBIFOccurrenceProcessor {
 
   val ApiVersion = "v1"
@@ -50,7 +52,7 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
     endOfRecords = false
   }
 
-  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
+  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, (String, GenericRecord)]] = {
     val species = propertyValue(SpeciesNameProperty, propertyValues)
 
     val json: util.LinkedHashMap[String, AnyRef] = Json.parseJson(Await.result(
@@ -78,19 +80,19 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
         gbifOccurrence.put("decimalLongitude", value.get("decimalLongitude"))
         gbifOccurrence.put("decimalLatitude", value.get("decimalLatitude"))
         gbifOccurrence.put("institutionCode", value.get("institutionCode"))
-        Right(gbifOccurrence)
+        Right((Success.id, gbifOccurrence))
       }}.toList
   }
 
 
   override def _relationships(): Set[RemoteRelationship] = {
-    Set(RelationshipType.SUCCESS, RelationshipType.FAILURE)
+    Set(Success)
   }
 
 
   override def metadata(): MetaData =
     MetaData(description =  "GBIF Occurrence Processor",
-      tags = List("GBIF", "Occurrence", "Species").asJava)
+      tags = List("GBIF", "Occurrence", "Species"))
 
 
   override def baseUrl(): String = "http://api.gbif.org/" + ApiVersion + "/occurrence"

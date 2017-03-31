@@ -2,6 +2,7 @@ package org.dcs.core.processor.impl
 
 import org.apache.avro.generic.GenericData
 import org.dcs.api.processor.CoreProperties._
+import org.dcs.api.processor.RelationshipType
 import org.dcs.commons.serde.AvroSchemaStore
 import org.dcs.commons.serde.JsonSerializerImplicits._
 import org.dcs.core.processor.LatLongValidationProcessor
@@ -33,8 +34,9 @@ class LatLongValidationProcessorSpec  extends CoreUnitWordSpec
           .execute(Some(in),
             Map(ReadSchemaIdKey -> defaultSchemaId, FieldsToMapKey -> mappings).asJava)
         val out = response.head.right.get
-        out.get("latitude").asInstanceOf[Double] == 50 &&
-          out.get("longitude").asInstanceOf[Double] == 50
+        out._2.get("latitude").asInstanceOf[Double] == 50 &&
+          out._2.get("longitude").asInstanceOf[Double] == 50 &&
+          out._1 == RelationshipType.Valid.id
       }
     }
 
@@ -46,7 +48,7 @@ class LatLongValidationProcessorSpec  extends CoreUnitWordSpec
       val response = processor
         .execute(Some(in),
           Map(ReadSchemaIdKey -> defaultSchemaId, FieldsToMapKey -> mappings).asJava)
-        Option(response.head.right.get).isEmpty
+        response.head.right.get._1 == RelationshipType.Invalid.id
       }
     }
   }

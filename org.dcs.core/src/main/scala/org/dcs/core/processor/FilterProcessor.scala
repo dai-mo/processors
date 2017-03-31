@@ -12,6 +12,7 @@ import org.dcs.api.processor._
 import org.dcs.commons.error.ErrorResponse
 
 import scala.collection.JavaConverters._
+import org.dcs.api.processor.RelationshipType._
 
 object FilterProcessor {
 
@@ -33,7 +34,7 @@ class FilterProcessor extends RemoteProcessor
 
   import FilterProcessor._
 
-  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
+  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, (String, GenericRecord)]] = {
 
     val isValid: Boolean = actions(propertyValues).map(a => a.cmd match {
       case ContainsCmd => a.fromJsonPath(record).value.asString.exists(s => s.contains(a.args))
@@ -42,19 +43,19 @@ class FilterProcessor extends RemoteProcessor
     }).forall(identity)
 
     if(isValid)
-      List(Right(record.get))
+      List(Right((Valid.id, record.get)))
     else
-      List(Right(null))
+      List(Right((Invalid.id, record.get)))
   }
 
 
   override def _relationships(): Set[RemoteRelationship] = {
-    Set(RelationshipType.SUCCESS, RelationshipType.FAILURE)
+    Set(Valid, Invalid)
   }
 
   override def metadata(): MetaData =
     MetaData(description =  "Filter Processor",
-      tags = List("filter").asJava)
+      tags = List("filter"))
 
   override def _properties(): List[RemoteProperty] = Nil //List(FilterTermProperty, FilterProperty)
 

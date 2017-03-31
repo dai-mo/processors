@@ -1,7 +1,7 @@
 package org.dcs.core.processor.impl
 
 import org.apache.avro.generic.GenericData
-import org.dcs.api.processor.Action
+import org.dcs.api.processor.{Action, RelationshipType}
 import org.dcs.api.processor.CoreProperties._
 import org.dcs.commons.serde.AvroSchemaStore
 import org.dcs.commons.serde.JsonSerializerImplicits._
@@ -45,21 +45,21 @@ class FilterProcessorSpec extends CoreUnitWordSpec
     person.put(AgeKey, Age)
 
     "return valid response for filtered output" in {
-
-      assert(processor
-        .execute(Some(person),
-          Map(ReadSchemaIdKey -> schemaId, FieldActionsKey -> fieldActions).asJava)
-       .head.right.get == person)
-
+      assert {
+        val out = processor
+          .execute(Some(person),
+            Map(ReadSchemaIdKey -> schemaId, FieldActionsKey -> fieldActions).asJava)
+        out.head.right.get._2 == person &&
+          out.head.right.get._1 == RelationshipType.Valid.id
+      }
     }
 
     val invalidFieldActions = List(Action("$.first_name", FilterProcessor.ContainsCmd, "Luke")).toJson
-
     "return valid response for non-filtered output" in {
       assert(processor
         .execute(Some(person),
           Map(ReadSchemaIdKey -> schemaId, FieldActionsKey -> invalidFieldActions).asJava)
-      .head.right.get == null)
+        .head.right.get._1 == RelationshipType.Invalid.id)
 
     }
   }

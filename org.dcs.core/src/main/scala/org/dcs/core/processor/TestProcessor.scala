@@ -13,7 +13,6 @@ import scala.collection.JavaConverters._
 
 object TestProcessor {
 
-
   val UserPropertyName = "user"
   val UserProperty = RemoteProperty(displayName = "User",
     name = UserPropertyName,
@@ -34,14 +33,15 @@ object TestProcessor {
 class TestProcessor extends RemoteProcessor
   with Worker {
 
+
   import org.dcs.core.processor.TestProcessor._
 
   AvroSchemaStore.add("org.dcs.core.processor.TestRequest")
 
-  override def execute(record: Option[GenericRecord], values: JavaMap[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
+  override def execute(record: Option[GenericRecord], values: JavaMap[String, String]): List[Either[ErrorResponse, (String, GenericRecord)]] = {
     val testResponse = new GenericData.Record(AvroSchemaStore.get(schemaId).get)
     testResponse.put("response", record.get.get("request").toString + propertyValue(UserProperty, values))
-    List(Right(testResponse))
+    List(Right((RelationshipType.Success.id, testResponse)))
   }
 
 
@@ -50,9 +50,7 @@ class TestProcessor extends RemoteProcessor
   }
 
   override def _relationships(): Set[RemoteRelationship] = {
-    val success = RemoteRelationship(RelationshipType.SucessRelationship,
-      "All status updates will be routed to this relationship")
-    Set(success)
+    Set(RelationshipType.Success)
   }
 
   override def configuration: Configuration = {
@@ -64,7 +62,7 @@ class TestProcessor extends RemoteProcessor
 
   override def metadata(): MetaData = {
     MetaData(description =  "Greeting Processor",
-      tags = List("Greeting").asJava)
+      tags = List("Greeting"))
   }
 
   override def schemaId: String = "org.dcs.core.processor.TestResponse"
