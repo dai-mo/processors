@@ -139,7 +139,7 @@ class SlickIntermediateResults(val driver: JdbcDriver, dbType: String) extends I
     val provenanceByComponentIdAction = getProvenanceByComponentIdQueryCompiled(cid, maxResults).result
 
     (for (provList <- db.run(provenanceByComponentIdAction) ) yield provList.map(prov => {
-      Provenance(prov._1, prov._2, prov._3, prov._4.getOrElse(Array[Byte]()), "", prov._5.get, prov._6.getOrElse(RelationshipType.UnknownRelationship))
+      Provenance(prov._1, prov._2, prov._3, prov._4.getOrElse(Array[Byte]()), "", prov._5.get, prov._6.getOrElse(RelationshipType.Unknown.id))
     })).map(_.toList)
   }
 

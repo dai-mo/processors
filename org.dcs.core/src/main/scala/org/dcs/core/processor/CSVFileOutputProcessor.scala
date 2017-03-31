@@ -13,7 +13,7 @@ import org.dcs.api.processor._
 import org.dcs.commons.error.ErrorResponse
 
 import scala.collection.JavaConverters._
-import scala.util.control.NonFatal
+import org.dcs.api.processor.RelationshipType._
 
 object CSVFileOutputProcessor {
 
@@ -52,7 +52,7 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor
 
   }
 
-  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, GenericRecord]] = {
+  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, (String, GenericRecord)]] = {
       var fileBaseUrl = propertyValue(FileBaseUrlProperty, propertyValues)
       if (!fileBaseUrl.isEmpty)
         fileBaseUrl = fileBaseUrl + File.separator
@@ -72,18 +72,18 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor
       }
 
 
-    List(Right(record.get))
+    List(Right((Success.id, record.get)))
   }
 
 
   override def _relationships(): Set[RemoteRelationship] = {
-    Set(RelationshipType.SUCCESS, RelationshipType.SUCCESS)
+    Set(Success)
   }
 
 
   override def metadata(): MetaData =
     MetaData(description =  "CSV File Output",
-      tags = List("csv", "file", "writer").asJava)
+      tags = List("csv", "file", "writer"))
 
   override def _properties():List[RemoteProperty] = List(FileNameProperty)
 
