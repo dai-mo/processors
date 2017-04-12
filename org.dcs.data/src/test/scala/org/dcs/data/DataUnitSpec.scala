@@ -2,8 +2,7 @@ package org.dcs.data
 
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.junit.JUnitSuite
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 
 /**
   * Created by cmathew on 24.10.16.
