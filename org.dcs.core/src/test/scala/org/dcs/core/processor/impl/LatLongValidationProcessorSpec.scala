@@ -2,7 +2,7 @@ package org.dcs.core.processor.impl
 
 import org.apache.avro.generic.GenericData
 import org.dcs.api.processor.CoreProperties._
-import org.dcs.api.processor.RelationshipType
+import org.dcs.api.processor.{ProcessorField, PropertyType, RelationshipType}
 import org.dcs.commons.serde.AvroSchemaStore
 import org.dcs.commons.serde.JsonSerializerImplicits._
 import org.dcs.core.processor.LatLongValidationProcessor
@@ -21,7 +21,8 @@ class LatLongValidationProcessorSpec  extends CoreUnitWordSpec
   "The LatLongValidation Processor" should  {
     val processor = new LatLongValidationProcessor()
     val schema = AvroSchemaStore.get(defaultSchemaId)
-    val mappings = Map("latitude" -> "$.latitude", "longitude" -> "$.longitude").toJson
+    val mappings = List(ProcessorField("latitude", PropertyType.String, "$.latitude"),
+      ProcessorField("longitude", PropertyType.String, "$.longitude")).toJson
 
 
     "return valid response for valid lat / longs" in {
