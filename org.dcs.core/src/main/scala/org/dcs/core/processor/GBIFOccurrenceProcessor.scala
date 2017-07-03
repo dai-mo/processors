@@ -75,11 +75,25 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
       List()
     else
       json.get("results").asInstanceOf[util.List[util.LinkedHashMap[String, AnyRef]]].asScala.map { value => {
-        val gbifOccurrence = new GenericData.Record(AvroSchemaStore.get(schemaId).get)
+        val writeSchema = RemoteProcessor.resolveWriteSchema(propertyValues, Some(schemaId)).get
+        val gbifOccurrence = new GenericData.Record(writeSchema)
         gbifOccurrence.put("scientificName", value.get("scientificName"))
+        gbifOccurrence.put("basisOfRecord", value.get("basisOfRecord"))
+        gbifOccurrence.put("taxonRank", value.get("taxonRank"))
         gbifOccurrence.put("decimalLongitude", value.get("decimalLongitude"))
         gbifOccurrence.put("decimalLatitude", value.get("decimalLatitude"))
         gbifOccurrence.put("institutionCode", value.get("institutionCode"))
+
+        val classificationSchema = writeSchema.getField("classification").schema()
+        val classification = new GenericData.Record(classificationSchema)
+        classification.put("kingdom", value.get("kingdom"))
+        classification.put("phylum", value.get("phylum"))
+        classification.put("order", value.get("order"))
+        classification.put("family", value.get("family"))
+        classification.put("genus", value.get("genus"))
+        classification.put("species", value.get("species"))
+
+        gbifOccurrence.put("classification", classification)
         Right((Success.id, gbifOccurrence))
       }}.toList
   }

@@ -36,7 +36,7 @@ class FilterProcessor extends RemoteProcessor
 
   override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, (String, GenericRecord)]] = {
 
-    val isValid: Boolean = actions(propertyValues).map(a => a.cmd match {
+    val isValid: Boolean = actions(propertyValues).map(a => a.name match {
       case ContainsCmd => a.fromJsonPath(record).value.asString.exists(s => s.contains(a.args))
       case StartsWithCmd => a.fromJsonPath(record).value.asString.exists(s => s.contains(a.args))
       case _ => false
@@ -57,8 +57,9 @@ class FilterProcessor extends RemoteProcessor
     MetaData(description =  "Filter Processor",
       tags = List("filter"))
 
-  override def _properties(): List[RemoteProperty] = Nil //List(FilterTermProperty, FilterProperty)
+  override def _properties(): List[RemoteProperty] = Nil
 
-  override def cmds: List[String] = List("contains", "starts with")
+  override def cmds: Set[Action] = Set(Action("contains", PropertyType.String),
+    Action("starts with", PropertyType.String))
 }
 

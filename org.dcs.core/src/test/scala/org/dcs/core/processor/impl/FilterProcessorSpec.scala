@@ -1,7 +1,7 @@
 package org.dcs.core.processor.impl
 
 import org.apache.avro.generic.GenericData
-import org.dcs.api.processor.{Action, RelationshipType}
+import org.dcs.api.processor.{Action, PropertyType, RelationshipType}
 import org.dcs.api.processor.CoreProperties._
 import org.dcs.commons.serde.AvroSchemaStore
 import org.dcs.commons.serde.JsonSerializerImplicits._
@@ -23,7 +23,7 @@ class FilterProcessorSpec extends CoreUnitWordSpec
     val processor = new FilterProcessor()
     val schema = AvroSchemaStore.get(schemaId)
 
-    val fieldActions = List(Action("$.first_name", FilterProcessor.ContainsCmd, "Ob")).toJson
+    val fieldActions = List(Action(FilterProcessor.ContainsCmd, PropertyType.String, "$.first_name", "Ob")).toJson
 
     val FirstNameKey = "first_name"
     val FirstName = "Obi"
