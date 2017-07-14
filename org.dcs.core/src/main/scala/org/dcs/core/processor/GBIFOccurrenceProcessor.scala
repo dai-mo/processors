@@ -4,16 +4,14 @@ import java.util
 
 import org.apache.avro.data.Json
 import org.apache.avro.generic.{GenericData, GenericRecord}
+import org.dcs.api.processor.RelationshipType._
 import org.dcs.api.processor._
-import org.dcs.commons.error.{ErrorConstants, ErrorResponse}
-import org.dcs.commons.serde.AvroSchemaStore
+import org.dcs.commons.error.{ErrorConstants, ErrorResponse, HttpErrorResponse}
 import org.dcs.commons.ws.{ApiConfig, JerseyRestClient}
 
 import scala.collection.JavaConverters._
 import scala.concurrent.Await
 import scala.concurrent.duration._
-
-import org.dcs.api.processor.RelationshipType._
 
 object GBIFOccurrenceProcessor {
 
@@ -70,7 +68,7 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
     noOfApiCalls = noOfApiCalls + 1
 
     if(count > 200000)
-      List(Left(ErrorResponse(ErrorConstants.GlobalFlowErrorCode,"Invalid Request", 400, "Occurrence record count exceeds download limit (200000)")))
+      List(Left(ErrorResponse(ErrorConstants.GlobalFlowErrorCode,"Invalid Request", "Occurrence record count exceeds download limit (200000)")))
     else if(endOfRecords || noOfApiCalls > 1)
       List()
     else
@@ -111,8 +109,8 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
 
   override def baseUrl(): String = "http://api.gbif.org/" + ApiVersion + "/occurrence"
 
-  override def error(status: Int, message: String): ErrorResponse =
-    ErrorResponse(ErrorConstants.GlobalFlowErrorCode, message, status)
+  override def error(status: Int, message: String): HttpErrorResponse =
+    ErrorResponse(ErrorConstants.GlobalFlowErrorCode, message).http(status)
 
   override def _properties(): List[RemoteProperty] = List(SpeciesNameProperty)
 
