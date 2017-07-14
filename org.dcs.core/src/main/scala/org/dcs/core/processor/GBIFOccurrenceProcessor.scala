@@ -54,7 +54,7 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
     val species = propertyValue(SpeciesNameProperty, propertyValues)
 
     val gbifResponse =  Await.result(
-      getAsEither(path = "/searc",
+      getAsEither(path = "/search",
         queryParams = List(
           ("scientificName", species),
           ("offset", offset.toString),
