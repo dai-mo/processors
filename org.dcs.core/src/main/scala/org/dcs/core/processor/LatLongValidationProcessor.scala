@@ -7,12 +7,9 @@ package org.dcs.core.processor
 import java.util
 
 import org.apache.avro.generic.GenericRecord
+import org.dcs.api.processor.RelationshipType._
 import org.dcs.api.processor._
 import org.dcs.commons.error.ErrorResponse
-
-import scala.collection.JavaConverters._
-
-import org.dcs.api.processor.RelationshipType._
 
 object LatLongValidationProcessor {
 
@@ -28,7 +25,7 @@ object LatLongValidationProcessor {
   * Created by cmathew on 09.11.16.
   */
 class LatLongValidationProcessor extends Worker
-  with FieldsToMap{
+  with FieldsToMap {
 
   import LatLongValidationProcessor._
 
@@ -66,7 +63,7 @@ class LatLongValidationProcessor extends Worker
 
   override def _properties(): List[RemoteProperty] = Nil
 
-  def fields: Set[ProcessorField] = Set(ProcessorField(LatitudeKey, PropertyType.String),
-    ProcessorField(LongitudeKey, PropertyType.String))
+  def fields: Set[ProcessorSchemaField] = Set(ProcessorSchemaField(LatitudeKey, PropertyType.String),
+    ProcessorSchemaField(LongitudeKey, PropertyType.String))
 }
 
