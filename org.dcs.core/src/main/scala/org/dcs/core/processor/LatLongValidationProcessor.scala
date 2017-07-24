@@ -63,7 +63,7 @@ class LatLongValidationProcessor extends Worker
 
   override def _properties(): List[RemoteProperty] = Nil
 
-  def fields: Set[ProcessorSchemaField] = Set(ProcessorSchemaField(LatitudeKey, PropertyType.String),
-    ProcessorSchemaField(LongitudeKey, PropertyType.String))
+  def fields: Set[ProcessorSchemaField] = Set(ProcessorSchemaField(LatitudeKey, PropertyType.Double),
+    ProcessorSchemaField(LongitudeKey, PropertyType.Double))
 }
 
