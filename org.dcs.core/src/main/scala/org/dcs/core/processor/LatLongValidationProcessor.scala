@@ -30,21 +30,16 @@ class LatLongValidationProcessor extends Worker
   import LatLongValidationProcessor._
 
   override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, (String, GenericRecord)]] = {
-    var invalid = false
+
     val m = record.mappings(propertyValues)
-    val decimalLatitude  = m.get(LatitudeKey).asDouble
-    val decimalLongitude = m.get(LongitudeKey).asDouble
+    val decimalLatitudes  = m.get(LatitudeKey).asList[Double]
+    val decimalLongitudes = m.get(LongitudeKey).asList[Double]
 
+    val invalid = decimalLatitudes.isEmpty ||
+      decimalLatitudes.get.exists(dlat => dlat < -90 || dlat > 90) ||
+      decimalLongitudes.isEmpty ||
+      decimalLongitudes.get.exists(dlong => dlong < -180 || dlong > 180)
 
-    if(decimalLatitude.isEmpty || decimalLongitude.isEmpty)
-      invalid = true
-    else {
-      if(decimalLatitude.get < -90 ||
-        decimalLatitude.get > 90 ||
-        decimalLongitude.get < -180 ||
-        decimalLongitude.get > 180)
-        invalid = true
-    }
     if(invalid)
       List(Right((Invalid.id, record.get)))
     else
