@@ -21,7 +21,8 @@ class LatLongValidationProcessorSpec  extends CoreUnitWordSpec
   "The LatLongValidation Processor" should  {
     val processor = new LatLongValidationProcessor()
     val schema = AvroSchemaStore.get(defaultSchemaId)
-    val mappings = List(ProcessorSchemaField("latitude", PropertyType.String, "$.latitude"),
+    val mappings = List(ProcessorSchemaField("latitude", PropertyType.String, "$.decimalLatitude"),
+      ProcessorSchemaField("latitude", PropertyType.String, "$.latitude"),
       ProcessorSchemaField("longitude", PropertyType.String, "$.longitude")).toJson
 
 
@@ -30,6 +31,8 @@ class LatLongValidationProcessorSpec  extends CoreUnitWordSpec
         val in = new GenericData.Record(schema.get)
         in.put("latitude", 50.0)
         in.put("longitude", 50.0)
+        in.put("decimalLatitude", 50.0)
+
 
         val response = processor
           .execute(Some(in),
@@ -43,12 +46,13 @@ class LatLongValidationProcessorSpec  extends CoreUnitWordSpec
 
     "return invalid response for invalid lat / longs" in {
       assert { val in = new GenericData.Record(schema.get)
-      in.put("latitude", -100.0)
-      in.put("longitude", 190.0)
+        in.put("latitude", -100.0)
+        in.put("longitude", 190.0)
+        in.put("decimalLatitude", 50.0)
 
-      val response = processor
-        .execute(Some(in),
-          Map(ReadSchemaIdKey -> defaultSchemaId, FieldsToMapKey -> mappings).asJava)
+        val response = processor
+          .execute(Some(in),
+            Map(ReadSchemaIdKey -> defaultSchemaId, FieldsToMapKey -> mappings).asJava)
         response.head.right.get._1 == RelationshipType.Invalid.id
       }
     }

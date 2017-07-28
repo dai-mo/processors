@@ -4,6 +4,7 @@
   "name": "GBIFOccurrence",
   "fields": [
     {"name": "longitude", "type": ["null", "double"], "default": -1},
-    {"name": "latitude",  "type": ["null", "double"], "default": -1}
+    {"name": "latitude",  "type": ["null", "double"], "default": -1},
+    {"name": "decimalLatitude",  "type": ["null", "double"], "default": -1}
   ]
 }
