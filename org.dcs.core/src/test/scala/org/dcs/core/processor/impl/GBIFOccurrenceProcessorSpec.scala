@@ -23,7 +23,7 @@ class GBIFOccurrenceProcessorSpec extends CoreUnitFlatSpec {
       response.foreach { result =>
         val record = result.right.get
         assert(record._2.get("scientificName").toString.startsWith("Loxodonta"))
-        assert(record._2.get("classification").asInstanceOf[GenericRecord].get("kingdom").toString.startsWith("Animalia"))
+        assert(record._2.get("kingdom").toString.startsWith("Animalia"))
       }
     }
 
