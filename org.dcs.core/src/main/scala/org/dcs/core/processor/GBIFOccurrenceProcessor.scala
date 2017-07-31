@@ -12,6 +12,9 @@ import org.dcs.commons.ws.{ApiConfig, JerseyRestClient}
 import scala.collection.JavaConverters._
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import org.dcs.commons.serde.AvroImplicits._
+import org.dcs.commons.serde.AvroSchemaStore
+import org.dcs.commons.serde.JsonSerializerImplicits._
 
 object GBIFOccurrenceProcessor {
 
@@ -61,14 +64,14 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
           ("limit", limit.toString))
 
       ), 20.seconds)
-    
+
     if(gbifResponse.isLeft)
       List(Left(ErrorResponse(gbifResponse.left.get.code, gbifResponse.left.get.message, gbifResponse.left.get.description)))
     else
     {
-
+      val response = gbifResponse.right.get.readEntity(classOf[String])
       val json: util.LinkedHashMap[String, AnyRef] =
-        Json.parseJson(gbifResponse.right.get.readEntity(classOf[String]))
+        Json.parseJson(response)
           .asInstanceOf[util.LinkedHashMap[String, AnyRef]]
 
       offset = json.get("offset").asInstanceOf[Int]
@@ -77,34 +80,18 @@ class GBIFOccurrenceProcessor extends StatefulRemoteProcessor
 
       noOfApiCalls = noOfApiCalls + 1
 
+
       if (count > 200000)
         List(Left(ErrorResponse(ErrorConstants.GlobalFlowErrorCode, "Invalid Request", "Occurrence record count exceeds download limit (200000)")))
       else if (endOfRecords || noOfApiCalls > 1)
         List()
       else
-        json.get("results").asInstanceOf[util.List[util.LinkedHashMap[String, AnyRef]]].asScala.map { value => {
-          val writeSchema = RemoteProcessor.resolveWriteSchema(propertyValues, Some(schemaId)).get
-          val gbifOccurrence = new GenericData.Record(writeSchema)
-          gbifOccurrence.put("scientificName", value.get("scientificName"))
-          gbifOccurrence.put("basisOfRecord", value.get("basisOfRecord"))
-          gbifOccurrence.put("taxonRank", value.get("taxonRank"))
-          gbifOccurrence.put("decimalLongitude", value.get("decimalLongitude"))
-          gbifOccurrence.put("decimalLatitude", value.get("decimalLatitude"))
-          gbifOccurrence.put("institutionCode", value.get("institutionCode"))
-
-          val classificationSchema = writeSchema.getField("classification").schema()
-          val classification = new GenericData.Record(classificationSchema)
-          classification.put("kingdom", value.get("kingdom"))
-          classification.put("phylum", value.get("phylum"))
-          classification.put("order", value.get("order"))
-          classification.put("family", value.get("family"))
-          classification.put("genus", value.get("genus"))
-          classification.put("species", value.get("species"))
-
-          gbifOccurrence.put("classification", classification)
-          Right((Success.id, gbifOccurrence))
-        }
-        }.toList
+        json.get("results").asInstanceOf[util.List[util.LinkedHashMap[String, AnyRef]]].asScala
+          .map(value => {
+            val goJson = value.toJson
+            val gbifOccurrence = value.toJson.toGenericRecord(AvroSchemaStore.get(schemaId))
+            Right((Success.id, gbifOccurrence))
+          }).toList
     }
   }
 
