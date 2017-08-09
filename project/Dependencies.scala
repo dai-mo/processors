@@ -29,6 +29,8 @@ object Dependencies {
   lazy val slickVersion          = "3.1.1"
 	lazy val shapelessVersion      = "2.3.1"
 	lazy val slicklessVersion      = "0.3.0"
+	lazy val sparkVersion          = "2.2.0"
+	lazy val sparkTestingVersion   = "2.2.0_0.7.2"
 
   // FIXME: Currently we have duplicate entries for
   //        typesafeConfig in here and in the
@@ -51,15 +53,20 @@ object Dependencies {
 	val guava           = "com.google.guava"           % "guava"                   % guavaVersion
 	val openCsv         = "com.opencsv"                % "opencsv"                 % openCsvVersion
 
+	val sparkLauncher 	= "org.apache.spark" 					 %% "spark-launcher" 				 % sparkVersion
+	val sparkCore       = "org.apache.spark"           %% "spark-core"             % sparkVersion
+	val sparkStreaming  = "org.apache.spark"           %% "spark-streaming"        % sparkVersion
+	val sparkTesting    = "com.holdenkarau"            %% "spark-testing-base"     % sparkTestingVersion
+
 	val quillCassandra  = "io.getquill"                %% "quill-cassandra"        % quillVersion
 	val quillJdbc       = "io.getquill"                %% "quill-jdbc"             % quillJdbcVersion
-	val datastaxDriver  = "com.datastax.cassandra"     % "cassandra-driver-core"   % dataStaxDriverVersion
-	val postgresDriver  = "org.postgresql"             % "postgresql"              % postgresDriverVersion
+	val datastaxDriver  = "com.datastax.cassandra"     %  "cassandra-driver-core"  % dataStaxDriverVersion
+	val postgresDriver  = "org.postgresql"             %  "postgresql"             % postgresDriverVersion
   val slick           = "com.typesafe.slick"         %% "slick"                  % slickVersion
   val slickHikariCP   = "com.typesafe.slick"         %% "slick-hikaricp"         % slickVersion
   val slickCodeGen    = "com.typesafe.slick"         %% "slick-codegen"          % slickVersion
-  val flyway          = "org.flywaydb"               % "flyway-core"             % flywayVersion
-  val typesafeConfig  = "com.typesafe"               % "config"                  % typesafeConfigVersion
+  val flyway          = "org.flywaydb"               %  "flyway-core"            % flywayVersion
+  val typesafeConfig  = "com.typesafe"               %  "config"                 % typesafeConfigVersion
 
 	val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsTestVersion
 	val scalaTest       = "org.scalatest"              %% "scalatest"              % scalaTestVersion
@@ -70,6 +77,7 @@ object Dependencies {
 		dcsApi          % "provided",
     dcsCommons      % "provided",
 
+		sparkLauncher,
 		avro            % "provided",
 		paxCdiApi       % "provided",
 		logbackCore     % "provided",
@@ -104,6 +112,19 @@ object Dependencies {
 		dcsTest         % "test",
 		scalaTest       % "test",
 		junitInterface  % "test"
+	)
+
+	val sparkDependencies: Seq[ModuleID] = Seq(
+		dcsApi,
+		dcsCommons,
+		sparkCore       % "provided",
+		sparkStreaming  % "provided",
+		avro,
+
+		dcsTest         % "test",
+		scalaTest       % "test",
+		junitInterface  % "test",
+		sparkTesting    % "test"
 	)
 
 }

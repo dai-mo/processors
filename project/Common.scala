@@ -1,14 +1,16 @@
 
+
 import sbt._
 import Keys._
-
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 import com.typesafe.sbt.osgi.SbtOsgi
-
 import Dependencies._
 import Global._
 
 object Common {
+  lazy val UNIT = config("unit") extend(Test)
+  lazy val IT = config("it") extend(Test)
+
   lazy val commonSettings = Seq(
     organization := "org.dcs",
     scalaVersion := scVersion,
@@ -24,8 +26,29 @@ object Common {
     //        checksums when deploying artifacts
     checksums in update := Nil,
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint:unchecked"),
-    javacOptions in doc := Seq("-source", "1.8")
+    javacOptions in doc := Seq("-source", "1.8"),
+    fork in Test := true,
+    javaOptions in Test ++= Seq("-Xms512M", "-Xmx2048M", "-XX:MaxPermSize=2048M", "-XX:+CMSClassUnloadingEnabled"),
+    parallelExecution in Test := false
+
   )
+
+  def BaseProject(projectID: String,
+                  projectName: String) =
+    Project(projectID, file(projectName)).
+      settings(commonSettings: _*).
+      settings(
+        name := projectName,
+        moduleName := projectName).
+      configs(IT).
+      settings(inConfig(IT)(Defaults.testTasks): _*).
+      settings(testOptions in IT := Seq(Tests.Argument("-n", "IT"))).
+      configs(UNIT).
+      settings(inConfig(UNIT)(Defaults.testTasks): _*).
+      settings(testOptions in UNIT := Seq(
+        Tests.Argument("-l", "IT"),
+        Tests.Argument("-l", "E2E"))
+      )
 
   lazy val paxCdiCapabilities = "org.ops4j.pax.cdi.extension;" +
     "filter:=\"(&(extension=pax-cdi-extension)(version>=0.12.0)(!(version>=1.0.0)))\"," +
