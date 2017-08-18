@@ -12,7 +12,13 @@ val projectName = "org.dcs.parent"
 lazy val core =
   OsgiProject("core", "org.dcs.core").
     settings(libraryDependencies ++= coreDependencies).
-    dependsOn(data)
+    dependsOn(data, spark)
+
+lazy val spark =
+  BaseProject("spark", "org.dcs.spark").
+    settings(libraryDependencies ++= sparkDependencies).
+    settings(test in assembly := {})
+
 
 
 lazy val dataProjectName = "org.dcs.data"
@@ -71,7 +77,7 @@ lazy val osgi = (project in file(".")).
   settings(
     name := "org.dcs.parent"
   ).
-  aggregate(data, core)
+  aggregate(spark, data, core)
 
 
 
