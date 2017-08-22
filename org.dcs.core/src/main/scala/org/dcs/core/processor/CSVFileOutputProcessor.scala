@@ -15,6 +15,8 @@ import org.dcs.commons.error.ErrorResponse
 import scala.collection.JavaConverters._
 import org.dcs.api.processor.RelationshipType._
 
+import java.util.{Map => JavaMap}
+
 object CSVFileOutputProcessor {
 
   val FileNamePropertyKey = "file-name"
@@ -52,24 +54,25 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor
 
   }
 
-  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]): List[Either[ErrorResponse, (String, GenericRecord)]] = {
-      var fileBaseUrl = propertyValue(FileBaseUrlProperty, propertyValues)
-      if (!fileBaseUrl.isEmpty)
-        fileBaseUrl = fileBaseUrl + File.separator
+  override def execute(record: Option[GenericRecord], propertyValues: util.Map[String, String]):
+  List[Either[ErrorResponse, (String, GenericRecord)]] = {
+    var fileBaseUrl = propertyValue(FileBaseUrlProperty, propertyValues)
+    if (!fileBaseUrl.isEmpty)
+      fileBaseUrl = fileBaseUrl + File.separator
 
-      val fileName = propertyValue(FileNameProperty, propertyValues)
+    val fileName = propertyValue(FileNameProperty, propertyValues)
 
-      if (writer == null) {
-        writer = new CSVWriter(new FileWriter(fileBaseUrl + fileName + ".csv"))
-        headers = record.get.getSchema.getFields.asScala.map(field => field.name()).toList
-        writer.writeNext(headers.toArray)
-      }
+    if (writer == null) {
+      writer = new CSVWriter(new FileWriter(fileBaseUrl + fileName + ".csv"))
+      headers = record.get.getSchema.getFields.asScala.map(field => field.name()).toList
+      writer.writeNext(headers.toArray)
+    }
 
-      if (writer != null) {
-        val row = headers.indices.toList.map(key => Option(record.get.get(key)).getOrElse("").toString)
-        writer.writeNext(row.toArray)
-        writer.flush()
-      }
+    if (writer != null) {
+      val row = headers.indices.toList.map(key => Option(record.get.get(key)).getOrElse("").toString)
+      writer.writeNext(row.toArray)
+      writer.flush()
+    }
 
 
     List(Right((Success.id, record.get)))
@@ -87,13 +90,13 @@ class CSVFileOutputProcessor extends StatefulRemoteProcessor
 
   override def _properties():List[RemoteProperty] = List(FileNameProperty)
 
-  override def onShutdown(properties: util.List[RemoteProperty]): Boolean = {
+  override def onShutdown(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
     if(writer != null)
       writer.close()
     true
   }
 
-  override def onRemove(properties: util.List[RemoteProperty]): Boolean = {
+  override def onRemove(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
     if(writer != null)
       writer.close()
     true
