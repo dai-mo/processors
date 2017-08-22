@@ -16,6 +16,7 @@ lazy val core =
 
 lazy val spark =
   BaseProject("spark", "org.dcs.spark").
+    enablePlugins(BuildInfoPlugin).
     settings(libraryDependencies ++= sparkDependencies).
     settings(test in assembly := {})
 
