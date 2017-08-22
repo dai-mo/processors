@@ -18,8 +18,12 @@ lazy val spark =
   BaseProject("spark", "org.dcs.spark").
     enablePlugins(BuildInfoPlugin).
     settings(libraryDependencies ++= sparkDependencies).
-    settings(test in assembly := {})
-
+    settings(test in assembly := {}).
+    settings(artifact in (Compile, assembly) := {
+      val art = (artifact in (Compile, assembly)).value
+      art.copy(`classifier` = Some("assembly"))
+    }).
+    settings(addArtifact(artifact in (Compile, assembly), assembly))
 
 
 lazy val dataProjectName = "org.dcs.data"
