@@ -34,8 +34,10 @@ object Common {
   )
 
   def BaseProject(projectID: String,
-                  projectName: String) =
-    Project(projectID, file(projectName)).
+                  projectName: String,
+                  projectDir: Option[String] = None) = {
+
+    Project(projectID, file(projectDir.getOrElse(projectName))).
       settings(commonSettings: _*).
       settings(
         name := projectName,
@@ -49,6 +51,7 @@ object Common {
         Tests.Argument("-l", "IT"),
         Tests.Argument("-l", "E2E"))
       )
+  }
 
   lazy val paxCdiCapabilities = "org.ops4j.pax.cdi.extension;" +
     "filter:=\"(&(extension=pax-cdi-extension)(version>=0.12.0)(!(version>=1.0.0)))\"," +

@@ -77,7 +77,6 @@ object Dependencies {
 		dcsApi          % "provided",
     dcsCommons      % "provided",
 
-		sparkLauncher,
 		avro            % "provided",
 		paxCdiApi       % "provided",
 		logbackCore     % "provided",
@@ -85,6 +84,8 @@ object Dependencies {
     cdiApi          % "provided",
 		openCsv,
     guava,
+
+    sparkLauncher,
 
 		dcsTest         % "test",
 		scalaTest       % "test",
@@ -119,7 +120,6 @@ object Dependencies {
 		dcsCommons,
 		sparkCore       % "provided",
 		sparkStreaming  % "provided",
-		avro,
 
 		dcsTest         % "test",
 		scalaTest       % "test",

@@ -1,0 +1,101 @@
+package org.dcs.core.processor
+
+import java.io.File
+import java.util
+import java.util.{List => JavaList, Map => JavaMap}
+
+import org.apache.spark.launcher.{SparkAppHandle, SparkLauncher}
+import org.dcs.api.Constants
+import org.dcs.api.processor.CoreProperties.remoteProperty
+import org.dcs.api.processor._
+import org.dcs.core.BuildInfo
+
+import scala.collection.JavaConverters._
+
+trait SparkLauncherBase extends StatefulRemoteProcessor {
+
+  private var sparkHandle: SparkAppHandle = _
+  private var sparkLauncher: SparkLauncher = _
+
+  val SPARK_HOME = "SPARK_HOME"
+
+
+  def appendSparkPrefix(property: String): String = {
+    Constants.SparkPrefix + property
+  }
+
+  override def initState(): Unit = {
+    // NOTE: This requires the SPARK_HOME to be set
+    //       and the dcs spark jar be copied to the
+    //       SPARK_HOME dir
+    val sparkHome = sys.env(SPARK_HOME)
+    val dcsSparkJar = "org.dcs.spark-" + BuildInfo.version + "-assembly.jar"
+    sparkLauncher = new SparkLauncher()
+      .setAppResource(sparkHome + File.separator + "dcs" + File.separator + dcsSparkJar)
+      .setMainClass("org.dcs.spark.processor." + this.getClass.getSimpleName + "Job")
+      .setMaster(Constants.DefaultMaster)
+      .setAppName(Constants.DefaultAppName)
+      .setConf(SparkLauncher.DRIVER_MEMORY, "2g")
+  }
+
+  override def onSchedule(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
+    val receiver = propertyValues.asScala.find(_._1.getName == CoreProperties.ReceiverKey).map(_._2)
+    val sender = propertyValues.asScala.find(_._1.getName == CoreProperties.SenderKey).map(_._2)
+    val readSchemaId = propertyValues.asScala.find(_._1.getName == CoreProperties.ReadSchemaIdKey).map(_._2)
+
+    if(receiver.isDefined && sender.isDefined && readSchemaId.isDefined) {
+      propertyValues.asScala.foreach(pv =>
+        sparkLauncher = sparkLauncher.setConf(appendSparkPrefix(pv._1.getName()), pv._2)
+      )
+      sparkLauncher = sparkLauncher
+        .setConf(appendSparkPrefix(CoreProperties.ProcessorClassKey), this.getClass.getName)
+        .setConf(appendSparkPrefix(CoreProperties.SchemaIdKey), schemaId)
+      sparkHandle = sparkLauncher.startApplication()
+      true
+    } else
+      throw new IllegalArgumentException
+  }
+
+  override def onStop(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
+    true
+  }
+
+  override def onShutdown(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
+    onRemove(propertyValues)
+  }
+
+  override def onRemove(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
+    if(sparkHandle.getState == SparkAppHandle.State.RUNNING) {
+      // FIXME: Need to figure out why stop does not work
+      // sparkHandle.stop()
+      sparkHandle.kill()
+    }
+    true
+  }
+
+  override def properties(): JavaList[RemoteProperty] = {
+    val props = new util.ArrayList(super.properties())
+
+
+    val receiverProperty =  remoteProperty(CoreProperties.ReceiverKey,
+      "Id of receiver for external processor [Level" + PropertyLevel.Open + "]",
+      Constants.TestReceiverClassName,
+      isRequired = false,
+      isDynamic = false,
+      PropertyLevel.Open,
+      Set(Constants.TestReceiverClassName))
+    props.add(receiverProperty)
+
+    val senderProperty =  remoteProperty(CoreProperties.SenderKey,
+      "Id of sender for external processor [Level" + PropertyLevel.Open + "]",
+      Constants.TestSenderClassName,
+      isRequired = false,
+      isDynamic = false,
+      PropertyLevel.Open,
+      Set(Constants.TestSenderClassName, Constants.TestFileSenderClassName))
+    props.add(senderProperty)
+
+    props
+  }
+
+}

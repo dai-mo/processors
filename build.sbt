@@ -11,19 +11,28 @@ val projectName = "org.dcs.parent"
 
 lazy val core =
   OsgiProject("core", "org.dcs.core").
+    enablePlugins(BuildInfoPlugin).
+    settings(
+      buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+      buildInfoPackage := name.value
+    ).
     settings(libraryDependencies ++= coreDependencies).
-    dependsOn(data, spark)
+    dependsOn(data, spark % "test->compile")
 
 lazy val spark =
   BaseProject("spark", "org.dcs.spark").
     enablePlugins(BuildInfoPlugin).
     settings(libraryDependencies ++= sparkDependencies).
     settings(test in assembly := {}).
-    settings(artifact in (Compile, assembly) := {
-      val art = (artifact in (Compile, assembly)).value
+    settings(publishArtifact in (Compile, assembly) := true).
+    // FIXME: This creates a jar in the target dir. as,
+    //        'name'-assembly-'version'.jar
+    //        but publishes it as,
+    //        'name'-'version'-assembly.jar
+    settings(artifact in (Compile, assembly) ~= { art =>
       art.copy(`classifier` = Some("assembly"))
     }).
-    settings(addArtifact(artifact in (Compile, assembly), assembly))
+    settings(addArtifact(artifact in (Compile, assembly), assembly).settings: _*)
 
 
 lazy val dataProjectName = "org.dcs.data"
@@ -70,9 +79,9 @@ lazy val data =
     //        https://github.com/slick/slick/issues/1694
     //        is resolved
     settings(
-      OsgiKeys.embeddedJars := (Keys.externalDependencyClasspath in Compile).value map (_.data) filter (a =>
-        a.getName.startsWith("slick-hikaricp"))
-    )
+    OsgiKeys.embeddedJars := (Keys.externalDependencyClasspath in Compile).value map (_.data) filter (a =>
+      a.getName.startsWith("slick-hikaricp"))
+  )
 
 
 def classifier(cl: Option[String]): String = if(cl.isDefined) "-" + cl.get else  ""
@@ -93,10 +102,6 @@ lazy val osgi = (project in file(".")).
 
 
 // ------- Versioning , Release Section --------
-
-// Build Info
-buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion)
-buildInfoPackage := projectName
 
 // Git
 showCurrentGitBranch
