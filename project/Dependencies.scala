@@ -87,6 +87,8 @@ object Dependencies {
 
     sparkLauncher,
 
+		sparkCore       % "test",
+		sparkStreaming  % "test",
 		dcsTest         % "test",
 		scalaTest       % "test",
 		junitInterface  % "test"
