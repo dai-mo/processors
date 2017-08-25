@@ -5,12 +5,13 @@ import org.dcs.core.processor.SparkBasicStatsProcessor
 import org.dcs.spark.processor.SparkUnitFlatSpec
 import org.dcs.spark.receiver.TestReceiver
 import org.dcs.commons.serde.JsonSerializerImplicits._
+import org.dcs.core.CoreUnitFlatSpec
 import org.scalatest.Ignore
 
 import scala.collection.JavaConverters._
 
 @Ignore
-class SparkLauncherSpec extends SparkUnitFlatSpec {
+class SparkLauncherSpec extends CoreUnitFlatSpec {
 
   // NOTE: The SPARK_HOME environmental variable must be set here for this to work
   "Spark Basic Statistics Processor" should "launch correctly" in {
