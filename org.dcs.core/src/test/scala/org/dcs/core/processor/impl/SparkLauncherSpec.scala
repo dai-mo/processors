@@ -1,11 +1,10 @@
 package org.dcs.core.processor.impl
 
 import org.dcs.api.processor.{CoreProperties, RemoteProperty}
-import org.dcs.core.processor.SparkBasicStatsProcessor
-import org.dcs.spark.processor.SparkUnitFlatSpec
-import org.dcs.spark.receiver.TestReceiver
 import org.dcs.commons.serde.JsonSerializerImplicits._
 import org.dcs.core.CoreUnitFlatSpec
+import org.dcs.core.processor.SparkBasicStatsProcessor
+import org.dcs.spark.receiver.TestReceiver
 import org.scalatest.Ignore
 
 import scala.collection.JavaConverters._
