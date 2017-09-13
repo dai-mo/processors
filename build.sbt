@@ -17,7 +17,7 @@ lazy val core =
       buildInfoPackage := name.value
     ).
     settings(libraryDependencies ++= coreDependencies).
-    dependsOn(data, spark % "test->compile")
+    dependsOn(data)
 
 lazy val spark =
   BaseProject("spark", "org.dcs.spark").

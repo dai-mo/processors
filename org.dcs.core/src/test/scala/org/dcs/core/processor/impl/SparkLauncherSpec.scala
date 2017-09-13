@@ -1,11 +1,10 @@
 package org.dcs.core.processor.impl
 
-import org.dcs.api.processor.{CoreProperties, RemoteProperty}
-import org.dcs.commons.serde.DataGenerator
+import org.dcs.api.processor.{CoreProperties, ProcessorSchemaField, PropertyType, RemoteProperty}
 import org.dcs.commons.serde.JsonSerializerImplicits._
+import org.dcs.commons.serde.{DataGenerator, JsonPath}
 import org.dcs.core.CoreUnitFlatSpec
 import org.dcs.core.processor.SparkBasicStatsProcessor
-import org.dcs.spark.receiver.TestReceiver
 import org.scalatest.Ignore
 
 import scala.collection.JavaConverters._
@@ -28,7 +27,7 @@ class SparkLauncherSpec extends CoreUnitFlatSpec {
       receiverProperty -> "org.dcs.spark.receiver.TestReceiver?delay=1000&nbOfRecords=100",
       senderProperty -> "org.dcs.spark.sender.TestSender",
       readSchemaIdProperty -> DataGenerator.PersonSchemaId,
-      fieldsToMapProperty -> TestReceiver.FieldsToMap.toJson
+      fieldsToMapProperty -> Set(ProcessorSchemaField("average", PropertyType.Double, JsonPath.Root + JsonPath.Sep + "age")).toJson
     ).asJava
 
     processor.onSchedule(propertyValues)
