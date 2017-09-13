@@ -39,25 +39,34 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
   }
 
   override def onSchedule(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
-    val receiver = propertyValues.asScala.find(_._1.getName == CoreProperties.ReceiverKey).map(_._2)
-    val sender = propertyValues.asScala.find(_._1.getName == CoreProperties.SenderKey).map(_._2)
-    val readSchemaId = propertyValues.asScala.find(_._1.getName == CoreProperties.ReadSchemaIdKey).map(_._2)
+    if(sparkHandle == null) {
+      val receiver = propertyValues.asScala.find(_._1.getName == CoreProperties.ReceiverKey).map(_._2)
+      val sender = propertyValues.asScala.find(_._1.getName == CoreProperties.SenderKey).map(_._2)
+      val readSchemaId = propertyValues.asScala.find(_._1.getName == CoreProperties.ReadSchemaIdKey).map(_._2)
 
-    if(receiver.isDefined && sender.isDefined && readSchemaId.isDefined) {
-      propertyValues.asScala.foreach(pv =>
-        sparkLauncher = sparkLauncher.setConf(appendSparkPrefix(pv._1.getName()), pv._2)
-      )
-      sparkLauncher = sparkLauncher
-        .setConf(appendSparkPrefix(CoreProperties.ProcessorClassKey), this.getClass.getName)
-        .setConf(appendSparkPrefix(CoreProperties.SchemaIdKey), schemaId)
-      sparkHandle = sparkLauncher.startApplication()
-      true
+      // FIXME: Currently passing properties as spark conf,
+      //        hence the prefixing of "spark." string.
+      //        Is there a better way to do this ?
+      if (receiver.isDefined && sender.isDefined && readSchemaId.isDefined) {
+        propertyValues.asScala
+          //.map(pv => (pv._1, if(pv._2 == null) pv._1.defaultValue else pv._2))
+          .filter(_._2 != null).foreach(pv =>
+          sparkLauncher = sparkLauncher.setConf(appendSparkPrefix(pv._1.getName()), pv._2)
+        )
+        sparkLauncher = sparkLauncher
+          .setConf(appendSparkPrefix(CoreProperties.ProcessorClassKey), this.getClass.getName)
+          .setConf(appendSparkPrefix(CoreProperties.SchemaIdKey), schemaId)
+        sparkHandle = sparkLauncher.startApplication()
+        true
+      } else
+        throw new IllegalArgumentException("One of receiver, sender or read schema id is not set")
     } else
-      throw new IllegalArgumentException
+      true
+
   }
 
   override def onStop(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
-    true
+    onRemove(propertyValues)
   }
 
   override def onShutdown(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
@@ -65,10 +74,11 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
   }
 
   override def onRemove(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
-    if(sparkHandle.getState == SparkAppHandle.State.RUNNING) {
+    if(sparkHandle != null && sparkHandle.getState == SparkAppHandle.State.RUNNING) {
       // FIXME: Need to figure out why stop does not work
       // sparkHandle.stop()
       sparkHandle.kill()
+      sparkHandle = null
     }
     true
   }
@@ -80,19 +90,17 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
     val receiverProperty =  remoteProperty(CoreProperties.ReceiverKey,
       "Id of receiver for external processor [Level" + PropertyLevel.Open + "]",
       Constants.TestReceiverClassName,
-      isRequired = false,
+      isRequired = true,
       isDynamic = false,
-      PropertyLevel.Open,
-      Set(Constants.TestReceiverClassName))
+      PropertyLevel.Open)
     props.add(receiverProperty)
 
     val senderProperty =  remoteProperty(CoreProperties.SenderKey,
       "Id of sender for external processor [Level" + PropertyLevel.Open + "]",
       Constants.TestSenderClassName,
-      isRequired = false,
+      isRequired = true,
       isDynamic = false,
-      PropertyLevel.Open,
-      Set(Constants.TestSenderClassName, Constants.TestFileSenderClassName))
+      PropertyLevel.Open)
     props.add(senderProperty)
 
     props

@@ -1,6 +1,7 @@
 package org.dcs.core.processor.impl
 
 import org.dcs.api.processor.{CoreProperties, RemoteProperty}
+import org.dcs.commons.serde.DataGenerator
 import org.dcs.commons.serde.JsonSerializerImplicits._
 import org.dcs.core.CoreUnitFlatSpec
 import org.dcs.core.processor.SparkBasicStatsProcessor
@@ -24,9 +25,9 @@ class SparkLauncherSpec extends CoreUnitFlatSpec {
     val readSchemaIdProperty = CoreProperties.readSchemaIdProperty()
 
     val propertyValues = Map(
-      receiverProperty -> "org.dcs.spark.receiver.TestReceiver",
+      receiverProperty -> "org.dcs.spark.receiver.TestReceiver?delay=1000&nbOfRecords=100",
       senderProperty -> "org.dcs.spark.sender.TestSender",
-      readSchemaIdProperty -> TestReceiver.PersonSchemaId,
+      readSchemaIdProperty -> DataGenerator.PersonSchemaId,
       fieldsToMapProperty -> TestReceiver.FieldsToMap.toJson
     ).asJava
 

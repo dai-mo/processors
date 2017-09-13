@@ -1,6 +1,13 @@
+#!/bin/bash
+
+SPARK_JOB=org.dcs.spark.processor.$1Job
+SPARK_PROCESSOR=org.dcs.core.processor.$1
+
 $SPARK_HOME/bin/spark-submit \
-  --class $1 \
+  --class $SPARK_JOB \
   --master local[2] \
-  --conf "spark.executor.extraJavaOptions=-Dorg.dcs.spark.receiver=$2 -Dorg.dcs.spark.sender=$3" \
-  --conf "spark.driver.extraJavaOptions=-Dorg.dcs.spark.receiver=$2 -Dorg.dcs.spark.sender=$3" \
+  --conf "spark.executor.extraJavaOptions=-D_PROCESSOR_CLASS=$SPARK_PROCESSOR -D_SCHEMA_ID=$SPARK_PROCESSOR -D_READ_SCHEMA_ID=$2 -D_EXTERNAL_RECEIVER=$3 -D_EXTERNAL_SENDER=$4" \
+  --conf "spark.driver.extraJavaOptions=-D_PROCESSOR_CLASS=$SPARK_PROCESSOR -D_SCHEMA_ID=$SPARK_PROCESSOR -D_READ_SCHEMA_ID=$2 -D_EXTERNAL_RECEIVER=$3 -D_EXTERNAL_SENDER=$4" \
   ./org.dcs.spark/target/org.dcs.spark-assembly-0.3.0-SNAPSHOT.jar
+
+
