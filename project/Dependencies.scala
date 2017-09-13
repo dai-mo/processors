@@ -11,7 +11,7 @@ object Dependencies {
 	lazy val logbackVersion   		 = "1.1.3"
 	lazy val curatorVersion   		 = "2.10.0"
 	lazy val zookeeperVersion 		 = "3.4.7"
-	lazy val nifiVersion      		 = "0.5.1"
+	lazy val nifiVersion      		 = "1.0.0-BETA"
 	lazy val examVersion      		 = "4.8.0"
 	lazy val scalaTestVersion 		 = "3.0.0"
 	lazy val juiVersion       		 = "0.11"
@@ -58,6 +58,8 @@ object Dependencies {
 	val sparkStreaming  = "org.apache.spark"           %% "spark-streaming"        % sparkVersion
 	val sparkTesting    = "com.holdenkarau"            %% "spark-testing-base"     % sparkTestingVersion
 
+	val nifiSparkReceiver = "org.apache.nifi"          % "nifi-spark-receiver"     % nifiVersion exclude("javax.ws.rs", "jsr311-api")
+
 	val quillCassandra  = "io.getquill"                %% "quill-cassandra"        % quillVersion
 	val quillJdbc       = "io.getquill"                %% "quill-jdbc"             % quillJdbcVersion
 	val datastaxDriver  = "com.datastax.cassandra"     %  "cassandra-driver-core"  % dataStaxDriverVersion
@@ -77,7 +79,6 @@ object Dependencies {
 		dcsApi          % "provided",
     dcsCommons      % "provided",
 
-		sparkLauncher,
 		avro            % "provided",
 		paxCdiApi       % "provided",
 		logbackCore     % "provided",
@@ -85,6 +86,8 @@ object Dependencies {
     cdiApi          % "provided",
 		openCsv,
     guava,
+
+    sparkLauncher,
 
 		dcsTest         % "test",
 		scalaTest       % "test",
@@ -117,9 +120,9 @@ object Dependencies {
 	val sparkDependencies: Seq[ModuleID] = Seq(
 		dcsApi,
 		dcsCommons,
+		nifiSparkReceiver,
 		sparkCore       % "provided",
 		sparkStreaming  % "provided",
-		avro,
 
 		dcsTest         % "test",
 		scalaTest       % "test",

@@ -4,7 +4,7 @@ import javax.enterprise.inject.Default
 
 import org.dcs.api.processor.RemoteProcessor
 import org.dcs.api.service.StatefulRemoteProcessorService
-import org.dcs.core.processor.{GBIFOccurrenceProcessor, ProcessorDefinitionStore, StatefulTestProcessor}
+import org.dcs.core.processor.{ProcessorDefinitionStore, SparkBasicStatsProcessor}
 import org.dcs.core.state.LocalStateManager
 import org.ops4j.pax.cdi.api.{OsgiServiceProvider, Properties, Property}
 
@@ -17,7 +17,7 @@ import org.ops4j.pax.cdi.api.{OsgiServiceProvider, Properties, Property}
   new Property(name = "service.exported.configs", value = "org.apache.cxf.ws"),
   new Property(name = "org.apache.cxf.ws.address", value = "/org/dcs/core/service/SparkBasicStatsProcessorService"),
   new Property(name = "org.dcs.processor.tags", value = "spark,statistics,average,mean"),
-  new Property(name = "org.dcs.processor.type", value = "ingestion")
+  new Property(name = "org.dcs.processor.type", value = "external")
 ))
 @Default
 class SparkBasicStatsProcessorService extends StatefulRemoteProcessorService
@@ -25,10 +25,10 @@ class SparkBasicStatsProcessorService extends StatefulRemoteProcessorService
   with ProcessorDefinitionStore {
 
   override def init(): String = {
-    GBIFOccurrenceProcessor().init(this)
+    SparkBasicStatsProcessor().init(this)
   }
 
   override def initialise(): RemoteProcessor = {
-    GBIFOccurrenceProcessor()
+    SparkBasicStatsProcessor()
   }
 }
