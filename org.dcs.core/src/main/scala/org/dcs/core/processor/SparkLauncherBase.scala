@@ -40,8 +40,8 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
 
   override def onSchedule(propertyValues: JavaMap[RemoteProperty, String]): Boolean = {
     if(sparkHandle == null) {
-      val receiver = propertyValues.asScala.find(_._1.getName == CoreProperties.ReceiverKey).map(_._2)
-      val sender = propertyValues.asScala.find(_._1.getName == CoreProperties.SenderKey).map(_._2)
+      val receiver = propertyValues.asScala.find(_._1.getName == ExternalProcessorProperties.ReceiverKey).map(_._2)
+      val sender = propertyValues.asScala.find(_._1.getName == ExternalProcessorProperties.SenderKey).map(_._2)
       val readSchemaId = propertyValues.asScala.find(_._1.getName == CoreProperties.ReadSchemaIdKey).map(_._2)
 
       // FIXME: Currently passing properties as spark conf,
@@ -87,7 +87,7 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
     val props = new util.ArrayList(super.properties())
 
 
-    val receiverProperty =  remoteProperty(CoreProperties.ReceiverKey,
+    val receiverProperty =  remoteProperty(ExternalProcessorProperties.ReceiverKey,
       "Id of receiver for external processor [Level" + PropertyLevel.Open + "]",
       Constants.TestReceiverClassName,
       isRequired = true,
@@ -95,7 +95,7 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
       PropertyLevel.Open)
     props.add(receiverProperty)
 
-    val senderProperty =  remoteProperty(CoreProperties.SenderKey,
+    val senderProperty =  remoteProperty(ExternalProcessorProperties.SenderKey,
       "Id of sender for external processor [Level" + PropertyLevel.Open + "]",
       Constants.TestSenderClassName,
       isRequired = true,
