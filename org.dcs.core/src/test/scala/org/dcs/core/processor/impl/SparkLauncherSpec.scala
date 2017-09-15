@@ -1,6 +1,6 @@
 package org.dcs.core.processor.impl
 
-import org.dcs.api.processor.{CoreProperties, ProcessorSchemaField, PropertyType, RemoteProperty}
+import org.dcs.api.processor._
 import org.dcs.commons.serde.JsonSerializerImplicits._
 import org.dcs.commons.serde.{DataGenerator, JsonPath}
 import org.dcs.core.CoreUnitFlatSpec
@@ -18,8 +18,8 @@ class SparkLauncherSpec extends CoreUnitFlatSpec {
     val processor = SparkBasicStatsProcessor()
     processor.initState()
 
-    val receiverProperty = RemoteProperty(CoreProperties.ReceiverKey, CoreProperties.ReceiverKey, "")
-    val senderProperty = RemoteProperty(CoreProperties.SenderKey, CoreProperties.SenderKey, "")
+    val receiverProperty = RemoteProperty(ExternalProcessorProperties.ReceiverKey, ExternalProcessorProperties.ReceiverKey, "")
+    val senderProperty = RemoteProperty(ExternalProcessorProperties.SenderKey, ExternalProcessorProperties.SenderKey, "")
     val fieldsToMapProperty = CoreProperties.fieldsToMapProperty(SparkBasicStatsProcessor().fields)
     val readSchemaIdProperty = CoreProperties.readSchemaIdProperty()
 
