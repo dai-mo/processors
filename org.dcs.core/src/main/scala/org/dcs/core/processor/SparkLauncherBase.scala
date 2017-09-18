@@ -89,19 +89,35 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
 
     val receiverProperty =  remoteProperty(ExternalProcessorProperties.ReceiverKey,
       "Id of receiver for external processor [Level" + PropertyLevel.Open + "]",
-      Constants.TestReceiverClassName,
+      "",
       isRequired = true,
       isDynamic = false,
       PropertyLevel.Open)
     props.add(receiverProperty)
 
+    val rootInputPortProperty =  remoteProperty(ExternalProcessorProperties.RootInputPortIdKey,
+      "Id of root input port [Level" + PropertyLevel.Open + "]",
+      "",
+      isRequired = true,
+      isDynamic = false,
+      PropertyLevel.Open)
+    props.add(rootInputPortProperty)
+
     val senderProperty =  remoteProperty(ExternalProcessorProperties.SenderKey,
       "Id of sender for external processor [Level" + PropertyLevel.Open + "]",
-      Constants.TestSenderClassName,
+      "",
       isRequired = true,
       isDynamic = false,
       PropertyLevel.Open)
     props.add(senderProperty)
+
+    val rootOutputPortProperty =  remoteProperty(ExternalProcessorProperties.RootOutputPortIdKey,
+      "Id of root output port [Level" + PropertyLevel.Open + "]",
+      "",
+      isRequired = true,
+      isDynamic = false,
+      PropertyLevel.Open)
+    props.add(rootOutputPortProperty)
 
     props
   }
