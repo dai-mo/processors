@@ -95,7 +95,7 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
       PropertyLevel.Open)
     props.add(receiverProperty)
 
-    val rootInputPortProperty =  remoteProperty(ExternalProcessorProperties.RootInputPortIdKey,
+    val rootInputPortProperty =  remoteProperty(ExternalProcessorProperties.RootInputConnectionKey,
       "Id of root input port [Level" + PropertyLevel.Open + "]",
       "",
       isRequired = true,
@@ -111,7 +111,7 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
       PropertyLevel.Open)
     props.add(senderProperty)
 
-    val rootOutputPortProperty =  remoteProperty(ExternalProcessorProperties.RootOutputPortIdKey,
+    val rootOutputPortProperty =  remoteProperty(ExternalProcessorProperties.RootOutputConnectionKey,
       "Id of root output port [Level" + PropertyLevel.Open + "]",
       "",
       isRequired = true,
