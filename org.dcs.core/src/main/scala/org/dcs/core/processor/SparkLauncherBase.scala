@@ -1,12 +1,10 @@
 package org.dcs.core.processor
 
 import java.io.File
-import java.util
 import java.util.{List => JavaList, Map => JavaMap}
 
 import org.apache.spark.launcher.{SparkAppHandle, SparkLauncher}
 import org.dcs.api.Constants
-import org.dcs.api.processor.CoreProperties.remoteProperty
 import org.dcs.api.processor._
 import org.dcs.core.BuildInfo
 
@@ -81,62 +79,6 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
       sparkHandle = null
     }
     true
-  }
-
-  override def properties(): JavaList[RemoteProperty] = {
-    val props = new util.ArrayList(super.properties())
-
-    val rootOutputPortProperty =  remoteProperty(ExternalProcessorProperties.RootOutputConnectionIdKey,
-      "Id of root output port [Level" + PropertyLevel.Open + "]",
-      "",
-      isRequired = true,
-      isDynamic = false,
-      PropertyLevel.Open)
-    props.add(rootOutputPortProperty)
-
-    val outputPortNameProperty =  remoteProperty(ExternalProcessorProperties.OutputPortNameKey,
-      "Name of flow instance output port [Level" + PropertyLevel.Open + "]",
-      "",
-      isRequired = true,
-      isDynamic = false,
-      PropertyLevel.Open)
-    props.add(outputPortNameProperty)
-
-    val receiverProperty =  remoteProperty(ExternalProcessorProperties.ReceiverKey,
-      "Id of receiver for external processor [Level" + PropertyLevel.Open + "]",
-      "",
-      isRequired = true,
-      isDynamic = false,
-      PropertyLevel.Open)
-    props.add(receiverProperty)
-
-    val rootInputPortProperty =  remoteProperty(ExternalProcessorProperties.RootInputConnectionIdKey,
-      "Id of root input port [Level" + PropertyLevel.Open + "]",
-      "",
-      isRequired = true,
-      isDynamic = false,
-      PropertyLevel.Open)
-    props.add(rootInputPortProperty)
-
-    val inputPortNameProperty =  remoteProperty(ExternalProcessorProperties.InputPortNameKey,
-      "Name of flow instance input port [Level" + PropertyLevel.Open + "]",
-      "",
-      isRequired = true,
-      isDynamic = false,
-      PropertyLevel.Open)
-    props.add(inputPortNameProperty)
-
-    val senderProperty =  remoteProperty(ExternalProcessorProperties.SenderKey,
-      "Id of sender for external processor [Level" + PropertyLevel.Open + "]",
-      "",
-      isRequired = true,
-      isDynamic = false,
-      PropertyLevel.Open)
-    props.add(senderProperty)
-
-
-
-    props
   }
 
 }
