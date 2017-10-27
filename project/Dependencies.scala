@@ -5,6 +5,7 @@ object Dependencies {
 	lazy val scVersion             = "2.11.7"
 	lazy val dcsApiVersion    		 = "0.4.0-SNAPSHOT"
 	lazy val dcsCommonsVersion     = "0.3.0-SNAPSHOT"
+	lazy val dcsKaaClientVersion   = "0.4.0-SNAPSHOT"
 	lazy val dcsTestVersion   		 = "0.1.0"
 	lazy val paxCdiVersion    		 = "0.12.0"
 	lazy val cdiApiVersion    		 = "1.2"
@@ -20,6 +21,7 @@ object Dependencies {
 	lazy val jaxRsVersion     		 = "2.0.1"
 	lazy val sqliteVersion    		 = "3.8.11.2"
 	lazy val avroVersion 					 = "1.8.1"
+	lazy val jerseyVersion  			 = "2.22.1"
 	lazy val quillCassandraVersion = "1.0.0"
   lazy val guavaVersion          = "18.0"
 	lazy val quillVersion          = "1.0.0"
@@ -42,7 +44,8 @@ object Dependencies {
 	// Libraries
 
 	val dcsApi          = "org.dcs"                    % "org.dcs.api"             % dcsApiVersion
-  val dcsCommons      = "org.dcs"                    % "org.dcs.commons"         % dcsCommonsVersion	
+  val dcsCommons      = "org.dcs"                    % "org.dcs.commons"         % dcsCommonsVersion
+	val dcsKaaClient    = "org.dcs"                    % "org.dcs.iot.kaa.client"  % dcsKaaClientVersion
 
 	val paxCdiApi       = "org.ops4j.pax.cdi"          % "pax-cdi-api"             % paxCdiVersion
 	val cdiApi          = "javax.enterprise"           % "cdi-api"                 % cdiApiVersion
@@ -52,6 +55,8 @@ object Dependencies {
   val avro            = "org.apache.avro"            % "avro"                    % avroVersion
 	val guava           = "com.google.guava"           % "guava"                   % guavaVersion
 	val openCsv         = "com.opencsv"                % "opencsv"                 % openCsvVersion
+	val jerseyMultipart = "org.glassfish.jersey.media" % "jersey-media-multipart"  % jerseyVersion
+
 
 	val sparkLauncher 	= "org.apache.spark" 					 %% "spark-launcher" 				 % sparkVersion
 	val sparkCore       = "org.apache.spark"           %% "spark-core"             % sparkVersion
@@ -86,6 +91,7 @@ object Dependencies {
     cdiApi          % "provided",
 		openCsv,
     guava,
+		dcsKaaClient,
 
     sparkLauncher,
 
