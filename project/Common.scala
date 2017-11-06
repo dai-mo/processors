@@ -63,11 +63,16 @@ object Common {
   def OsgiProject(projectID: String, projectName: String, exportPackages: Seq[String] = Nil) =
     Project(projectID, file(projectName)).
       enablePlugins(SbtOsgi).
-      configs(IntegrationTest).
       settings(commonSettings: _*).
       settings(Defaults.itSettings: _*).
-
-
+      configs(IT).
+      settings(inConfig(IT)(Defaults.testTasks): _*).
+      settings(testOptions in IT := Seq(Tests.Argument("-n", "IT"))).
+      configs(UNIT).
+      settings(inConfig(UNIT)(Defaults.testTasks): _*).
+      settings(testOptions in UNIT := Seq(
+        Tests.Argument("-l", "IT"),
+        Tests.Argument("-l", "E2E"))).
       settings(
         name := projectName,
         OsgiKeys.bundleSymbolicName := projectName,

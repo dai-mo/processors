@@ -26,7 +26,11 @@ abstract class JUnitSpec extends JUnitSuite
   with MockitoSugar
 
 abstract class CoreUnitFlatSpec extends FlatSpec
-  with CoreUnitSpec
+  with CoreUnitSpec {
+  object IT extends Tag("IT")
+}
 
 abstract class CoreUnitWordSpec extends WordSpec
   with CoreUnitSpec
+
+
