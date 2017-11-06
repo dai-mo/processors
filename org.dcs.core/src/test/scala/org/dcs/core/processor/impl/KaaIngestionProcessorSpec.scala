@@ -3,7 +3,7 @@ package org.dcs.core.processor.impl
 import java.util.UUID
 
 import org.apache.avro.Schema
-import org.dcs.api.processor.ExternalProcessorProperties
+import org.dcs.api.processor.{CoreProperties, ExternalProcessorProperties}
 import org.dcs.core.CoreUnitFlatSpec
 import org.dcs.core.processor.KaaIngestionProcessor
 import org.dcs.iot.kaa.KaaIoTClient
@@ -26,7 +26,7 @@ class KaaIngestionProcessorSpec extends CoreUnitFlatSpec {
 
     val kaaApplicationsProperty = properties.asScala.find(_.name == KaaIngestionProcessor.KaaApplicationKey)
     assert(kaaApplicationsProperty.isDefined)
-    assert(kaaApplicationsProperty.get.possibleValues.size == 2)
+    assert(kaaApplicationsProperty.get.possibleValues.size == 3)
 
     val heartbeatMonitorApp = kaaApplicationsProperty.get.possibleValues.asScala.find(_.displayName == "Heartbeat Monitor")
     assert(heartbeatMonitorApp.isDefined)
@@ -36,7 +36,7 @@ class KaaIngestionProcessorSpec extends CoreUnitFlatSpec {
       ExternalProcessorProperties.RootInputPortIdKey -> rootInputPortId).asJava
 
     // Test Read schema retrieval
-    val applicationLogSchema = processor.readSchema(propertyValues)
+    val applicationLogSchema = processor.resolveProperties(propertyValues).get(CoreProperties.ReadSchemaKey)
     val parsedSchema = new Schema.Parser().parse(applicationLogSchema)
 
     assert(parsedSchema.getNamespace == "org.dcs.iot.kaa.schema.log")
@@ -44,13 +44,12 @@ class KaaIngestionProcessorSpec extends CoreUnitFlatSpec {
     assert(parsedSchema.getField("heartbeat").name() == "heartbeat")
 
     // Test global start
-    processor.start(propertyValues)
+    processor.preStart(propertyValues)
     val createdLogAppender = Await.result(kaaIoTClient.logAppenderWithRootInputPortId(heartbeatMonitorApp.get.value, rootInputPortId),
       10 seconds)
     assert(createdLogAppender.isDefined)
-
     // Test global stop
-    processor.stop(propertyValues)
+    processor.preStop(propertyValues)
     val deletedLogAppender = Await.result(kaaIoTClient.logAppenderWithRootInputPortId(heartbeatMonitorApp.get.value, rootInputPortId),
       10 seconds)
     assert(deletedLogAppender.isEmpty)

@@ -1,5 +1,6 @@
 package org.dcs.core.processor
 
+import java.nio.charset.StandardCharsets
 import java.util
 import java.util.UUID
 
@@ -12,6 +13,7 @@ import scala.collection.JavaConverters._
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import org.dcs.commons.serde.JsonSerializerImplicits._
+
 import scala.concurrent.ExecutionContext.Implicits._
 
 object KaaIngestionProcessor {
@@ -40,13 +42,11 @@ class KaaIngestionProcessor extends InputPortIngestion {
 
     val applications = Await.result(kaaIoTClient.applications(), 10 seconds)
     val pvs = applications.map(app => PossibleValue(app.applicationToken, app.name, app.name))
-    KaaApplicationProperty.setPossibleValues(pvs.toSet.asJava)
-    KaaApplicationProperty.setDefaultValue(pvs.headOption.map(_.value).getOrElse(""))
-
+    KaaApplicationProperty.setPossibleValuesWithDefault(pvs.toSet)
     List(KaaApplicationProperty)
   }
 
-  override def start(propertyValues: util.Map[String, String]): Boolean = {
+  override def preStart(propertyValues: util.Map[String, String]): Boolean = {
     val rootInputPortId = propertyValues.get(ExternalProcessorProperties.RootInputPortIdKey)
     val applicationToken = propertyValues.get(KaaApplicationKey)
     val kaaIoTClient = KaaIoTClient()
@@ -54,16 +54,16 @@ class KaaIngestionProcessor extends InputPortIngestion {
 
     Await.result(
       kaaIoTClient.application(applicationToken)
-      .flatMap(app => kaaIoTClient.createLogAppender(app,
-        "Nifi S2S Appender",
-        "org.dcs.iot.kaa.NifiS2SAppender",
-        "Nifi S2S Appender",
-        NifiS2SConfig(rootInputPortId).toJson))
+        .flatMap(app => kaaIoTClient.createLogAppender(app,
+          "Nifi S2S Appender",
+          "org.dcs.iot.kaa.NifiS2SAppender",
+          "Nifi S2S Appender",
+          NifiS2SConfig(rootInputPortId).toJson))
         .map(response => true),
       10 seconds)
   }
 
-  override def stop(propertyValues: util.Map[String, String]): Boolean = {
+  override def preStop(propertyValues: util.Map[String, String]): Boolean = {
     val rootInputPortId = propertyValues.get(ExternalProcessorProperties.RootInputPortIdKey)
     val applicationToken = propertyValues.get(KaaApplicationKey)
     val kaaIoTClient = KaaIoTClient()
@@ -72,12 +72,14 @@ class KaaIngestionProcessor extends InputPortIngestion {
       10 seconds)
   }
 
-  override def readSchema(propertyValues: util.Map[String, String]): String = {
-    Option(propertyValues.get(KaaApplicationKey))
-      .map { applicationToken =>
-        val kaaIoTClient = KaaIoTClient()
-        Await.result(kaaIoTClient.maxApplicationLogSchema(applicationToken), 10 seconds)
-      }
-      .getOrElse("")
+  override def _resolveProperties(propertyValues: Map[String, String]): Map[String, String] = {
+    Map(CoreProperties.ReadSchemaKey ->
+      Option(propertyValues(KaaApplicationKey))
+        .map { applicationToken =>
+          val kaaIoTClient = KaaIoTClient()
+          Await.result(kaaIoTClient.maxApplicationLogSchema(applicationToken), 10 seconds)
+        }
+        .getOrElse(""))
   }
+
 }
