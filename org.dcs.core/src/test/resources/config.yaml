@@ -1,2 +1,1 @@
-dataRootParentPath: ./target
-dataRoot: data
+dcsSparkJar: "org.dcs.spark-0.5.0-assembly.jar"
