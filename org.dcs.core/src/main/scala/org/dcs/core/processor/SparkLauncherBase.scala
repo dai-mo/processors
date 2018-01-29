@@ -6,7 +6,7 @@ import java.util.{List => JavaList, Map => JavaMap}
 import org.apache.spark.launcher.{SparkAppHandle, SparkLauncher}
 import org.dcs.api.Constants
 import org.dcs.api.processor._
-import org.dcs.core.BuildInfo
+import org.dcs.core.{BuildInfo, Util}
 
 import scala.collection.JavaConverters._
 
@@ -27,7 +27,7 @@ trait SparkLauncherBase extends StatefulRemoteProcessor {
     //       and the dcs spark jar be copied to the
     //       SPARK_HOME dir
     val sparkHome = sys.env(SPARK_HOME)
-    val dcsSparkJar = "org.dcs.spark-" + BuildInfo.version + "-assembly.jar"
+    val dcsSparkJar = Util.config.dcsSparkJar
     sparkLauncher = new SparkLauncher()
       .setAppResource(sparkHome + File.separator + "dcs" + File.separator + dcsSparkJar)
       .setMainClass("org.dcs.spark.processor." + this.getClass.getSimpleName + "Job")
