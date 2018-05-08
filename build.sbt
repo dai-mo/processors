@@ -19,25 +19,9 @@ lazy val core =
     settings(libraryDependencies ++= coreDependencies).
     dependsOn(data)
 
-lazy val spark =
-  BaseProject("spark", "org.dcs.spark").
-    enablePlugins(BuildInfoPlugin).
-    settings(libraryDependencies ++= sparkDependencies).
-    settings(test in assembly := {}).
-    settings(publishArtifact in (Compile, assembly) := true).
-    // FIXME: This creates a jar in the target dir. as,
-    //        'name'-assembly-'version'.jar
-    //        but publishes it as,
-    //        'name'-'version'-assembly.jar
-    settings(artifact in (Compile, assembly) ~= { art =>
-      art.copy(`classifier` = Some("assembly"))
-    }).
-    settings(addArtifact(artifact in (Compile, assembly), assembly).settings: _*)
-
 
 lazy val dataProjectName = "org.dcs.data"
 lazy val dataProjectID   = "data"
-
 
 lazy val slick = config("slick") describedAs "Sbt configuration for slick commands"
 lazy val slickPostgres = TaskKey[Seq[File]]("codegen").in(slick)
@@ -91,7 +75,7 @@ lazy val osgi = (project in file(".")).
   settings(
     name := "org.dcs.parent"
   ).
-  aggregate(spark, data, core)
+  aggregate(data, core)
 
 
 

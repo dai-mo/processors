@@ -6,13 +6,12 @@ object Dependencies {
 	lazy val dcsApiVersion    		 = "0.4.0"
 	lazy val dcsCommonsVersion     = "0.3.0"
 	lazy val dcsKaaClientVersion   = "0.3.0-SNAPSHOT"
-	lazy val dcsTestVersion   		 = "0.1.0"
+
 	lazy val paxCdiVersion    		 = "0.12.0"
 	lazy val cdiApiVersion    		 = "1.2"
 	lazy val logbackVersion   		 = "1.1.3"
 	lazy val curatorVersion   		 = "2.10.0"
 	lazy val zookeeperVersion 		 = "3.4.7"
-	lazy val nifiVersion      		 = "1.0.0-BETA"
 	lazy val examVersion      		 = "4.8.0"
 	lazy val scalaTestVersion 		 = "3.0.0"
 	lazy val juiVersion       		 = "0.11"
@@ -32,7 +31,7 @@ object Dependencies {
 	lazy val shapelessVersion      = "2.3.1"
 	lazy val slicklessVersion      = "0.3.0"
 	lazy val sparkVersion          = "2.2.0"
-	lazy val sparkTestingVersion   = "2.2.0_0.7.2"
+	lazy val mockitoVersion        = "1.10.19"
 
   // FIXME: Currently we have duplicate entries for
   //        typesafeConfig in here and in the
@@ -59,11 +58,7 @@ object Dependencies {
 
 
 	val sparkLauncher 	= "org.apache.spark" 					 %% "spark-launcher" 				 % sparkVersion
-	val sparkCore       = "org.apache.spark"           %% "spark-core"             % sparkVersion
-	val sparkStreaming  = "org.apache.spark"           %% "spark-streaming"        % sparkVersion
-	val sparkTesting    = "com.holdenkarau"            %% "spark-testing-base"     % sparkTestingVersion
 
-	val nifiSparkReceiver = "org.apache.nifi"          % "nifi-spark-receiver"     % nifiVersion exclude("javax.ws.rs", "jsr311-api")
 
 	val quillCassandra  = "io.getquill"                %% "quill-cassandra"        % quillVersion
 	val quillJdbc       = "io.getquill"                %% "quill-jdbc"             % quillJdbcVersion
@@ -75,9 +70,9 @@ object Dependencies {
   val flyway          = "org.flywaydb"               %  "flyway-core"            % flywayVersion
   val typesafeConfig  = "com.typesafe"               %  "config"                 % typesafeConfigVersion
 
-	val dcsTest         = "org.dcs"                    % "org.dcs.test"            % dcsTestVersion
 	val scalaTest       = "org.scalatest"              %% "scalatest"              % scalaTestVersion
 	val junitInterface  = "com.novocode"               % "junit-interface"   			 % juiVersion
+	val mockitoAll      = "org.mockito"                % "mockito-all"             % mockitoVersion
 
 	// Dependencies
 	val coreDependencies: Seq[ModuleID] = Seq(
@@ -95,12 +90,12 @@ object Dependencies {
 
     sparkLauncher,
 
-		dcsTest         % "test",
 		scalaTest       % "test",
-		junitInterface  % "test"
+		junitInterface  % "test",
+		mockitoAll      % "test"
 	)
 
-	def dataDependencies: Seq[ModuleID] = Seq(
+	val dataDependencies: Seq[ModuleID] = Seq(
 		dcsApi          % "provided",
 		dcsCommons      % "provided",
 		typesafeConfig,
@@ -118,22 +113,12 @@ object Dependencies {
 		logbackCore     % "provided",
 		logbackClassic  % "provided",
 
-		dcsTest         % "test",
-		scalaTest       % "test",
-		junitInterface  % "test"
-	)
 
-	val sparkDependencies: Seq[ModuleID] = Seq(
-		dcsApi,
-		dcsCommons,
-		nifiSparkReceiver,
-		sparkCore       % "provided",
-		sparkStreaming  % "provided",
-
-		dcsTest         % "test",
 		scalaTest       % "test",
 		junitInterface  % "test",
-		sparkTesting    % "test"
+		mockitoAll      % "test"
 	)
+
+
 
 }
