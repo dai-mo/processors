@@ -1,6 +1,18 @@
-# Alambeek Processors Project
+# Daimo Processors Project
+
+This library is a collection of computational modules or processors that make up the nodes of a Daimo data flow.
+
+It also includes a layer to manage the intermediate flow data store.
+
+## Features
+
+The main features of this project include,
+
+- Processors with corresponding [OPS4J Pax CDI](https://ops4j1.jira.com/wiki/spaces/PAXCDI/overview) annotated [OSGI](https://www.osgi.org/) service definitions
+- Implementations of the [Apache Nifi](https://nifi.apache.org/) Repository (currently only [Postgres](https://www.postgresql.org/))
 
 # License
+
 Copyright (c) 2017-2018 brewlabs SAS
 
 Licensed under the Apache License, Version 2.0 (the "License");
